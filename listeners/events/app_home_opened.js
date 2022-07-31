@@ -8,42 +8,11 @@ const appHomeOpened = async ({ event, client, say, context }) => {
       user_id: event.user,
 
       /* the view object that appears in the app home*/
+
+      /* HOME BLOCK KIT LINK: https://app.slack.com/block-kit-builder/T01JNNW3ZFD#%7B%22type%22:%22home%22,%22blocks%22:%5B%7B%22type%22:%22actions%22,%22elements%22:%5B%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9E%95%20Add%20to-do%22,%22emoji%22:true%7D,%22value%22:%22click_me_123%22,%22action_id%22:%22actionId-0%22%7D%5D%7D,%7B%22type%22:%22input%22,%22element%22:%7B%22type%22:%22static_select%22,%22placeholder%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Show%20All%20Open%22,%22emoji%22:true%7D,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-0%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-1%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-2%22%7D%5D,%22action_id%22:%22static_select-action%22%7D,%22label%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CMarketing%20weekly%20sync%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CTry%20to%20get%20Slack%20discount%20-%20@Anastasia%20Sobkanyuk%20%F0%9F%91%A4%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D%5D%7D */
       view: {
         type: "home",
         blocks: [
-          {
-            type: "header",
-            text: {
-              type: "plain_text",
-              text: "Welcome to your personal Drink-Water Reminder 🥛",
-            },
-          },
-          {
-            type: "divider",
-          },
-          {
-            type: "section",
-            text: {
-              type: "plain_text",
-              text: "This app secures your water intake and ensures that you always stay hydrated. ",
-              emoji: true,
-            },
-          },
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*Why Is Water So Important?* \n\n  * boosts energy 🔋 \n  * improve mood 😀 \n  * fight off illness 💪 \n  * keep skin looking good 🧑‍🦲 \n  ... ",
-            },
-          },
-          {
-            type: "section",
-            text: {
-              type: "plain_text",
-              text: "Configure your reminder with the following button and get right started",
-              emoji: true,
-            },
-          },
           {
             type: "actions",
             elements: [
@@ -51,11 +20,157 @@ const appHomeOpened = async ({ event, client, say, context }) => {
                 type: "button",
                 text: {
                   type: "plain_text",
-                  text: "Personalize",
+                  text: "➕ Add to-do",
                   emoji: true,
                 },
                 value: "click_me_123",
-                action_id: "set_reminder",
+                action_id: "actionId-0",
+              },
+            ],
+          },
+          
+          {
+            type: "input",
+            element: {
+              type: "static_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Show All Open",
+                emoji: true,
+              },
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "*this is plain_text text*",
+                    emoji: true,
+                  },
+                  value: "value-0",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "*this is plain_text text*",
+                    emoji: true,
+                  },
+                  value: "value-1",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "*this is plain_text text*",
+                    emoji: true,
+                  },
+                  value: "value-2",
+                },
+              ],
+              action_id: "static_select-action",
+            },
+            label: {
+              type: "plain_text",
+              text: " ",
+              emoji: true,
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "plain_text",
+                text: " ",
+                emoji: true,
+              },
+            ],
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*<fakelink.toUrl.com|Marketing weekly sync>*\nSome details...\nStatus: ⭕ *Open*",
+            },
+            accessory: {
+              type: "overflow",
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "✅ Mark as done",
+                    emoji: true,
+                  },
+                  value: "view_event_details",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "🖋️ Edit",
+                    emoji: true,
+                  },
+                  value: "change_response",
+                },
+              ],
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "image",
+                image_url:
+                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
+                alt_text: "cute cat",
+              },
+              {
+                type: "mrkdwn",
+                text: "*from* @Test User",
+              },
+            ],
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
+            },
+            accessory: {
+              type: "overflow",
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "✅ Mark as done",
+                    emoji: true,
+                  },
+                  value: "view_event_details",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "🖋️ Edit",
+                    emoji: true,
+                  },
+                  value: "change_response",
+                },
+              ],
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "image",
+                image_url:
+                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
+                alt_text: "cute cat",
+              },
+              {
+                type: "mrkdwn",
+                text: "*from* @Test User",
               },
             ],
           },
@@ -71,7 +186,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
       if (!(await getUser(user))) {
         // when user doesn't exist -> add him to db and sent a welcome message
         await addUser(user, team_id);
-        
+
         // BLOCK KIT LINK: https://app.slack.com/block-kit-builder/T01JNNW3ZFD#%7B%22blocks%22:%5B%7B%22type%22:%22header%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Hello%20and%20welcome%20to%20Checkov%20-%20your%20Shared%20ToDo%20List%20%E2%9C%85%F0%9F%AB%82!%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22You%20can%20perform%20any%20needed%20operation%20over%20the%20*Home%20Page*%20%F0%9F%8F%A0%20%5Cn%20so%20%20-%20check%20it%20out%20%E2%AC%86%EF%B8%8F%20%5Cn%5Cn%20%22%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22here%20is%20a%20quick%20overview%20of%20all%20available%20*commands*%22%7D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22%5Cn%5Cn%20*/newtask*%20-%20creates%20a%20new%20task%22%7D,%22accessory%22:%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%E2%9E%95%22,%22emoji%22:true%7D,%22value%22:%22click_me_123%22,%22action_id%22:%22button-action%22%7D%7D%5D%7D
         await say({
           blocks: [
