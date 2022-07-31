@@ -77,14 +77,14 @@ const appHomeOpened = async ({ event, client, say, context }) => {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: `Hello <@${user}> and welcome to your personal Drink-Water Reminder 💦!`,
+                text: `Hello <@${user}> and welcome to Checkov - your shared ToDo list ✅🫂!`,
               },
             },
             {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "To get the optimal reminders please start with the configuration ⏱️ over the *Start* button, here your working time and your desired intervals are taken into account.",
+                text: "You can perform any needed operation over the *Home Page* 🏠 \n so check it out ⬆️ \n\n here is a quick overview of all available *commands* ",
               },
             },
             {
