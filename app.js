@@ -13,6 +13,7 @@ const {
   deleteEnterpriseInstallation,
   deleteWorkspaceInstallation,
 } = require("./database/db.js");
+const { registerListeners } = require("./listeners");
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -78,6 +79,9 @@ const app = new App({
 
 // connect to db
 connect();
+
+/** Register Listeners (actions, commands, events, ... -> all slack related api endpoints) */
+registerListeners(app);
 
 
 (async () => {
