@@ -71,36 +71,59 @@ const appHomeOpened = async ({ event, client, say, context }) => {
       if (!(await getUser(user))) {
         // when user doesn't exist -> add him to db and sent a welcome message
         await addUser(user, team_id);
+        
+        // BLOCK KIT LINK: https://app.slack.com/block-kit-builder/T01JNNW3ZFD#%7B%22blocks%22:%5B%7B%22type%22:%22header%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Hello%20and%20welcome%20to%20Checkov%20-%20your%20Shared%20ToDo%20List%20%E2%9C%85%F0%9F%AB%82!%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22You%20can%20perform%20any%20needed%20operation%20over%20the%20*Home%20Page*%20%F0%9F%8F%A0%20%5Cn%20so%20%20-%20check%20it%20out%20%E2%AC%86%EF%B8%8F%20%5Cn%5Cn%20%22%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22here%20is%20a%20quick%20overview%20of%20all%20available%20*commands*%22%7D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22%5Cn%5Cn%20*/newtask*%20-%20creates%20a%20new%20task%22%7D,%22accessory%22:%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%E2%9E%95%22,%22emoji%22:true%7D,%22value%22:%22click_me_123%22,%22action_id%22:%22button-action%22%7D%7D%5D%7D
         await say({
           blocks: [
             {
-              type: "section",
+              type: "header",
               text: {
-                type: "mrkdwn",
-                text: `Hello <@${user}> and welcome to Checkov - your shared ToDo list ✅🫂!`,
+                type: "plain_text",
+                text: "Hello and welcome to Checkov - your Shared ToDo List ✅🫂!",
+                emoji: true,
               },
             },
             {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "You can perform any needed operation over the *Home Page* 🏠 \n so check it out ⬆️ \n\n here is a quick overview of all available *commands* ",
+                text: "You can perform any needed operation over the *Home Page* 🏠 \n so  - check it out ⬆️ \n\n ",
               },
             },
             {
-              type: "actions",
-              elements: [
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "Start",
-                    emoji: true,
-                  },
-                  value: "click_me_123",
-                  action_id: "set_reminder",
+              type: "section",
+              text: {
+                type: "plain_text",
+                text: " ",
+                emoji: true,
+              },
+            },
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "here is a quick overview of all available *commands*",
+              },
+            },
+            {
+              type: "divider",
+            },
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "\n\n */newtask* - creates a new task",
+              },
+              accessory: {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: " ➕",
+                  emoji: true,
                 },
-              ],
+                value: "click_me_123",
+                action_id: "newtask",
+              },
             },
           ],
         });
