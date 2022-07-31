@@ -1,6 +1,19 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { App } = require("@slack/bolt");
 
+const {
+  connect,
+  getUser,
+  addUser,
+  fetchUsers,
+  saveUserWorkspaceInstall,
+  saveUserOrgInstall,
+  getWorkspaceInstallation,
+  getEnterpriseInstallation,
+  deleteEnterpriseInstallation,
+  deleteWorkspaceInstallation,
+} = require("./database/db.js");
+
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
@@ -63,8 +76,8 @@ const app = new App({
 
 
 
-// All the room in the world for your code
-
+// connect to db
+connect();
 
 
 (async () => {
