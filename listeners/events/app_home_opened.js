@@ -180,7 +180,11 @@ const tasksBlock = async function () {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.toUrl.com|${task.summary} - @${ } 👤>*\nSome details...\nStatus: ⭕ *Open*`,
+        text: `*${task.summary} ${
+          task.assigned_user ? `- <@${task.assigned_user}>👤` : ""
+        } *\n${task?.notes}\nStatus: ${
+          task.status === "open" ? "⭕ *Open*" : "✅ Done"
+        } `,
       },
       accessory: {
         type: "overflow",
@@ -217,7 +221,7 @@ const tasksBlock = async function () {
         },
         {
           type: "mrkdwn",
-          text: "*from* @Test User",
+          text: `*from* <@${task.createdBy}>`,
         },
       ],
     });
