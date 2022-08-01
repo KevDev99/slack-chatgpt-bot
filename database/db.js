@@ -71,9 +71,16 @@ const addTask = async function (summary, notes, assigned_user, createdBy) {
   }
 };
 
-const fetchAllTasks = async function () => {
-  v
-}
+const fetchTasks = async function () {
+  try {
+    // fetch user from database
+    const tasks = await Task.find({});
+
+    return tasks;
+  } catch (e) {
+    console.error("Error when fetching tasks", e);
+  }
+};
 
 /** Workspace Installation */
 const saveUserWorkspaceInstall = async (installation) => {

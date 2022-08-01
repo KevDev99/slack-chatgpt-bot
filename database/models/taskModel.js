@@ -5,6 +5,7 @@ const taskSchema = mongoose.Schema(
     notes: String,
     assigned_user: String,
     createdBy: String,
+    status: { type: String, default: "open" },
   },
   {
     timestamps: true,

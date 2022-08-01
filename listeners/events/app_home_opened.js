@@ -85,95 +85,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
           {
             type: "divider",
           },
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*<fakelink.toUrl.com|Marketing weekly sync>*\nSome details...\nStatus: ⭕ *Open*",
-            },
-            accessory: {
-              type: "overflow",
-              options: [
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "✅ Mark as done",
-                    emoji: true,
-                  },
-                  value: "view_event_details",
-                },
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "🖋️ Edit",
-                    emoji: true,
-                  },
-                  value: "change_response",
-                },
-              ],
-            },
-          },
-          {
-            type: "context",
-            elements: [
-              {
-                type: "image",
-                image_url:
-                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
-                alt_text: "cute cat",
-              },
-              {
-                type: "mrkdwn",
-                text: "*from* @Test User",
-              },
-            ],
-          },
-          {
-            type: "divider",
-          },
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
-            },
-            accessory: {
-              type: "overflow",
-              options: [
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "✅ Mark as done",
-                    emoji: true,
-                  },
-                  value: "view_event_details",
-                },
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "🖋️ Edit",
-                    emoji: true,
-                  },
-                  value: "change_response",
-                },
-              ],
-            },
-          },
-          {
-            type: "context",
-            elements: [
-              {
-                type: "image",
-                image_url:
-                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
-                alt_text: "cute cat",
-              },
-              {
-                type: "mrkdwn",
-                text: "*from* @Test User",
-              },
-            ],
-          },
+          
         ],
       },
     });
@@ -248,5 +160,56 @@ const appHomeOpened = async ({ event, client, say, context }) => {
     console.error(error);
   }
 };
+
+
+const tasksBlock = function() {
+  return {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
+            },
+            accessory: {
+              type: "overflow",
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "✅ Mark as done",
+                    emoji: true,
+                  },
+                  value: "view_event_details",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "🖋️ Edit",
+                    emoji: true,
+                  },
+                  value: "change_response",
+                },
+              ],
+            },
+          },
+          {
+            type: "context",
+            elements: [
+              {
+                type: "image",
+                image_url:
+                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
+                alt_text: "cute cat",
+              },
+              {
+                type: "mrkdwn",
+                text: "*from* @Test User",
+              },
+            ],
+          },
+          {
+            type: "divider",
+          },
+}
+}
 
 module.exports = { appHomeOpened };
