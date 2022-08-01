@@ -1,5 +1,6 @@
 const { updateTask } = require("../../database/db.js");
 const { getAppHome } = require("../events/app_home_opened.js");
+const { getEditModal } = require("./edit_todo.js");
 
 const menuTodoSelected = async ({ ack, say, body, client }) => {
   await ack();
@@ -32,7 +33,7 @@ const markTodoAsComplete = async function (taskId, userId, client) {
 
 const editTodo = async function (todoId, userId, client) {
   await client.views.publish({
-    view: (await getEditModal()).view,
+    view: getEditModal().view,
     user_id: userId,
   });
 };
