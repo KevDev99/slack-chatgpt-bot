@@ -139,7 +139,7 @@ const tasksBlock = async function () {
     });
 
     // add divider (if not last item)
-    if (index++ !== tasks.length) {
+    if (index + 1 < tasks.length) {
       block.push({
         type: "divider",
       });
@@ -189,14 +189,22 @@ const getAppHome = async (userId) => {
               {
                 text: {
                   type: "plain_text",
-                  text: "*this is plain_text text*",
+                  text: "Show All Open",
                   emoji: true,
                 },
-                value: "value-0",
+                value: "open",
               },
-             
+
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Completed tasks",
+                  emoji: true,
+                },
+                value: "closed",
+              },
             ],
-            action_id: "set_home_fil",
+            action_id: "set_home_filter",
           },
           label: {
             type: "plain_text",
