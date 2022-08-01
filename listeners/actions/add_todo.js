@@ -29,7 +29,7 @@ const addTodo = async ({ ack, say, body, client }) => {
             type: "input",
             element: {
               type: "plain_text_input",
-              action_id: "summary_input",
+              action_id: "summary",
               placeholder: {
                 type: "plain_text",
                 text: "Summarize your task",
@@ -46,7 +46,7 @@ const addTodo = async ({ ack, say, body, client }) => {
             element: {
               type: "plain_text_input",
               multiline: true,
-              action_id: "notes_input",
+              action_id: "notes",
               placeholder: {
                 type: "plain_text",
                 text: "Additional notes...",
@@ -71,7 +71,7 @@ const addTodo = async ({ ack, say, body, client }) => {
                 text: "Select a user",
                 emoji: true,
               },
-              action_id: "assigntouser_select",
+              action_id: "assigned_user",
             },
           },
         ],
