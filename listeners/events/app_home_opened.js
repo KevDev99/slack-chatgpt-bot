@@ -177,6 +177,25 @@ const tasksBlock = async function (status = "open") {
   // fetch all tasks
   const tasks = await fetchTasks(status);
 
+  if (tasks.length === 0) {
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `👀 Nothing here for now... `,
+      },
+    });
+    
+    block.push({
+      type: "section",
+      text: {
+        type: "plain_text",
+        text: " ",
+      },
+    });
+    return;
+  }
+
   // loop through every task and add
   tasks.map((task, index) => {
     // add task self
@@ -184,8 +203,8 @@ const tasksBlock = async function (status = "open") {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.com|${task.summary}>* ${
-          task?.notes ? "\n" + task.notes : ""
+        text: `*<fakelink.com|${task.summary}>*  ${
+          task.notes ? `\n ${task.notes}` : ""
         }`,
       },
     });
@@ -223,11 +242,17 @@ const tasksBlock = async function (status = "open") {
           type: "mrkdwn",
           text: task.status === "open" ? "⭕ Open" : "✅ Done",
         },
-        
+
         {
           type: "mrkdwn",
           text: `${task.assigned_user ? `👤<@${task.assigned_user}>` : " "} `,
         },
+      ],
+    });
+
+    block.push({
+      type: "context",
+      elements: [
         {
           type: "mrkdwn",
           text: `Created By:`,
