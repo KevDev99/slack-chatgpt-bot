@@ -169,6 +169,8 @@ const tasksBlock = async function (status = "open") {
   // fetch all tasks
   const tasks = await fetchTasks(status);
 
+  console.log(status);
+
   // loop through every task and add
   tasks.map((task, index) => {
     // add task self

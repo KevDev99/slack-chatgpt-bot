@@ -5,9 +5,17 @@ const setHomeFilter = async ({ ack, say, body, client }) => {
 
   try {
     // get status from body
-    const status = body.actions[0].selected_option.value;
-    console.log(status);
-    getAppHome(status);
+
+    const status = body.actions[0].selected_option?.value;
+    
+
+    if (!status) return;
+
+    // update view
+    client.views.publish({
+      view: (await getAppHome(body.user.id, status)).view,
+      user_id: body.user.id,
+    });
   } catch (error) {
     console.error(error);
   }
