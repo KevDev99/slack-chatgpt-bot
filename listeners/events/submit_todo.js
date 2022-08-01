@@ -6,6 +6,8 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     // send "clear" signal as response action to close the modal in slack
     await ack();
 
+    console.log(client.views);
+
     // format incoming state
     const state = formatReminderState(view.state.values);
 
@@ -14,17 +16,14 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
 
     // get user informations
     const user = await getUser(userId);
-    
+
     // check null fields
     if (!state.summary) {
       return logger.error(`Mandatory summary field not provided!`);
     }
 
     // add new todo to database
-    await addTask(state.summary, state.notes, state.assigned_user, userId)
-    
-    
-
+    await addTask(state.summary, state.notes, state.assigned_user, userId);
   } catch (error) {
     console.error(error);
   }
