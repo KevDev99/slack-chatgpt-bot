@@ -181,19 +181,19 @@ const tasksBlock = async function (status = "open") {
     block.push({
       type: "section",
       text: {
-        type: "mrkdwn",
-        text: `👀 Nothing here for now... `,
-      },
-    });
-    
-    block.push({
-      type: "section",
-      text: {
         type: "plain_text",
         text: " ",
       },
     });
-    return;
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `👀 Nothing here for now... `,
+      },
+    });
+
+    return block;
   }
 
   // loop through every task and add

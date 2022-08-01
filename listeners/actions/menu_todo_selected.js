@@ -13,6 +13,7 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
     switch (selected_option) {
       case "complete_todo":
         await markTodoAsComplete(selected_option_taskId, body.user.id, client);
+        break;
       case "edit_todo":
         await editTodo(
           selected_option_taskId,
@@ -20,6 +21,7 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
           client,
           body.trigger_id
         );
+        break;
     }
   } catch (error) {
     console.error(error);
