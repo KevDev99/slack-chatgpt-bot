@@ -78,11 +78,96 @@ const appHomeOpened = async ({ event, client, say, context }) => {
   }
 };
 
-const tasksBlock = async function () {
+const getAppHome = async (userId, status = "open") => {
+  const appHome = {
+    /* the user that opened your app's app home */
+    user_id: userId,
+
+    /* the view object that appears in the app home*/
+
+    /* HOME BLOCK KIT LINK: https://app.slack.com/block-kit-builder/T01JNNW3ZFD#%7B%22type%22:%22home%22,%22blocks%22:%5B%7B%22type%22:%22actions%22,%22elements%22:%5B%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9E%95%20Add%20to-do%22,%22emoji%22:true%7D,%22value%22:%22click_me_123%22,%22action_id%22:%22actionId-0%22%7D%5D%7D,%7B%22type%22:%22input%22,%22element%22:%7B%22type%22:%22static_select%22,%22placeholder%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Show%20All%20Open%22,%22emoji%22:true%7D,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-0%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-1%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-2%22%7D%5D,%22action_id%22:%22static_select-action%22%7D,%22label%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CMarketing%20weekly%20sync%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CTry%20to%20get%20Slack%20discount%20-%20@Anastasia%20Sobkanyuk%20%F0%9F%91%A4%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D%5D%7D */
+    view: {
+      type: "home",
+      blocks: [
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "➕ Add to-do",
+                emoji: true,
+              },
+              value: "click_me_123",
+              action_id: "add_todo",
+            },
+          ],
+        },
+
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: " ",
+          },
+          accessory: {
+            type: "static_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Show All Open",
+              emoji: true,
+            },
+            options: [
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Show All Open",
+                  emoji: true,
+                },
+                value: "open",
+              },
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Completed tasks",
+                  emoji: true,
+                },
+                value: "done",
+              },
+            ],
+            action_id: "set_home_filter",
+          },
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "plain_text",
+              text: " ",
+              emoji: true,
+            },
+          ],
+        },
+        {
+          type: "divider",
+        },
+      ],
+    },
+  };
+
+  // add tasks to the app home
+  const taskBlockList = await tasksBlock(status);
+  taskBlockList.map((taskListItem) => appHome.view.blocks.push(taskListItem));
+
+  return appHome;
+};
+
+const tasksBlock = async function (status = "open") {
   const block = [];
 
   // fetch all tasks
-  const tasks = await fetchTasks();
+  const tasks = await fetchTasks(status);
 
   // loop through every task and add
   tasks.map((task, index) => {
@@ -147,93 +232,6 @@ const tasksBlock = async function () {
   });
 
   return block;
-};
-
-const getAppHome = async (userId) => {
-  const appHome = {
-    /* the user that opened your app's app home */
-    user_id: userId,
-
-    /* the view object that appears in the app home*/
-
-    /* HOME BLOCK KIT LINK: https://app.slack.com/block-kit-builder/T01JNNW3ZFD#%7B%22type%22:%22home%22,%22blocks%22:%5B%7B%22type%22:%22actions%22,%22elements%22:%5B%7B%22type%22:%22button%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9E%95%20Add%20to-do%22,%22emoji%22:true%7D,%22value%22:%22click_me_123%22,%22action_id%22:%22actionId-0%22%7D%5D%7D,%7B%22type%22:%22input%22,%22element%22:%7B%22type%22:%22static_select%22,%22placeholder%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Show%20All%20Open%22,%22emoji%22:true%7D,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-0%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-1%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22*this%20is%20plain_text%20text*%22,%22emoji%22:true%7D,%22value%22:%22value-2%22%7D%5D,%22action_id%22:%22static_select-action%22%7D,%22label%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22plain_text%22,%22text%22:%22%20%22,%22emoji%22:true%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CMarketing%20weekly%20sync%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22mrkdwn%22,%22text%22:%22*%3Cfakelink.toUrl.com%7CTry%20to%20get%20Slack%20discount%20-%20@Anastasia%20Sobkanyuk%20%F0%9F%91%A4%3E*%5CnSome%20details...%5CnStatus:%20%E2%AD%95%20*Open*%22%7D,%22accessory%22:%7B%22type%22:%22overflow%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%E2%9C%85%20Mark%20as%20done%22,%22emoji%22:true%7D,%22value%22:%22view_event_details%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22%F0%9F%96%8B%EF%B8%8F%20Edit%22,%22emoji%22:true%7D,%22value%22:%22change_response%22%7D%5D%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22image%22,%22image_url%22:%22https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg%22,%22alt_text%22:%22cute%20cat%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*from*%20@Test%20User%22%7D%5D%7D%5D%7D */
-    view: {
-      type: "home",
-      blocks: [
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "➕ Add to-do",
-                emoji: true,
-              },
-              value: "click_me_123",
-              action_id: "add_todo",
-            },
-          ],
-        },
-
-        {
-          type: "input",
-          element: {
-            type: "static_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Show All Open",
-              emoji: true,
-            },
-            options: [
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Show All Open",
-                  emoji: true,
-                },
-                value: "open",
-              },
-
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Completed tasks",
-                  emoji: true,
-                },
-                value: "closed",
-              },
-            ],
-            action_id: "set_home_filter",
-          },
-          label: {
-            type: "plain_text",
-            text: " ",
-            emoji: true,
-          },
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "plain_text",
-              text: " ",
-              emoji: true,
-            },
-          ],
-        },
-        {
-          type: "divider",
-        },
-      ],
-    },
-  };
-
-  // add tasks to the app home
-  const taskBlockList = await tasksBlock();
-  taskBlockList.map((taskListItem) => appHome.view.blocks.push(taskListItem));
-
-  return appHome;
 };
 
 module.exports = { appHomeOpened, getAppHome };
