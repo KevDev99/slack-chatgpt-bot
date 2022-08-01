@@ -39,7 +39,11 @@ const markTodoAsComplete = async function (taskId, userId, client) {
 const editTodo = async function (taskId, userId, client, trigger_id) {
   // get task from db
   const task = await getTask(taskId);
-  await client.views.open({ view: getEditModal(task).view, trigger_id });
+  await client.views.open({
+    view: getEditModal(task).view,
+    trigger_id,
+    private_metadata: taskId,
+  });
 };
 
 module.exports = { menuTodoSelected };

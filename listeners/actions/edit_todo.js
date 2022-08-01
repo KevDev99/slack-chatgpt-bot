@@ -2,6 +2,7 @@ const getEditModal = (task) => {
   const editModal = {
     // View payload
     view: {
+      external_id: task._id,
       type: "modal",
       callback_id: "submit_todo",
       title: {

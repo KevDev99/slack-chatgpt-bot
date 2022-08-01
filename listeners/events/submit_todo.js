@@ -1,16 +1,12 @@
-const { getUser, addTask } = require("../../database/db.js");
+const { getUser, addTask, updateTask } = require("../../database/db.js");
 const { formatReminderState } = require("../../helper/index.js");
 
 const { getAppHome } = require("./app_home_opened.js");
 
 const submitTodo = async ({ ack, body, view, client, logger }) => {
-  
-
   try {
     // send "clear" signal as response action to close the modal in slack
     await ack();
-    
-      return console.log(body.view.state);
 
     // format incoming state
     const state = formatReminderState(view.state.values);
@@ -26,8 +22,19 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
       return logger.error(`Mandatory summary field not provided!`);
     }
 
-    // add new todo to database
-    await addTask(state.summary, state.notes, state.assigned_user, userId);
+    // check if there is an external_id provided -> submit is an edit form
+    const external_id = body.view.external_id;
+
+    if (external_id) {
+      await updateTask(external_id, {
+        summary: state.summary,
+        notes: state.notes,
+        assigned_user: state.assigned_user,
+      });
+    } else {
+      // add new todo to database
+      await addTask(state.summary, state.notes, state.assigned_user, userId);
+    }
 
     // update view
     client.views.publish({
