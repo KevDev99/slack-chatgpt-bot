@@ -71,6 +71,10 @@ const addTask = async function (summary, notes, assigned_user, createdBy) {
   }
 };
 
+const fetchAllTasks = async function () => {
+  v
+}
+
 /** Workspace Installation */
 const saveUserWorkspaceInstall = async (installation) => {
   try {

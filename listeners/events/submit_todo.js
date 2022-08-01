@@ -21,7 +21,8 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     }
 
     // add new todo to database
-    await addTask({...state}, createdBy: userId)
+
+    await addTask(state.summary, state.notes, state.assigned_user, userId)
 
   } catch (error) {
     console.error(error);
