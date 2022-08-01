@@ -8,10 +8,10 @@ const addTodo = async ({ ack, say, body, client }) => {
       // View payload
       view: {
         type: "modal",
-        callback_id: "submit_reminder",
+        callback_id: "submit_todo",
         title: {
           type: "plain_text",
-          text: "Set your reminder",
+          text: "Add new task",
           emoji: true,
         },
         submit: {

@@ -24,7 +24,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
                   emoji: true,
                 },
                 value: "click_me_123",
-                action_id: "actionId-0",
+                action_id: "add_todo",
               },
             ],
           },
