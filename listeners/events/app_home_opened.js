@@ -136,6 +136,14 @@ const getAppHome = async (userId, status = "open") => {
                 value: "done",
               },
             ],
+            initial_option: {
+              text: {
+                type: "plain_text",
+                text: status === 'open' ?  "Show All Open" : 'Completed tasks',
+                emoji: true,
+              },
+              value: status,
+            },
             action_id: "set_home_filter",
           },
         },
@@ -168,8 +176,6 @@ const tasksBlock = async function (status = "open") {
 
   // fetch all tasks
   const tasks = await fetchTasks(status);
-
-  console.log(status);
 
   // loop through every task and add
   tasks.map((task, index) => {
