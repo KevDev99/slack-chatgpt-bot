@@ -186,7 +186,7 @@ const tasksBlock = async function (status = "open") {
         type: "mrkdwn",
         text: `*${task.summary} ${
           task.assigned_user ? `- <@${task.assigned_user}>👤` : ""
-        } *\n${task?.notes}\nStatus: ${
+        } *${task?.notes ? "\n" + task.notes : ""}\nStatus: ${
           task.status === "open" ? "⭕ *Open*" : "✅ Done"
         } `,
       },

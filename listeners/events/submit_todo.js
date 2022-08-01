@@ -4,9 +4,13 @@ const { formatReminderState } = require("../../helper/index.js");
 const { getAppHome } = require("./app_home_opened.js");
 
 const submitTodo = async ({ ack, body, view, client, logger }) => {
+  
+
   try {
     // send "clear" signal as response action to close the modal in slack
     await ack();
+    
+      return console.log(body.view.state);
 
     // format incoming state
     const state = formatReminderState(view.state.values);
