@@ -71,10 +71,10 @@ const addTask = async function (summary, notes, assigned_user, createdBy) {
   }
 };
 
-const fetchTasks = async function (status='open') {
+const fetchTasks = async function (status = "open") {
   try {
     // fetch user from database
-    const tasks = await Task.find({status});
+    const tasks = await Task.find({ status }).sort({ createdAt: "desc" });
 
     return tasks;
   } catch (e) {

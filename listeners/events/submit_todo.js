@@ -28,8 +28,8 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     await addTask(state.summary, state.notes, state.assigned_user, userId);
 
     // update view
-    client.views.update({
-      view: await getAppHome().view.blocks,
+    client.views.publish({
+      view: (await getAppHome()).view,
       user_id: userId,
     });
   } catch (error) {
