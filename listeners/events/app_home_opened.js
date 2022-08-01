@@ -106,7 +106,7 @@ const tasksBlock = async function () {
               text: "✅ Mark as done",
               emoji: true,
             },
-            value: "complete_todo",
+            value: `complete_todo-${task.uid}`,
           },
           {
             text: {
@@ -114,7 +114,7 @@ const tasksBlock = async function () {
               text: "🖋️ Edit",
               emoji: true,
             },
-            value: "edit_todo",
+            value: `edit_todo-${task.uid}`,
           },
         ],
         action_id: "menu_todo_selected",
