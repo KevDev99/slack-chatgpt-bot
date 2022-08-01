@@ -23,10 +23,10 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     }
 
     // check if there is an external_id provided -> submit is an edit form
-    const external_id = body.view.external_id;
+    const private_metadata = body.view.private_metadata;
 
-    if (external_id) {
-      await updateTask(external_id, {
+    if (private_metadata) {
+      await updateTask(private_metadata, {
         summary: state.summary,
         notes: state.notes,
         assigned_user: state.assigned_user,

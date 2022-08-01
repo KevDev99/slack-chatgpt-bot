@@ -184,7 +184,9 @@ const tasksBlock = async function (status = "open") {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.com|${task.summary}>*  ${task.notes ? "\n" + task.notes : ""}`,
+        text: `*<fakelink.com|${task.summary}>* ${
+          task?.notes ? "\n" + task.notes : ""
+        }`,
       },
     });
 
@@ -221,15 +223,14 @@ const tasksBlock = async function (status = "open") {
           type: "mrkdwn",
           text: task.status === "open" ? "⭕ Open" : "✅ Done",
         },
+        
         {
-          type: "image",
-          image_url:
-            "https://api.slack.com/img/blocks/bkb_template_images/task-icon.png",
-          alt_text: "Task Icon",
+          type: "mrkdwn",
+          text: `${task.assigned_user ? `👤<@${task.assigned_user}>` : " "} `,
         },
         {
           type: "mrkdwn",
-          text: "Task",
+          text: `Created By:`,
         },
         {
           type: "image",
