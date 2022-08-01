@@ -13,7 +13,7 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
       case "complete_todo":
         await markTodoAsComplete(selected_option_taskId, body.user.id, client);
       case "edit_todo":
-        await editTodo(selected_option_taskId, body.user.id);
+        await editTodo(selected_option_taskId, body.user.id, client);
     }
   } catch (error) {
     console.error(error);
@@ -30,6 +30,11 @@ const markTodoAsComplete = async function (taskId, userId, client) {
   });
 };
 
-const editTodo = async function (todoId, userId) {};
+const editTodo = async function (todoId, userId, client) {
+  await client.views.publish({
+    view: (await getEditModal()).view,
+    user_id: userId,
+  });
+};
 
 module.exports = { menuTodoSelected };

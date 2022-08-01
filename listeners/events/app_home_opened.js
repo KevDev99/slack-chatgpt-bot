@@ -139,7 +139,7 @@ const getAppHome = async (userId, status = "open") => {
             initial_option: {
               text: {
                 type: "plain_text",
-                text: status === 'open' ?  "Show All Open" : 'Completed tasks',
+                text: status === "open" ? "Show All Open" : "Completed tasks",
                 emoji: true,
               },
               value: status,
@@ -190,16 +190,32 @@ const tasksBlock = async function (status = "open") {
           task.status === "open" ? "⭕ *Open*" : "✅ Done"
         } `,
       },
-      
-     
-    
-
-      
     });
-    
+
     // add overflow menu when status is open
-    if(status === 'open') {
-      block["a"]
+    if (status === "open") {
+      block[0]["accessory"] = {
+        type: "overflow",
+        options: [
+          {
+            text: {
+              type: "plain_text",
+              text: "✅ Mark as done",
+              emoji: true,
+            },
+            value: `complete_todo-${task._id}`,
+          },
+          {
+            text: {
+              type: "plain_text",
+              text: "🖋️ Edit",
+              emoji: true,
+            },
+            value: `edit_todo-${task._id}`,
+          },
+        ],
+        action_id: "menu_todo_selected",
+      };
     }
 
     // add created by information

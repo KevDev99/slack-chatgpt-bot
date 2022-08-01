@@ -8,8 +8,6 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     // send "clear" signal as response action to close the modal in slack
     await ack();
 
-    console.log(client.views);
-
     // format incoming state
     const state = formatReminderState(view.state.values);
 
