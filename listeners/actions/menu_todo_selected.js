@@ -1,4 +1,4 @@
-const { updateTask } = require("../../database/db.js");
+const { updateTask, getTask } = require("../../database/db.js");
 const { getAppHome } = require("../events/app_home_opened.js");
 const { getEditModal } = require("./edit_todo.js");
 
@@ -36,8 +36,10 @@ const markTodoAsComplete = async function (taskId, userId, client) {
   });
 };
 
-const editTodo = async function (todoId, userId, client, trigger_id) {
-  await client.views.open({ view: getEditModal().view, trigger_id });
+const editTodo = async function (taskId, userId, client, trigger_id) {
+  // get task from db
+  const task = await getTask(taskId);
+  await client.views.open({ view: getEditModal(task).view, trigger_id });
 };
 
 module.exports = { menuTodoSelected };

@@ -79,6 +79,21 @@ const updateTask = async function (_id, updateObject) {
   }
 };
 
+const getTask = async function (_id) {
+  try {
+    // fetch user from database
+    const task = await Task.find({ _id });
+
+    if (task[0] != undefined) {
+      return task[0];
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error("Error when fetching task", e);
+  }
+};
+
 const fetchTasks = async function (status = "open") {
   try {
     // fetch user from database
@@ -226,6 +241,7 @@ module.exports = {
   getUser,
   addUser,
   addTask,
+  getTask,
   updateTask,
   fetchTasks,
   saveUserWorkspaceInstall,
