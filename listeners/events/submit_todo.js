@@ -1,6 +1,8 @@
 const { getUser, addTask } = require("../../database/db.js");
 const { formatReminderState } = require("../../helper/index.js");
 
+const { getAppHome } = require("./app_home_opened.js");
+
 const submitTodo = async ({ ack, body, view, client, logger }) => {
   try {
     // send "clear" signal as response action to close the modal in slack
@@ -24,6 +26,12 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
 
     // add new todo to database
     await addTask(state.summary, state.notes, state.assigned_user, userId);
+
+    // update view
+    client.views.update({
+      view: await getAppHome().view.blocks,
+      user_id: userId,
+    });
   } catch (error) {
     console.error(error);
   }
