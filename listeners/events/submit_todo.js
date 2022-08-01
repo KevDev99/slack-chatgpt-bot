@@ -1,4 +1,4 @@
-const { getUser } = require("../../database/db.js");
+const { getUser, addTask } = require("../../database/db.js");
 const { formatReminderState } = require("../../helper/index.js");
 
 const submitTodo = async ({ ack, body, view, client, logger }) => {
@@ -20,10 +20,9 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
       return logger.error(`Mandatory summary field not provided!`);
     }
 
-    console.log(state);
+    // add new todo to database
+    await addTask({...state}, createdBy: userId)
 
-
-    
   } catch (error) {
     console.error(error);
   }

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
+const Task = require("./models/taskModel.js");
 
 const uri =
   "mongodb+srv://" +
@@ -54,29 +55,19 @@ const addUser = async function (_id, team_id) {
   }
 };
 
-const updateUsersReminder = async function (
-  _id,
-  user_tz,
-  user_tz_hours,
-  start_time,
-  end_time,
-  interval
-) {
+const addTask = async function (summary, notes, assigned_user, createdBy) {
   try {
-    await User.updateOne(
-      { _id },
-      { user_tz, user_tz_hours, start_time, end_time, interval }
-    );
-  } catch (e) {
-    console.error("Error when updating users reminder", e);
-  }
-};
+    const task = new Task({
+      summary,
+      notes,
+      assigned_user,
+      createdBy,
+    });
 
-const fetchUsers = async function (filter) {
-  try {
-    return await User.find(filter);
-  } catch (e) {
-    console.error("Error when fetching users", e);
+    await task.save();
+  } catch (error) {
+    console.error(error);
+    return error;
   }
 };
 
@@ -202,9 +193,9 @@ const getTeamBotToken = async (teamId) => {
   try {
     // fetch user from database
     const team = await User.find({ _id: teamId });
-    if(team.length > 0) {
+    if (team.length > 0) {
       return team[0].bot.token;
-    }    
+    }
   } catch (error) {
     console.error(error);
     return error;
@@ -215,13 +206,12 @@ module.exports = {
   connect,
   getUser,
   addUser,
-  updateUsersReminder,
-  fetchUsers,
+  addTask,
   saveUserWorkspaceInstall,
   saveUserOrgInstall,
   getWorkspaceInstallation,
   getEnterpriseInstallation,
   deleteWorkspaceInstallation,
   deleteEnterpriseInstallation,
-  getTeamBotToken
+  getTeamBotToken,
 };

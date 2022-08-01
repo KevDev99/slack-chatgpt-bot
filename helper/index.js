@@ -1,13 +1,14 @@
 // formats the incoming state object from slack to a useful object
 const formatReminderState = (unformatted_state) => {
-  
-  console.log(unformatted_state)
-  const formatted_state = [];
+  const formatted_state = {};
   for (const [parentkey, _] of Object.entries(unformatted_state)) {
-    console.log(unformatted_state[parentkey]);
     for (const [key, value] of Object.entries(unformatted_state[parentkey])) {
-      formatted_state[key] =
-        unformatted_state[parentkey][key].selected_option.value;
+      if (unformatted_state[parentkey][key].type === "plain_text_input") {
+        formatted_state[key] = unformatted_state[parentkey][key].value;
+      }
+      if (unformatted_state[parentkey][key].type === "users_select") {
+        formatted_state[key] = unformatted_state[parentkey][key].selected_user;
+      }
     }
   }
 
