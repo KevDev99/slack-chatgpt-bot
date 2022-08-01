@@ -106,7 +106,7 @@ const tasksBlock = async function () {
               text: "✅ Mark as done",
               emoji: true,
             },
-            value: "view_event_details",
+            value: "complete_todo",
           },
           {
             text: {
@@ -114,9 +114,10 @@ const tasksBlock = async function () {
               text: "🖋️ Edit",
               emoji: true,
             },
-            value: "change_response",
+            value: "edit_todo",
           },
         ],
+        action_id: "menu_todo_selected",
       },
     });
 
