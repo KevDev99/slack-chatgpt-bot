@@ -3,7 +3,7 @@ const { getUser, addUser, fetchTasks } = require("../../database/db.js");
 const appHomeOpened = async ({ event, client, say, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
-    const result = await client.views.publish({
+    const appHome = {
       /* the user that opened your app's app home */
       user_id: event.user,
 
@@ -87,7 +87,14 @@ const appHomeOpened = async ({ event, client, say, context }) => {
           },
         ],
       },
-    });
+    };
+
+    // add tasks to the app home
+    const taskBlockList = await tasksBlock();
+    taskBlockList.map((taskListItem) => appHome.view.blocks.push(taskListItem));
+
+    // return the app home
+    const result = await client.views.publish(appHome);
 
     // if the users visits the application for the first time - send him a welcome message
     const { user } = event;
@@ -151,7 +158,6 @@ const appHomeOpened = async ({ event, client, say, context }) => {
                 action_id: "newtask",
               },
             },
-            
           ],
         });
       }
@@ -174,7 +180,7 @@ const tasksBlock = async function () {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
+        text: `*<fakelink.toUrl.com|${task.summary} - @${ } 👤>*\nSome details...\nStatus: ⭕ *Open*`,
       },
       accessory: {
         type: "overflow",
