@@ -1,5 +1,5 @@
-const { setReminder } = require('./add_todo.js');
+const { addTodo } = require('./add_todo.js');
 
 module.exports.register = (app) => {
-  app.action('add_todo', setReminder);
+  app.action('add_todo', addTodo);
 };
