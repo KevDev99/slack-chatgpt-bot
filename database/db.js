@@ -71,10 +71,10 @@ const addTask = async function (summary, notes, assigned_user, createdBy) {
   }
 };
 
-const fetchTasks = async function () {
+const fetchTasks = async function (status='open') {
   try {
     // fetch user from database
-    const tasks = await Task.find({});
+    const tasks = await Task.find({status});
 
     return tasks;
   } catch (e) {
@@ -218,6 +218,7 @@ module.exports = {
   getUser,
   addUser,
   addTask,
+  fetchTasks,
   saveUserWorkspaceInstall,
   saveUserOrgInstall,
   getWorkspaceInstallation,

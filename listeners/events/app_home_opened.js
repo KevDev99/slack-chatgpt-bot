@@ -1,4 +1,4 @@
-const { getUser, addUser } = require("../../database/db.js");
+const { getUser, addUser, fetchTasks } = require("../../database/db.js");
 
 const appHomeOpened = async ({ event, client, say, context }) => {
   try {
@@ -28,7 +28,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
               },
             ],
           },
-          
+
           {
             type: "input",
             element: {
@@ -85,7 +85,6 @@ const appHomeOpened = async ({ event, client, say, context }) => {
           {
             type: "divider",
           },
-          
         ],
       },
     });
@@ -152,6 +151,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
                 action_id: "newtask",
               },
             },
+            
           ],
         });
       }
@@ -161,55 +161,70 @@ const appHomeOpened = async ({ event, client, say, context }) => {
   }
 };
 
+const tasksBlock = async function () {
+  const block = [];
 
-const tasksBlock = function() {
-  return {
-            type: "section",
+  // fetch all tasks
+  const tasks = await fetchTasks();
+
+  // loop through every task and add
+  tasks.map((task, index) => {
+    // add task self
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
+      },
+      accessory: {
+        type: "overflow",
+        options: [
+          {
             text: {
-              type: "mrkdwn",
-              text: "*<fakelink.toUrl.com|Try to get Slack discount - @Anastasia Sobkanyuk 👤>*\nSome details...\nStatus: ⭕ *Open*",
+              type: "plain_text",
+              text: "✅ Mark as done",
+              emoji: true,
             },
-            accessory: {
-              type: "overflow",
-              options: [
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "✅ Mark as done",
-                    emoji: true,
-                  },
-                  value: "view_event_details",
-                },
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "🖋️ Edit",
-                    emoji: true,
-                  },
-                  value: "change_response",
-                },
-              ],
-            },
+            value: "view_event_details",
           },
           {
-            type: "context",
-            elements: [
-              {
-                type: "image",
-                image_url:
-                  "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
-                alt_text: "cute cat",
-              },
-              {
-                type: "mrkdwn",
-                text: "*from* @Test User",
-              },
-            ],
+            text: {
+              type: "plain_text",
+              text: "🖋️ Edit",
+              emoji: true,
+            },
+            value: "change_response",
           },
-          {
-            type: "divider",
-          },
-}
-}
+        ],
+      },
+    });
+
+    // add created by information
+    block.push({
+      type: "context",
+      elements: [
+        {
+          type: "image",
+          image_url:
+            "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
+          alt_text: "cute cat",
+        },
+        {
+          type: "mrkdwn",
+          text: "*from* @Test User",
+        },
+      ],
+    });
+
+    // add divider (if not last item)
+    if (index++ !== tasks.length) {
+      block.push({
+        type: "divider",
+      });
+    }
+  });
+
+  return block;
+};
 
 module.exports = { appHomeOpened };
