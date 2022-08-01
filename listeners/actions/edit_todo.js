@@ -1,6 +1,4 @@
 const getEditModal = (task) => {
-  
-
   const editModal = {
     // View payload
     view: {
@@ -80,8 +78,7 @@ const getEditModal = (task) => {
   };
 
   if (task.assigned_user) {
-    console.log("assigned user");
-    user_select.inital_user = task.assigned_user;
+    user_select.accessory.initial_user = task.assigned_user;
   }
 
   editModal.view.blocks.push(user_select);
