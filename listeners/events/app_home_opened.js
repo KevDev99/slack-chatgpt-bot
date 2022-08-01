@@ -190,29 +190,17 @@ const tasksBlock = async function (status = "open") {
           task.status === "open" ? "⭕ *Open*" : "✅ Done"
         } `,
       },
-      accessory: {
-        type: "overflow",
-        options: [
-          {
-            text: {
-              type: "plain_text",
-              text: "✅ Mark as done",
-              emoji: true,
-            },
-            value: `complete_todo-${task._id}`,
-          },
-          {
-            text: {
-              type: "plain_text",
-              text: "🖋️ Edit",
-              emoji: true,
-            },
-            value: `edit_todo-${task._id}`,
-          },
-        ],
-        action_id: "menu_todo_selected",
-      },
+      
+     
+    
+
+      
     });
+    
+    // add overflow menu when status is open
+    if(status === 'open') {
+      block["a"]
+    }
 
     // add created by information
     block.push({
