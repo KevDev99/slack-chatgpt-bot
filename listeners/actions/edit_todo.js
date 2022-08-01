@@ -1,14 +1,14 @@
-const getEditModal = () => {
+const getEditModal = (trigger_id) => {
   const editModal = {
     // Pass a valid trigger_id within 3 seconds of receiving it
-    trigger_id: body.trigger_id,
+    trigger_id,
     // View payload
     view: {
       type: "modal",
       callback_id: "submit_todo",
       title: {
         type: "plain_text",
-        text: "Add new task",
+        text: "Edit task",
         emoji: true,
       },
       submit: {
@@ -36,7 +36,7 @@ const getEditModal = () => {
             type: "plain_text",
             text: "✔️ Summary",
             emoji: true,
-          },
+          }
         },
         {
           type: "input",
