@@ -52,6 +52,8 @@ const addTodo = async ({ ack, say, body, client }) => {
                 text: "Additional notes...",
               },
             },
+
+            optional: true,
             label: {
               type: "plain_text",
               text: "✍️ Notes (optional)",

@@ -194,7 +194,7 @@ const tasksBlock = async function (status = "open") {
 
     // add overflow menu when status is open
     if (status === "open") {
-      block[0]["accessory"] = {
+      block[block.length - 1]["accessory"] = {
         type: "overflow",
         options: [
           {
