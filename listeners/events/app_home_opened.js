@@ -184,11 +184,7 @@ const tasksBlock = async function (status = "open") {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*${task.summary} ${
-          task.assigned_user ? `- <@${task.assigned_user}>👤` : ""
-        } *${task?.notes ? "\n" + task.notes : ""}\nStatus: ${
-          task.status === "open" ? "⭕ *Open*" : "✅ Done"
-        } `,
+        text: `*<fakelink.com|${task.summary}>*  ${task.notes ? "\n" + task.notes : ""}`,
       },
     });
 
@@ -218,19 +214,32 @@ const tasksBlock = async function (status = "open") {
       };
     }
 
-    // add created by information
     block.push({
       type: "context",
       elements: [
         {
+          type: "mrkdwn",
+          text: task.status === "open" ? "⭕ Open" : "✅ Done",
+        },
+        {
           type: "image",
           image_url:
-            "https://pbs.twimg.com/profile_images/625633822235693056/lNGUneLX_400x400.jpg",
-          alt_text: "cute cat",
+            "https://api.slack.com/img/blocks/bkb_template_images/task-icon.png",
+          alt_text: "Task Icon",
         },
         {
           type: "mrkdwn",
-          text: `*from* <@${task.createdBy}>`,
+          text: "Task",
+        },
+        {
+          type: "image",
+          image_url:
+            "https://api.slack.com/img/blocks/bkb_template_images/profile_1.png",
+          alt_text: "Michael Scott",
+        },
+        {
+          type: "mrkdwn",
+          text: "<fakelink.toUser.com|Michael Scott>",
         },
       ],
     });
