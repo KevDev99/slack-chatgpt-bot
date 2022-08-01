@@ -106,7 +106,7 @@ const tasksBlock = async function () {
               text: "✅ Mark as done",
               emoji: true,
             },
-            value: `complete_todo-${task.uid}`,
+            value: `complete_todo-${task._id}`,
           },
           {
             text: {
@@ -114,7 +114,7 @@ const tasksBlock = async function () {
               text: "🖋️ Edit",
               emoji: true,
             },
-            value: `edit_todo-${task.uid}`,
+            value: `edit_todo-${task._id}`,
           },
         ],
         action_id: "menu_todo_selected",
@@ -194,24 +194,9 @@ const getAppHome = async (userId) => {
                 },
                 value: "value-0",
               },
-              {
-                text: {
-                  type: "plain_text",
-                  text: "*this is plain_text text*",
-                  emoji: true,
-                },
-                value: "value-1",
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: "*this is plain_text text*",
-                  emoji: true,
-                },
-                value: "value-2",
-              },
+             
             ],
-            action_id: "static_select-action",
+            action_id: "set_home_fil",
           },
           label: {
             type: "plain_text",

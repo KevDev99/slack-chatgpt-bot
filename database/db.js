@@ -71,6 +71,14 @@ const addTask = async function (summary, notes, assigned_user, createdBy) {
   }
 };
 
+const updateTask = async function (_id, updateObject) {
+  try {
+    await Task.updateOne({ _id }, updateObject);
+  } catch (e) {
+    console.error("Error when updating task", e);
+  }
+};
+
 const fetchTasks = async function (status = "open") {
   try {
     // fetch user from database
@@ -218,6 +226,7 @@ module.exports = {
   getUser,
   addUser,
   addTask,
+  updateTask,
   fetchTasks,
   saveUserWorkspaceInstall,
   saveUserOrgInstall,
