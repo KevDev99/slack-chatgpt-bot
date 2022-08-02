@@ -79,6 +79,14 @@ const updateTask = async function (_id, updateObject) {
   }
 };
 
+const deleteTask = async function (_id) {
+  try {
+    await Task.deleteOne({ _id });
+  } catch (e) {
+    console.error("Error when deleting task", e);
+  }
+};
+
 const getTask = async function (_id) {
   try {
     // fetch user from database
@@ -243,6 +251,7 @@ module.exports = {
   addTask,
   getTask,
   updateTask,
+  deleteTask,
   fetchTasks,
   saveUserWorkspaceInstall,
   saveUserOrgInstall,

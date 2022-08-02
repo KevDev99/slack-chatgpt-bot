@@ -52,7 +52,7 @@ const editTodo = async function (taskId, userId, client, trigger_id) {
 
 const showConfirmationModal = async function (taskId, client, trigger_id) {
   await client.views.open({
-    view: getConfirmationModal(taskId),
+    view: getConfirmationModal(),
     trigger_id,
     private_metadata: taskId,
   });
