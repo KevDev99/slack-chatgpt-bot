@@ -87,7 +87,7 @@ const getEditModal = (task) => {
 						"text": "Clear user assignment",
 						"emoji": true
 					},
-					"value": "clear_user_assignment",
+					"value": "click_me_123",
 					"action_id": "clear_user_assignment"
 				}
 			]
