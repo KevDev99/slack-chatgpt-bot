@@ -3,7 +3,6 @@ const formatReminderState = (unformatted_state) => {
   const formatted_state = {};
   for (const [parentkey, _] of Object.entries(unformatted_state)) {
     for (const [key, value] of Object.entries(unformatted_state[parentkey])) {
-      console.log(key, value);
       if (unformatted_state[parentkey][key].type === "plain_text_input") {
         formatted_state[key] = unformatted_state[parentkey][key].value;
       }

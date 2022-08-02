@@ -13,8 +13,11 @@ const clearUserAssignment = async ({ ack, say, body, client }) => {
     // get basic view
     const modal = await getEditModal(task);
 
+    // update the view
     body.view.blocks.map((block) => {
       if (block?.accessory?.type === "conversations_select") {
+        // IMPORTANT! the block id needs to change -> else slack persists the values
+        block.block_id = new Date().toString();
         delete block?.accessory?.initial_conversation;
       }
     });

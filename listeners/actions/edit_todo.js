@@ -45,6 +45,7 @@ const getEditModal = (task) => {
   // check if a user has been assigned to -> add user as initial user
   const user_select = {
     type: "section",
+
     text: {
       type: "mrkdwn",
       text: "👤 *Assign to (optional):*",
@@ -68,30 +69,27 @@ const getEditModal = (task) => {
   if (task.assigned_user) {
     // add as initial value
     user_select.accessory.initial_conversation = task.assigned_user;
-    
   }
-  
-  
 
   editModal.view.blocks.push(user_select);
-  
-  if(task.assigned_user) {
-     // add "clear assignment button"
+
+  if (task.assigned_user) {
+    // add "clear assignment button"
     editModal.view.blocks.push({
-			"type": "actions",
-			"elements": [
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"text": "Clear user assignment",
-						"emoji": true
-					},
-					"value": "click_me_123",
-					"action_id": "clear_user_assignment"
-				}
-			]
-		})
+      type: "actions",
+      elements: [
+        {
+          type: "button",
+          text: {
+            type: "plain_text",
+            text: "Clear user assignment",
+            emoji: true,
+          },
+          value: "click_me_123",
+          action_id: "clear_user_assignment",
+        },
+      ],
+    });
   }
 
   return editModal;
