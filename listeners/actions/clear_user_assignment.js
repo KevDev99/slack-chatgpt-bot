@@ -5,17 +5,17 @@ const clearUserAssignment = async ({ ack, say, body, client }) => {
   await ack();
 
   try {
-    
     // get task id
     const task_id = body.view.private_metadata;
     
-    // unset user assignment in database
-    updateTask(task_id, {})
+    console.log(body.view.blocks);
     
-    // update view
+    client.views.update({
+      view: body.view,
+      view_id: body.view.id
+    })
 
-    
-    
+    console.log(body);
   } catch (error) {
     console.error(error);
   }
