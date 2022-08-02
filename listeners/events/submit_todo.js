@@ -34,10 +34,39 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     } else {
       // add new todo to database
       await addTask(state.summary, state.notes, state.assigned_user, userId);
-      
+
       // if a user has been assigned -> send user information
-      if(state.assigned_user) {
-        
+      if (state.assigned_user) {
+        client.chat.postMessage({
+          channel: state.assigned_user,
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "plain_text",
+                text: "🆕 task assigned:",
+                emoji: true,
+              },
+            },
+            {
+              type: "header",
+              text: {
+                type: "plain_text",
+                text: state.summary,
+                emoji: true,
+              },
+            },
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "mrkdwn",
+                  text: "From: " + `<@${userId}>`,
+                },
+              ],
+            },
+          ],
+        });
       }
     }
 
