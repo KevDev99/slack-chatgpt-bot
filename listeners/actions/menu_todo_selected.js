@@ -22,6 +22,8 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
           body.trigger_id
         );
         break;
+      case "delete_todo":
+        
     }
   } catch (error) {
     console.error(error);
@@ -47,5 +49,10 @@ const editTodo = async function (taskId, userId, client, trigger_id) {
     private_metadata: taskId,
   });
 };
+
+
+const deleteTodo = async function (taskId) {
+  
+}
 
 module.exports = { menuTodoSelected };

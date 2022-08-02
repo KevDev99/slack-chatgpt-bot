@@ -157,9 +157,7 @@ const getAppHome = async (userId, status = "open") => {
             },
           ],
         },
-        {
-          type: "divider",
-        },
+        
       ],
     },
   };
@@ -203,6 +201,15 @@ const tasksBlock = async function (status = "open") {
       type: "section",
       text: {
         type: "mrkdwn",
+        text: " ",
+      },
+    });
+
+    // add task self
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
         text: `*<fakelink.com|${task.summary}>*  ${
           task.notes ? `\n ${task.notes}` : ""
         }\n${
@@ -215,7 +222,7 @@ const tasksBlock = async function (status = "open") {
     if (status === "open") {
       block[block.length - 1]["accessory"] = {
         type: "overflow",
-        
+
         options: [
           {
             text: {
@@ -245,6 +252,8 @@ const tasksBlock = async function (status = "open") {
         action_id: "menu_todo_selected",
       };
     }
+
+    
 
     // add divider (if not last item)
     if (index + 1 < tasks.length) {
