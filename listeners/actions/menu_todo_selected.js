@@ -23,6 +23,7 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
         );
         break;
       case "delete_todo":
+        showConfirmationModal(selected_option_taskId, client, body.trigger_id);
     }
   } catch (error) {
     console.error(error);
@@ -49,11 +50,16 @@ const editTodo = async function (taskId, userId, client, trigger_id) {
   });
 };
 
-const deleteTodo = async function (taskId, client) {
+const showConfirmationModal = async function (taskId, client, trigger_id) {
   await client.views.open({
     view: getEditModal(taskId).view,
+    trigger_id,
     private_metadata: taskId,
   });
 };
+
+const confirmationModal = async function () {
+  
+}
 
 module.exports = { menuTodoSelected };
