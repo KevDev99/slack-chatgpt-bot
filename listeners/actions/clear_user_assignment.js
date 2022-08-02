@@ -8,11 +8,10 @@ const clearUserAssignment = async ({ ack, say, body, client }) => {
   try {
     // get task id
     const taskId = body.view.private_metadata;
-
     const task = await getTask(taskId);
 
     // get basic view
-    const modal = getEditModal(task);
+    const modal = await getEditModal(task);
 
     body.view.blocks.map((block) => {
       if (block?.accessory?.type === "conversations_select") {
@@ -22,9 +21,7 @@ const clearUserAssignment = async ({ ack, say, body, client }) => {
 
     modal.view.blocks = body.view.blocks;
 
-    console.log(modal.view.blocks);
-    
-    client.views.update({
+    await client.views.update({
       view: modal.view,
       view_id: body.view.id,
     });
