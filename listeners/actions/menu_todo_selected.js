@@ -23,7 +23,6 @@ const menuTodoSelected = async ({ ack, say, body, client }) => {
         );
         break;
       case "delete_todo":
-        
     }
   } catch (error) {
     console.error(error);
@@ -50,9 +49,11 @@ const editTodo = async function (taskId, userId, client, trigger_id) {
   });
 };
 
-
-const deleteTodo = async function (taskId) {
-  
-}
+const deleteTodo = async function (taskId, client) {
+  await client.views.open({
+    view: getEditModal(taskId).view,
+    private_metadata: taskId,
+  });
+};
 
 module.exports = { menuTodoSelected };
