@@ -35,7 +35,10 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
       // add new todo to database
       await addTask(state.summary, state.notes, state.assigned_user, userId);
       
-      if()
+      // if a user has been assigned -> send user information
+      if(state.assigned_user) {
+        
+      }
     }
 
     // update view
