@@ -41,25 +41,7 @@ const addTodo = async ({ ack, say, body, client }) => {
               emoji: true,
             },
           },
-          {
-            type: "input",
-            element: {
-              type: "plain_text_input",
-              multiline: true,
-              action_id: "notes",
-              placeholder: {
-                type: "plain_text",
-                text: "Additional notes...",
-              },
-            },
 
-            optional: true,
-            label: {
-              type: "plain_text",
-              text: "✍️ Notes (optional)",
-              emoji: true,
-            },
-          },
           {
             type: "section",
             text: {

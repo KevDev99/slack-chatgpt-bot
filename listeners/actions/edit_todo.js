@@ -42,33 +42,6 @@ const getEditModal = (task) => {
     },
   };
 
-  const notes_input = {
-    type: "input",
-    element: {
-      type: "plain_text_input",
-
-      multiline: true,
-      action_id: "notes",
-      placeholder: {
-        type: "plain_text",
-        text: "Additional notes...",
-      },
-    },
-
-    optional: true,
-    label: {
-      type: "plain_text",
-      text: "✍️ Notes (optional)",
-      emoji: true,
-    },
-  };
-
-  if (task.notes) {
-    notes_input.element.initial_value = task.notes;
-  }
-
-  editModal.view.blocks.push(notes_input);
-
   // check if a user has been assigned to -> add user as initial user
   const user_select = {
     type: "section",

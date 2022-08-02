@@ -205,7 +205,7 @@ const tasksBlock = async function (status = "open") {
         type: "mrkdwn",
         text: `*<fakelink.com|${task.summary}>*  ${
           task.notes ? `\n ${task.notes}` : ""
-        }`,
+        }\n${task.assigned_user ? `Assigned to: 👤<@${task.assigned_user}>` : " "} `,
       },
     });
 
@@ -235,41 +235,7 @@ const tasksBlock = async function (status = "open") {
       };
     }
 
-    block.push({
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: task.status === "open" ? "⭕ Open" : "✅ Done",
-        },
-
-        {
-          type: "mrkdwn",
-          text: `${task.assigned_user ? `👤<@${task.assigned_user}>` : " "} `,
-        },
-      ],
-    });
-
-    block.push({
-      type: "context",
-      elements: [
-        {
-          type: "mrkdwn",
-          text: `Created By:`,
-        },
-        {
-          type: "image",
-          image_url:
-            "https://api.slack.com/img/blocks/bkb_template_images/profile_1.png",
-          alt_text: "Michael Scott",
-        },
-        {
-          type: "mrkdwn",
-          text: "<fakelink.toUser.com|Michael Scott>",
-        },
-      ],
-    });
-
+   
     // add divider (if not last item)
     if (index + 1 < tasks.length) {
       block.push({
