@@ -205,7 +205,9 @@ const tasksBlock = async function (status = "open") {
         type: "mrkdwn",
         text: `*<fakelink.com|${task.summary}>*  ${
           task.notes ? `\n ${task.notes}` : ""
-        }\n${task.assigned_user ? `Assigned to: 👤<@${task.assigned_user}>` : " "} `,
+        }\n${
+          task.assigned_user ? `Assigned to: 👤<@${task.assigned_user}>` : " "
+        } `,
       },
     });
 
@@ -213,6 +215,7 @@ const tasksBlock = async function (status = "open") {
     if (status === "open") {
       block[block.length - 1]["accessory"] = {
         type: "overflow",
+        
         options: [
           {
             text: {
@@ -230,12 +233,19 @@ const tasksBlock = async function (status = "open") {
             },
             value: `edit_todo-${task._id}`,
           },
+          {
+            text: {
+              type: "plain_text",
+              text: "🗑️ Delete",
+              emoji: true,
+            },
+            value: `delete_todo-${task._id}`,
+          },
         ],
         action_id: "menu_todo_selected",
       };
     }
 
-   
     // add divider (if not last item)
     if (index + 1 < tasks.length) {
       block.push({
