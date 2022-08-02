@@ -29,7 +29,7 @@ const deleteTodo = async ({ ack, body, client }) => {
             type: "section",
             text: {
               type: "plain_text",
-              text: " Following task has been deleted:",
+              text: "🗑️ Following task has been deleted:",
               emoji: true,
             },
           },
@@ -46,11 +46,11 @@ const deleteTodo = async ({ ack, body, client }) => {
             elements: [
               {
                 type: "mrkdwn",
-                text: "By: " + `<@${userId}>`,
+                text: "by: " + `<@${userId}>`,
               },
               {
                 type: "mrkdwn",
-                text: "at: " + moment().format("YYYY-MM-DD, h:mm:ss a"),
+                text: "at: " + moment().format("YYYY-MM-DD, h:mm:ss a") + " GMT",
               },
             ],
           },
