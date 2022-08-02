@@ -50,17 +50,21 @@ const getEditModal = (task) => {
       text: "👤 *Assign to (optional):*",
     },
     accessory: {
-      type: "users_select",
+      type: "conversations_select",
       placeholder: {
         type: "plain_text",
-        text: "Select a user",
+        text: "Select user",
         emoji: true,
+      },
+      filter: {
+        include: ["im"],
+        exclude_bot_users: true,
       },
       action_id: "assigned_user",
     },
   };
 
-  if (task.assigned_user) {
+  /*if (task.assigned_user) {
     user_select.accessory.initial_user = task.assigned_user;
   }
 
