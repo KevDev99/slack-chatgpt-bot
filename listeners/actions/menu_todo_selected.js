@@ -52,14 +52,42 @@ const editTodo = async function (taskId, userId, client, trigger_id) {
 
 const showConfirmationModal = async function (taskId, client, trigger_id) {
   await client.views.open({
-    view: getEditModal(taskId).view,
+    view: getConfirmationModal(taskId),
     trigger_id,
     private_metadata: taskId,
   });
 };
 
-const confirmationModal = async function () {
-  
-}
+const getConfirmationModal = function () {
+  return {
+    type: "modal",
+    callback_id: "delete_todo",
+    submit: {
+      type: "plain_text",
+      text: "Delete",
+      emoji: true,
+    },
+    close: {
+      type: "plain_text",
+      text: "Cancel",
+      emoji: true,
+    },
+    title: {
+      type: "plain_text",
+      text: "Delete task",
+      emoji: true,
+    },
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "plain_text",
+          text: "Are you sure you want to delete this task ? ",
+          emoji: true,
+        },
+      },
+    ],
+  };
+};
 
 module.exports = { menuTodoSelected };
