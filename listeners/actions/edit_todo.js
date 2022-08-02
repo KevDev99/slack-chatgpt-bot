@@ -64,8 +64,8 @@ const getEditModal = (task) => {
     },
   };
 
-  /*if (task.assigned_user) {
-    user_select.accessory.initial_user = task.assigned_user;
+  if (task.assigned_user) {
+    user_select.accessory.initial_conversation = task.assigned_user;
   }
 
   editModal.view.blocks.push(user_select);
