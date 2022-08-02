@@ -7,15 +7,19 @@ const clearUserAssignment = async ({ ack, say, body, client }) => {
   try {
     // get task id
     const task_id = body.view.private_metadata;
-    
-    console.log(body.view.blocks);
-    
+
+    body.view.blocks.map((block) => {
+      if (block?.accessory?.type === "conversations_select") {
+        delete block?.accessory?.initial_conversation;
+      }
+    });
+
+    console.log(body.view);
+
     client.views.update({
       view: body.view,
-      view_id: body.view.id
-    })
-
-    console.log(body);
+      view_id: body.view.id,
+    });
   } catch (error) {
     console.error(error);
   }
