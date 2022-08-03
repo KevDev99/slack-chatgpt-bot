@@ -116,7 +116,7 @@ const fetchTasks = async function (status = "open", userId) {
     // fetch task from database
     const tasks = await Task.find({ status, teamId: user.team.id }).sort({
       createdAt: "desc",
-    });
+    }).limit(70);
 
     return tasks;
   } catch (e) {
