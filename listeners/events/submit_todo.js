@@ -1,4 +1,9 @@
-const { getUser, addTask, updateTask } = require("../../database/db.js");
+const {
+  getUser,
+  addTask,
+  updateTask,
+  getTask,
+} = require("../../database/db.js");
 const { formatReminderState } = require("../../helper/index.js");
 
 const { getAppHome } = require("./app_home_opened.js");
@@ -26,47 +31,25 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
     const private_metadata = body.view.private_metadata;
 
     if (private_metadata) {
+      const task = await getTask(private_metadata);
+
       await updateTask(private_metadata, {
         summary: state.summary,
         notes: state.notes,
         assigned_user: state.assigned_user,
       });
+
+      // check if assigned_user changed -> send message to new assigend user
+      if (state.assigned_user && task.assigned_user !== state.assigned_user) {
+        sendAssignedMessage(client, state.assigned_user, state.summary, userId);
+      }
     } else {
       // add new todo to database
       await addTask(state.summary, state.notes, state.assigned_user, userId);
 
       // if a user has been assigned -> send user information
       if (state.assigned_user) {
-        client.chat.postMessage({
-          channel: state.assigned_user,
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "plain_text",
-                text: "🆕 task assigned:",
-                emoji: true,
-              },
-            },
-            {
-              type: "header",
-              text: {
-                type: "plain_text",
-                text: state.summary,
-                emoji: true,
-              },
-            },
-            {
-              type: "context",
-              elements: [
-                {
-                  type: "mrkdwn",
-                  text: "From: " + `<@${userId}>`,
-                },
-              ],
-            },
-          ],
-        });
+        sendAssignedMessage(client, state.assigned_user, state.summary, userId);
       }
     }
 
@@ -78,6 +61,39 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const sendAssignedMessage = (client, assigned_user, summary, userId) => {
+  client.chat.postMessage({
+    channel: assigned_user,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "plain_text",
+          text: "🆕 task assigned:",
+          emoji: true,
+        },
+      },
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: summary,
+          emoji: true,
+        },
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "From: " + `<@${userId}>`,
+          },
+        ],
+      },
+    ],
+  });
 };
 
 module.exports = { submitTodo };
