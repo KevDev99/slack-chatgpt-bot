@@ -157,7 +157,6 @@ const getAppHome = async (userId, status = "open") => {
             },
           ],
         },
-        
       ],
     },
   };
@@ -213,7 +212,7 @@ const tasksBlock = async function (status = "open") {
         text: `*<fakelink.com|${task.summary}>*  ${
           task.notes ? `\n ${task.notes}` : ""
         }\n${
-          task.assigned_user ? `Assigned to: 👤<@${task.assigned_user}>` : " "
+          task.assigned_user ? `👤Assigned to: <@${task.assigned_user}>` : " "
         } `,
       },
     });
@@ -252,8 +251,6 @@ const tasksBlock = async function (status = "open") {
         action_id: "menu_todo_selected",
       };
     }
-
-    
 
     // add divider (if not last item)
     if (index + 1 < tasks.length) {

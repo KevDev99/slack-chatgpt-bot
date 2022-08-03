@@ -1,6 +1,7 @@
 const { updateTask, getTask } = require("../../database/db.js");
 const { getAppHome } = require("../events/app_home_opened.js");
 const { getEditModal } = require("./edit_todo.js");
+const moment = require("moment");
 
 const menuTodoSelected = async ({ ack, say, body, client }) => {
   await ack();
@@ -37,6 +38,44 @@ const markTodoAsComplete = async function (taskId, userId, client) {
   await client.views.publish({
     view: (await getAppHome()).view,
     user_id: userId,
+  });
+
+  // get task data
+  const task = await getTask(taskId);
+
+  // if there is an assigned user -> inform the user
+  client.chat.postMessage({
+    channel: task.assigned_user,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "✅ the following task has been *completed*:"
+        },
+      },
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: task.summary,
+          emoji: true,
+        },
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "User: " + `<@${userId}>`,
+          },
+          {
+            type: "mrkdwn",
+            text: "at: " + moment().format("YYYY-MM-DD, h:mm:ss a") + " GMT",
+          },
+        ],
+      },
+    ],
   });
 };
 
