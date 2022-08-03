@@ -31,7 +31,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "You can perform any needed operation over the *Home Page* 🏠 \n so  - check it out ⬆️ \n\n ",
+                text: "You can perform any needed operation over the *Home Page* 🏠 \n so  check it out ⬆️ \n\n ",
               },
             },
             {
@@ -42,32 +42,9 @@ const appHomeOpened = async ({ event, client, say, context }) => {
                 emoji: true,
               },
             },
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "here is a quick overview of all available *commands*",
-              },
-            },
+
             {
               type: "divider",
-            },
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "\n\n */newtask* - creates a new task",
-              },
-              accessory: {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  text: " ➕",
-                  emoji: true,
-                },
-                value: "click_me_123",
-                action_id: "newtask",
-              },
             },
           ],
         });
