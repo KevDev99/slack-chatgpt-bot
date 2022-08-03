@@ -55,7 +55,7 @@ const submitTodo = async ({ ack, body, view, client, logger }) => {
 
     // update view
     client.views.publish({
-      view: (await getAppHome()).view,
+      view: (await getAppHome(userId, "open")).view,
       user_id: userId,
     });
   } catch (error) {

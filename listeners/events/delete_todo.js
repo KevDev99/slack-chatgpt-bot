@@ -50,7 +50,8 @@ const deleteTodo = async ({ ack, body, client }) => {
               },
               {
                 type: "mrkdwn",
-                text: "at: " + moment().format("YYYY-MM-DD, h:mm:ss a") + " GMT",
+                text:
+                  "at: " + moment().format("YYYY-MM-DD, h:mm:ss a") + " GMT",
               },
             ],
           },
@@ -60,7 +61,7 @@ const deleteTodo = async ({ ack, body, client }) => {
 
     // update view
     client.views.publish({
-      view: (await getAppHome()).view,
+      view: (await getAppHome(userId, "open")).view,
       user_id: userId,
     });
   } catch (error) {

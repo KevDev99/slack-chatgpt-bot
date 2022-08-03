@@ -36,7 +36,7 @@ const markTodoAsComplete = async function (taskId, userId, client) {
 
   // update view
   await client.views.publish({
-    view: (await getAppHome()).view,
+    view: (await getAppHome(userId, "done")).view,
     user_id: userId,
   });
 
@@ -47,7 +47,6 @@ const markTodoAsComplete = async function (taskId, userId, client) {
   client.chat.postMessage({
     channel: task.assigned_user,
     blocks: [
-      
       {
         type: "section",
         text: {

@@ -139,17 +139,17 @@ const getAppHome = async (userId, status = "open") => {
   };
 
   // add tasks to the app home
-  const taskBlockList = await tasksBlock(status);
+  const taskBlockList = await tasksBlock(status, userId);
   taskBlockList.map((taskListItem) => appHome.view.blocks.push(taskListItem));
 
   return appHome;
 };
 
-const tasksBlock = async function (status = "open") {
+const tasksBlock = async function (status = "open", userId) {
   const block = [];
 
   // fetch all tasks
-  const tasks = await fetchTasks(status);
+  const tasks = await fetchTasks(status, userId);
 
   if (tasks.length === 0) {
     block.push({

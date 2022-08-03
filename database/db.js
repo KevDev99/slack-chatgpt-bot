@@ -107,10 +107,16 @@ const getTask = async function (_id) {
   }
 };
 
-const fetchTasks = async function (status = "open") {
+const fetchTasks = async function (status = "open", userId) {
   try {
+    const user = await getUser(userId);
+
+    if (!user) return [];
+
     // fetch task from database
-    const tasks = await Task.find({ status }).sort({ createdAt: "desc" });
+    const tasks = await Task.find({ status, teamId: user.team.id }).sort({
+      createdAt: "desc",
+    });
 
     return tasks;
   } catch (e) {
