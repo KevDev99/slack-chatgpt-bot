@@ -47,11 +47,12 @@ const markTodoAsComplete = async function (taskId, userId, client) {
   client.chat.postMessage({
     channel: task.assigned_user,
     blocks: [
+      
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "✅ the following task has been *completed*:"
+          text: "✅ the following task has been *completed*:",
         },
       },
       {
@@ -74,6 +75,9 @@ const markTodoAsComplete = async function (taskId, userId, client) {
             text: "at: " + moment().format("YYYY-MM-DD, h:mm:ss a") + " GMT",
           },
         ],
+      },
+      {
+        type: "divider",
       },
     ],
   });

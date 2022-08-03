@@ -92,6 +92,9 @@ const sendAssignedMessage = (client, assigned_user, summary, userId) => {
           },
         ],
       },
+      {
+        type: "divider",
+      },
     ],
   });
 };
