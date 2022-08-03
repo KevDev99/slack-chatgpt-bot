@@ -6,6 +6,7 @@ const taskSchema = mongoose.Schema(
     assigned_user: String,
     createdBy: String,
     status: { type: String, default: "open" },
+    teamId: String,
   },
   {
     timestamps: true,

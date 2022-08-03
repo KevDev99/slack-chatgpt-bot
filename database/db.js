@@ -57,11 +57,16 @@ const addUser = async function (_id, team_id) {
 
 const addTask = async function (summary, notes, assigned_user, createdBy) {
   try {
+    const user = await getUser(createdBy);
+
+    if (!user) throw Error("Invalid user when adding task!");
+
     const task = new Task({
       summary,
       notes,
       assigned_user,
       createdBy,
+      teamId: user.team.id,
     });
 
     await task.save();
@@ -87,9 +92,6 @@ const deleteTask = async function (_id) {
   }
 };
 
-
-
-
 const getTask = async function (_id) {
   try {
     // fetch user from database
@@ -107,7 +109,7 @@ const getTask = async function (_id) {
 
 const fetchTasks = async function (status = "open") {
   try {
-    // fetch user from database
+    // fetch task from database
     const tasks = await Task.find({ status }).sort({ createdAt: "desc" });
 
     return tasks;
