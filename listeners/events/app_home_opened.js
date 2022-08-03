@@ -12,6 +12,7 @@ const appHomeOpened = async ({ event, client, say, context }) => {
     // check if event.view is given -> else the user is leaving the app home
     if (event.view) {
       const { team_id } = event.view;
+
       if (!(await getUser(user))) {
         // when user doesn't exist -> add him to db and sent a welcome message
         await addUser(user, team_id);
