@@ -191,22 +191,6 @@ const tasksBlock = async function (status = "open", userId) {
       },
     });
 
-    block.push({
-      type: "context",
-      elements: [
-        {
-          type: "image",
-          image_url:
-            "https://api.slack.com/img/blocks/bkb_template_images/notificationsWarningIcon.png",
-          alt_text: "notifications warning icon",
-        },
-        {
-          type: "mrkdwn",
-          text: "*Conflicts with Team Huddle: 4:15-4:30pm*",
-        },
-      ],
-    });
-
     // add overflow menu when status is open
     if (status === "open") {
       block[block.length - 1]["accessory"] = {
@@ -255,6 +239,21 @@ const tasksBlock = async function (status = "open", userId) {
         ],
         action_id: "menu_todo_selected",
       };
+    }
+
+    if (status === "done") {
+      block.push({
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text:
+              "Completed at: " +
+              moment(task.updatedAt).format("YYYY-MM-DD, h:mm:ss a") +
+              " GMT",
+          },
+        ],
+      });
     }
 
     // add divider (if not last item)
