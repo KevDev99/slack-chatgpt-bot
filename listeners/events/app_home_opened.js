@@ -74,7 +74,7 @@ const getAppHome = async (userId, status = "open") => {
               type: "button",
               text: {
                 type: "plain_text",
-                text: "➕ Add to-do",
+                text: "➕ Add New Task",
                 emoji: true,
               },
               value: "click_me_123",
@@ -93,14 +93,14 @@ const getAppHome = async (userId, status = "open") => {
             type: "static_select",
             placeholder: {
               type: "plain_text",
-              text: "Show All Open",
+              text: "Show Open Tasks",
               emoji: true,
             },
             options: [
               {
                 text: {
                   type: "plain_text",
-                  text: "Show All Open",
+                  text: "Show Open Tasks",
                   emoji: true,
                 },
                 value: "open",
@@ -108,7 +108,7 @@ const getAppHome = async (userId, status = "open") => {
               {
                 text: {
                   type: "plain_text",
-                  text: "Completed tasks",
+                  text: "Show Completed Tasks",
                   emoji: true,
                 },
                 value: "done",
@@ -117,7 +117,7 @@ const getAppHome = async (userId, status = "open") => {
             initial_option: {
               text: {
                 type: "plain_text",
-                text: status === "open" ? "Show All Open" : "Completed tasks",
+                text: status === "open" ? "Show Open Tasks" : "Show Completed Tasks",
                 emoji: true,
               },
               value: status,
