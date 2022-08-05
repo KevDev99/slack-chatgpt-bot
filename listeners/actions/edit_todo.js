@@ -29,12 +29,12 @@ const getEditModal = (task) => {
             action_id: "summary",
             placeholder: {
               type: "plain_text",
-              text: "Summarize your task",
+              text: " ",
             },
           },
           label: {
             type: "plain_text",
-            text: "✔️ Summary",
+            text: "Summary",
             emoji: true,
           },
         },
@@ -48,7 +48,7 @@ const getEditModal = (task) => {
 
     text: {
       type: "mrkdwn",
-      text: "👤 *Assign to (optional):*",
+      text: "*Assign to:* (optional)",
     },
     accessory: {
       type: "conversations_select",
