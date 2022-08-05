@@ -1,5 +1,7 @@
 const { getUser, addUser, fetchTasks } = require("../../database/db.js");
 
+const moment = require("moment");
+
 const appHomeOpened = async ({ event, client, say, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
@@ -183,7 +185,8 @@ const tasksBlock = async function (status = "open", userId) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.com|${task.summary}>*  ${task.assigned_user ? `- Assigned to: <@${task.assigned_user}>` : " "
+        text: `*<fakelink.com|${task.summary}>*  ${
+          task.assigned_user ? `- Assigned to: <@${task.assigned_user}>` : " "
         } `,
       },
     });
@@ -221,6 +224,37 @@ const tasksBlock = async function (status = "open", userId) {
         ],
         action_id: "menu_todo_selected",
       };
+    } else {
+      block[block.length - 1]["accessory"] = {
+        type: "overflow",
+        options: [
+          {
+            text: {
+              type: "plain_text",
+              text: "🗑️ Delete",
+              emoji: true,
+            },
+            value: `delete_todo-${task._id}`,
+          },
+        ],
+        action_id: "menu_todo_selected",
+      };
+    }
+
+    // at completed date
+    if (status === "done") {
+      block.push({
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text:
+              "Completed at: " +
+              moment().format("YYYY-MM-DD, h:mm:ss a") +
+              " GMT",
+          },
+        ],
+      });
     }
 
     // add divider (if not last item)
