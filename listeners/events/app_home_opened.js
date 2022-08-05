@@ -80,51 +80,47 @@ const getAppHome = async (userId, status = "open") => {
               value: "click_me_123",
               action_id: "add_todo",
             },
+            {
+              type: "static_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Show Open Tasks",
+                emoji: true,
+              },
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "Show Open Tasks",
+                    emoji: true,
+                  },
+                  value: "open",
+                },
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "Show Completed Tasks",
+                    emoji: true,
+                  },
+                  value: "done",
+                },
+              ],
+              initial_option: {
+                text: {
+                  type: "plain_text",
+                  text:
+                    status === "open"
+                      ? "Show Open Tasks"
+                      : "Show Completed Tasks",
+                  emoji: true,
+                },
+                value: status,
+              },
+              action_id: "set_home_filter",
+            },
           ],
         },
 
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: " ",
-          },
-          accessory: {
-            type: "static_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Show Open Tasks",
-              emoji: true,
-            },
-            options: [
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Show Open Tasks",
-                  emoji: true,
-                },
-                value: "open",
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: "Show Completed Tasks",
-                  emoji: true,
-                },
-                value: "done",
-              },
-            ],
-            initial_option: {
-              text: {
-                type: "plain_text",
-                text: status === "open" ? "Show Open Tasks" : "Show Completed Tasks",
-                emoji: true,
-              },
-              value: status,
-            },
-            action_id: "set_home_filter",
-          },
-        },
         {
           type: "context",
           elements: [
@@ -187,10 +183,7 @@ const tasksBlock = async function (status = "open", userId) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.com|${task.summary}>*  ${
-          task.notes ? `\n ${task.notes}` : ""
-        }\n${
-          task.assigned_user ? `👤Assigned to: <@${task.assigned_user}>` : " "
+        text: `*<fakelink.com|${task.summary}>*  ${task.assigned_user ? `- 👤Assigned to: <@${task.assigned_user}>` : " "
         } `,
       },
     });
