@@ -11,7 +11,7 @@ const addTodo = async ({ ack, say, body, client }) => {
         callback_id: "submit_todo",
         title: {
           type: "plain_text",
-          text: "Add new task",
+          text: "New Task",
           emoji: true,
         },
         submit: {
@@ -32,12 +32,12 @@ const addTodo = async ({ ack, say, body, client }) => {
               action_id: "summary",
               placeholder: {
                 type: "plain_text",
-                text: "Summarize your task",
+                text: " ",
               },
             },
             label: {
               type: "plain_text",
-              text: "✔️ Summary",
+              text: "Summary",
               emoji: true,
             },
           },
@@ -46,7 +46,7 @@ const addTodo = async ({ ack, say, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "👤 *Assign to (optional):*",
+              text: "*Assign to: (optional)*",
             },
             accessory: {
               type: "conversations_select",

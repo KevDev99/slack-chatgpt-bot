@@ -183,7 +183,7 @@ const tasksBlock = async function (status = "open", userId) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*<fakelink.com|${task.summary}>*  ${task.assigned_user ? `- 👤Assigned to: <@${task.assigned_user}>` : " "
+        text: `*<fakelink.com|${task.summary}>*  ${task.assigned_user ? `- Assigned to: <@${task.assigned_user}>` : " "
         } `,
       },
     });
