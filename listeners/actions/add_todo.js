@@ -16,7 +16,7 @@ const addTodo = async ({ ack, say, body, client }) => {
         },
         submit: {
           type: "plain_text",
-          text: "Save",
+          text: "Add",
           emoji: true,
         },
         close: {
@@ -46,7 +46,7 @@ const addTodo = async ({ ack, say, body, client }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "*Assign to: (optional)*",
+              text: "*Assign to:* (optional)",
             },
             accessory: {
               type: "conversations_select",

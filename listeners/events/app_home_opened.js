@@ -197,7 +197,7 @@ const tasksBlock = async function (status = "open", userId) {
           {
             text: {
               type: "plain_text",
-              text: "✅ Mark as done",
+              text: "✅ Chekhov task",
               emoji: true,
             },
             value: `complete_todo-${task._id}`,
