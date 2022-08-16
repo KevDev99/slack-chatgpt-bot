@@ -19,6 +19,10 @@ const formatReminderState = (unformatted_state) => {
   return formatted_state;
 };
 
+const insertAt = (array, index, ...elementsArray) => {
+  array.splice(index, 0, ...elementsArray);
+}
+
 module.exports = {
   formatReminderState,
 };
