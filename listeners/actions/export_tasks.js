@@ -1,4 +1,6 @@
 const { fetchTasks } = require("../../database/db.js");
+const fs = require('fs');
+
 
 const exportTasks = async ({ ack, say, body, client }) => {
   await ack();
@@ -7,9 +9,10 @@ const exportTasks = async ({ ack, say, body, client }) => {
     let outPutText = "";
     // fetch all tasks
     const tasks = await fetchTasks("done", body.user.id);
-    
+
     // write header
-    outPutText += "Chekhov Data Export: " + new Date().toDateString() + "\n\n\n";
+    outPutText +=
+      "Chekhov Data Export: " + new Date().toDateString() + "\n\n\n";
 
     await Promise.all(
       tasks.map(async (task) => {
@@ -30,9 +33,9 @@ const exportTasks = async ({ ack, say, body, client }) => {
           "\n--------------------------------------------------------------------------\n";
       })
     );
-    
-    // create text file 
-    
+
+    // create text file
+    fs.writeFileSync('/tmp/test-sync.txt', 'Hey there!')
     
   } catch (error) {
     console.error(error);
