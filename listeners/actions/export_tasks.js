@@ -8,20 +8,32 @@ const exportTasks = async ({ ack, say, body, client }) => {
     // fetch all tasks
     const tasks = await fetchTasks("done", body.user.id);
     
-    tasks.map(async (task) => {
-      let assigned_user;
+    // write header
+    outPutText += "Chekhov Data Export: " + new Date().toDateString() + "\n\n\n";
 
-      if(task.assigned_user) {
-        assigned_user = await client.users.profile.get({user: task.assigned_user})
-      }
-      
-      outPutText += `${task.summary} ${assigned_user? `- ${assigned_user}` : ""}`;
-      outPutText += "\n--------------------------------------------------------------------------\n"
-    })
+    await Promise.all(
+      tasks.map(async (task) => {
+        let assigned_user_name;
+
+        if (task.assigned_user) {
+          const { user } = await client.users.info({
+            user: task.assigned_user,
+          });
+          const { profile } = user;
+          assigned_user_name = profile.display_name;
+        }
+
+        outPutText += `${task.summary} ${
+          assigned_user_name ? `- ${assigned_user_name}` : ""
+        }`;
+        outPutText +=
+          "\n--------------------------------------------------------------------------\n";
+      })
+    );
     
-    console.log(outPutText);
-
-    // export to text file
+    // create text file 
+    
+    
   } catch (error) {
     console.error(error);
   }
