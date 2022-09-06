@@ -169,6 +169,26 @@ const tasksBlock = async function (status = "open", userId) {
     return block;
   }
 
+  if (status === "done") {
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: " ",
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "📁 Export Tasks",
+          emoji: true,
+        },
+        value: "export_tasks_btn",
+        action_id: "export_tasks",
+      },
+    });
+  }
+
   // loop through every task and add
   tasks.map((task, index) => {
     // add task self
