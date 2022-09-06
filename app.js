@@ -74,9 +74,6 @@ const app = new App({
   },
 });
 
-
-
-
 // connect to db
 connect();
 
