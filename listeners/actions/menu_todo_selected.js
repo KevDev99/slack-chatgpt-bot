@@ -36,7 +36,7 @@ const markTodoAsComplete = async function (taskId, userId, client) {
 
   // update view
   await client.views.publish({
-    view: (await getAppHome(userId, "done")).view,
+    view: (await getAppHome(userId)).view,
     user_id: userId,
   });
 
