@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
     user: { token: String, scopes: [String], id: String },
     tokenType: String,
     isEnterpriseInstall: Boolean,
+    channel: String,
     appId: String,
     authVersion: String,
     countryCode: String,

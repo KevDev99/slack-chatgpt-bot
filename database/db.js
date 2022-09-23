@@ -47,9 +47,36 @@ const getTeamBotToken = async (teamId) => {
   }
 };
 
+const getTeamInformation = async function (_id, fieldname) {
+  try {
+    const team = await User.find({ _id });
+    if (team[0] != undefined) {
+      if (fieldname.includes(".")) {
+        const [field1, field2] = fieldname.split(".");
+        return team[0][field1][field2];
+      }
+      return team[0][fieldname];
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.error("Failed to update user", e);
+  }
+};
+
+
+const updateUser = async function (_id, updateObj) {
+  try {
+    await User.updateOne({ _id }, updateObj);
+  } catch (e) {
+    console.error("Failed to update user", e);
+  }
+};
+
 module.exports = {
   connect,
   getUser,
-  
+  updateUser,
   getTeamBotToken,
+  getTeamInformation
 };

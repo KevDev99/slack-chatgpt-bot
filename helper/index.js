@@ -19,10 +19,33 @@ const formatReminderState = (unformatted_state) => {
   return formatted_state;
 };
 
+const formatMessageState = (state) => {
+  const formattedObj = {};
+  const keys = Object.keys(state.values);
+  keys.map((key) => {
+    const subKey = Object.keys(state.values[key])[0];
+
+    if (state.values[key][subKey].type === "channels_select") {
+      formattedObj.channels_select = state.values[key][subKey].selected_channel;
+    }
+
+    if (state.values[key][subKey].type === "static_select") {
+      formattedObj.static_select =
+        state.values[key][subKey].selected_option.value;
+    }
+    if (state.values[key][subKey].type === "plain_text_input") {
+      formattedObj.plain_text_input = state.values[key][subKey].value;
+    }
+  });
+
+  return formattedObj;
+};
+
 const insertAt = (array, index, ...elementsArray) => {
   array.splice(index, 0, ...elementsArray);
-}
+};
 
 module.exports = {
   formatReminderState,
+  formatMessageState,
 };

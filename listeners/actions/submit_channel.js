@@ -1,5 +1,6 @@
 
 const { formatMessageState } = require("../../helper");
+const {updateUser, getTeamInformation} = require("../../database/db.js");
 
 const submitChannel = async ({ ack, say, body, client }) => {
   await ack();
@@ -60,4 +61,4 @@ const submitChannel = async ({ ack, say, body, client }) => {
   });
 };
 
-module.exports = { submitChannelö };
+module.exports = { submitChannel };
