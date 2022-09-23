@@ -14,6 +14,8 @@ const {
 
 const { registerListeners } = require("./listeners");
 
+const { registerJobs } = require("./jobs");
+
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
