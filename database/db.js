@@ -2,14 +2,7 @@ const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
 const Task = require("./models/taskModel.js");
 
-const uri =
-  "mongodb+srv://" +
-  process.env.DB_USERNAME +
-  ":" +
-  process.env.DB_PASSWORD +
-  "@cluster0.hq9t1.mongodb.net/" +
-  process.env.DB_NAME +
-  "?retryWrites=true&w=majority";
+const uri = process.env.DB_URI;
 
 const connect = async function () {
   try {
@@ -39,99 +32,12 @@ const getUser = async function (userId) {
   }
 };
 
-const addUser = async function (_id, team_id) {
-  try {
-    const user = new User({
-      _id,
-      team: {
-        id: team_id,
-        name: "",
-      },
-    });
-
-    await user.save();
-  } catch (e) {
-    console.error("Error when adding user", e);
-  }
-};
-
-const addTask = async function (summary, notes, assigned_user, createdBy) {
-  try {
-    const user = await getUser(createdBy);
-
-    if (!user) throw Error("Invalid user when adding task!");
-
-    const task = new Task({
-      summary,
-      notes,
-      assigned_user,
-      createdBy,
-      teamId: user.team.id,
-    });
-
-    await task.save();
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-const updateTask = async function (_id, updateObject) {
-  try {
-    await Task.updateOne({ _id }, updateObject);
-  } catch (e) {
-    console.error("Error when updating task", e);
-  }
-};
-
-const deleteTask = async function (_id) {
-  try {
-    await Task.deleteOne({ _id });
-  } catch (e) {
-    console.error("Error when deleting task", e);
-  }
-};
-
-const getTask = async function (_id) {
-  try {
-    // fetch user from database
-    const task = await Task.find({ _id });
-
-    if (task[0] != undefined) {
-      return task[0];
-    } else {
-      return null;
-    }
-  } catch (e) {
-    console.error("Error when fetching task", e);
-  }
-};
-
-const fetchTasks = async function (status = "open", userId) {
-  try {
-    const user = await getUser(userId);
-
-    if (!user) return [];
-
-    // fetch task from database
-    const tasks = await Task.find({ status, teamId: user.team.id }).sort({
-      createdAt: "desc",
-    }).limit(70);
-
-    return tasks;
-  } catch (e) {
-    console.error("Error when fetching tasks", e);
-  }
-};
-
 /** Workspace Installation */
 const saveUserWorkspaceInstall = async (installation) => {
   try {
     // if there is a user token the user will be stored seperately in the database (instead the team entry)
     // the token will be also later needed to change the users status and to set the absence (pause notifications) special user scope
-    const id = installation.user.token
-      ? installation.user.id
-      : installation.team.id;
+    const id = installation.team.id;
 
     const resp = await User.updateOne(
       { _id: id },
@@ -142,7 +48,7 @@ const saveUserWorkspaceInstall = async (installation) => {
         // user scopes + token is null on workspace install
         user: {
           token: installation.user.token,
-          scopes: installation.user.token,
+          scopes: installation.user.scopes,
           id: installation.user.id,
         },
         tokenType: installation.tokenType,
@@ -258,12 +164,6 @@ const getTeamBotToken = async (teamId) => {
 module.exports = {
   connect,
   getUser,
-  addUser,
-  addTask,
-  getTask,
-  updateTask,
-  deleteTask,
-  fetchTasks,
   saveUserWorkspaceInstall,
   saveUserOrgInstall,
   getWorkspaceInstallation,
