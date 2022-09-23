@@ -10,10 +10,24 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
   if(!action) return;
   
   if(action.value === 'approve') {
-    // inform users in channel that the current user accepted the challenge!
+    // inform users in channel that the current user accepted the challenge
+    const teamChannelId = await getTeamInformation(body.team.id);
+    
+    client.chat.postMessage({
+      channel: teamChannelId,
+      text: "user has accepted their daily habit challenge!",
+      blocks: [{
+        
+      }]
+    })
     
   } else {
-    
+    // update message"you’ve declined your habits today. No worries, get after it tomorrow!"
+    client.chat.update({
+      channel: body.channel.id,
+      ts: body.message.ts,
+      text: "you’ve declined your habits today. No worries, get after it tomorrow!",
+    })    
   }
 };
 
