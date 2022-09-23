@@ -11,8 +11,7 @@ const submitChannel = async ({ ack, say, body, client }) => {
 
   // save selected channel id to database
   await updateUser(body.team.id, {
-    roundup_channel: formattedState.channels_select,
-    roundup_day: formattedState.static_select,
+    channel: formattedState.channels_select,
   });
 
   // get bot and user details from installation
