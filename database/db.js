@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
-const Task = require("./models/taskModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -32,120 +31,7 @@ const getUser = async function (userId) {
   }
 };
 
-/** Workspace Installation */
-const saveUserWorkspaceInstall = async (installation) => {
-  try {
-    // if there is a user token the user will be stored seperately in the database (instead the team entry)
-    // the token will be also later needed to change the users status and to set the absence (pause notifications) special user scope
-    const id = installation.team.id;
 
-    const resp = await User.updateOne(
-      { _id: id },
-      {
-        team: { id: installation.team.id, name: installation.team.name },
-        // entperise id is null on workspace install
-        enterprise: { id: "null", name: "null" },
-        // user scopes + token is null on workspace install
-        user: {
-          token: installation.user.token,
-          scopes: installation.user.scopes,
-          id: installation.user.id,
-        },
-        tokenType: installation.tokenType,
-        isEnterpriseInstall: installation.isEnterpriseInstall,
-        appId: installation.appId,
-        authVersion: installation.authVersion,
-        bot: {
-          scopes: installation.bot.scopes,
-          token: installation.bot.token,
-          userId: installation.bot.userId,
-          id: installation.bot.id,
-        },
-      },
-      { upsert: true }
-    );
-
-    return resp;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-/** Enterprise Installation */
-const saveUserOrgInstall = async function (installation) {
-  try {
-    const resp = await User.updateOne(
-      { _id: installation.enterprise.id },
-      {
-        team: "null",
-        enterprise: {
-          id: installation.enterprise.id,
-          name: installation.enterprise.name,
-        },
-        user: {
-          token: installation.user.token,
-          scopes: installation.user.scopes,
-          id: installation.user.id,
-        },
-        tokenType: installation.tokenType,
-        isEnterpriseInstall: installation.isEnterpriseInstall,
-        appId: installation.appId,
-        authVersion: installation.authVersion,
-        bot: "null",
-      },
-      { upsert: true }
-    );
-    return resp;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-/** GET Workspace Installation */
-const getWorkspaceInstallation = async (teamId) => {
-  try {
-    // fetch user from database
-    const user = await User.find({ "team.id": teamId });
-    return user[0];
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-/** GET Enterprise Installation */
-const getEnterpriseInstallation = async (enterpriseId) => {
-  try {
-    // fetch user from database
-    const user = await User.find({ "enterprise.id": enterpriseId });
-    return user[0];
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-/** DELETE Enterprise Installation */
-const deleteEnterpriseInstallation = async (enterpriseId) => {
-  try {
-    await User.deleteMany({ "enterprise.id": enterpriseId });
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
-/** DELETE Workspace Installation */
-const deleteWorkspaceInstallation = async (teamId) => {
-  try {
-    await User.deleteMany({ "team.id": teamId });
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
 
 /** Get Team Bot Token */
 const getTeamBotToken = async (teamId) => {
@@ -164,11 +50,6 @@ const getTeamBotToken = async (teamId) => {
 module.exports = {
   connect,
   getUser,
-  saveUserWorkspaceInstall,
-  saveUserOrgInstall,
-  getWorkspaceInstallation,
-  getEnterpriseInstallation,
-  deleteWorkspaceInstallation,
-  deleteEnterpriseInstallation,
+  
   getTeamBotToken,
 };
