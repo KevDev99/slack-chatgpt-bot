@@ -12,7 +12,7 @@ const sendDailyHabitMessage = async () => {
   teams.map(async (team) => {
     try {
       if (team.channel) {
-        cron.schedule(`31 13 * * *`, async () => {
+        cron.schedule(`41 13 * * *`, async () => {
           try {
             // send each user dm with daily habit reminder
             const userListRes = await axios.get(
@@ -26,9 +26,9 @@ const sendDailyHabitMessage = async () => {
 
             const { members } = userListRes.data;
 
-            const tempMembers = [{ id: "U01K15YRAKB" }];
+          
 
-            tempMembers.map(async (teamMember) => {
+            members.map(async (teamMember) => {
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
