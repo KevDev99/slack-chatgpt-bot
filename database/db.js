@@ -31,8 +31,6 @@ const getUser = async function (userId) {
   }
 };
 
-
-
 /** Get Team Bot Token */
 const getTeamBotToken = async (teamId) => {
   try {
@@ -64,7 +62,6 @@ const getTeamInformation = async function (_id, fieldname) {
   }
 };
 
-
 const updateUser = async function (_id, updateObj) {
   try {
     await User.updateOne({ _id }, updateObj);
@@ -73,10 +70,20 @@ const updateUser = async function (_id, updateObj) {
   }
 };
 
+const getTeams = async function (filter = {}) {
+  try {
+    const teams = await User.find(filter);
+    return teams;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   connect,
   getUser,
   updateUser,
   getTeamBotToken,
-  getTeamInformation
+  getTeamInformation,
+  getTeams,
 };

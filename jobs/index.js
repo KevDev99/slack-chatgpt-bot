@@ -1,4 +1,4 @@
-const { getTeams, getEmojiMetrics } = require("../database/db.js");
+const { getTeams } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
 
@@ -12,7 +12,7 @@ const sendDailyHabitMessage = async () => {
   teams.map(async (team) => {
     try {
       if (team.channel) {
-        cron.schedule(`40 12 * * *`, async () => {
+        cron.schedule(`55 12 * * *`, async () => {
           try {
             const res = await axios.post(
               "https://slack.com/api/chat.postMessage",

@@ -2,6 +2,8 @@
 const { App } = require("@slack/bolt");
 
 const { connect, getUser, addUser, fetchUsers } = require("./database/db.js");
+const registerJobs = require('./jobs')
+
 
 const {
   saveUserWorkspaceInstall,
@@ -14,7 +16,6 @@ const {
 
 const { registerListeners } = require("./listeners");
 
-const { registerJobs } = require("./jobs");
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -81,6 +82,8 @@ connect();
 
 /** Register Listeners (actions, commands, events, ... -> all slack related api endpoints) */
 registerListeners(app);
+
+registerJobs();
 
 (async () => {
   // Start your app
