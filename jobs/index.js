@@ -12,22 +12,37 @@ const sendDailyHabitMessage = async () => {
   teams.map(async (team) => {
     try {
       if (team.channel) {
-        cron.schedule(`55 12 * * *`, async () => {
+        cron.schedule(`31 13 * * *`, async () => {
           try {
-            const res = await axios.post(
-              "https://slack.com/api/chat.postMessage",
-              {
-                text: "Daily Habit",
-                channel: team.channel,
-                blocks: dailyHabitBody(),
-              },
+            // send each user dm with daily habit reminder
+            const userListRes = await axios.get(
+              "https://slack.com/api/users.list",
               {
                 headers: {
                   Authorization: `Bearer ${team.bot.token}`,
                 },
               }
             );
-            console.log(res);
+
+            const { members } = userListRes.data;
+
+            const tempMembers = [{ id: "U01K15YRAKB" }];
+
+            tempMembers.map(async (teamMember) => {
+              const res = await axios.post(
+                "https://slack.com/api/chat.postMessage",
+                {
+                  text: "Daily Habit",
+                  channel: teamMember.id,
+                  blocks: dailyHabitBody(),
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${team.bot.token}`,
+                  },
+                }
+              );
+            });
           } catch (error) {
             console.error(error);
           }
