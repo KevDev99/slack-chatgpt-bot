@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
 const Habit = require("./models/habitModel.js");
+const UserHabit = require("./models/userHabitModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -98,10 +99,14 @@ const getHabitByName = async function (name) {
   }
 };
 
-const creatUserHabit = async function (userHabit) {
-  const habitName = Object.keys(userHabit)[0];
-  const habitTarget = userHabit
-}
+const createUserHabit = async function ({ habitName, targetValue, userId }) {
+  try {
+    // add user habit to database
+    await UserHabit.create({ habitName, targetValue, user_id: userId });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 module.exports = {
   connect,
@@ -112,4 +117,5 @@ module.exports = {
   getTeams,
   getHabits,
   getHabitByName,
+  createUserHabit,
 };
