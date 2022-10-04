@@ -1,4 +1,4 @@
-const { formatMessageState } = require("../../helper");
+const { formatState } = require("../../helper");
 const { updateUser, getTeamInformation } = require("../../database/db.js");
 
 const setHabitTarget = async ({ ack, say, body, client }) => {
@@ -8,9 +8,7 @@ const setHabitTarget = async ({ ack, say, body, client }) => {
   const [messageTs, channelId] = body.view.private_metadata;
 
   // get selected habits
-  console.log(body.view.state);
-
-  
+  console.log(formatState(body.view.state));
 };
 
 module.exports = { setHabitTarget };

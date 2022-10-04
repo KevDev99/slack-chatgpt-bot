@@ -1,5 +1,5 @@
 // formats the incoming state object from slack to a useful object
-const formatReminderState = (unformatted_state) => {
+const formatState = (unformatted_state) => {
   const formatted_state = {};
   for (const [parentkey, _] of Object.entries(unformatted_state)) {
     for (const [key, value] of Object.entries(unformatted_state[parentkey])) {
@@ -13,6 +13,15 @@ const formatReminderState = (unformatted_state) => {
         formatted_state[key] =
           unformatted_state[parentkey][key].selected_conversation;
       }
+
+      for (const [subKey] of Object.entries(
+        unformatted_state[parentkey][key]
+      )) {
+        if (unformatted_state[parentkey][key][subKey].type === "checkboxes") {
+          unformatted_state["checkboxes"] =
+            unformatted_state[parentkey][key][subKey].selected_options;
+        }
+      }
     }
   }
 
@@ -24,6 +33,8 @@ const formatMessageState = (state) => {
   const keys = Object.keys(state.values);
   keys.map((key) => {
     const subKey = Object.keys(state.values[key])[0];
+
+    console.log(state.values[key][subKey].typ);
 
     if (state.values[key][subKey].type === "channels_select") {
       formattedObj.channels_select = state.values[key][subKey].selected_channel;
@@ -46,6 +57,6 @@ const insertAt = (array, index, ...elementsArray) => {
 };
 
 module.exports = {
-  formatReminderState,
+  formatState,
   formatMessageState,
 };
