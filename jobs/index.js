@@ -13,7 +13,7 @@ const sendDailyHabitMessage = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `50 14 * * *`,
+          `33 15 * * *`,
           async () => {
             try {
               // send each user dm with daily habit reminder
@@ -86,7 +86,7 @@ const dailyHabitBody = () => {
             emoji: true,
             text: "Accept",
           },
-          action_id: "submit_daily_habit-0",
+          action_id: "set_daily_habit-0",
           style: "primary",
           value: "approve",
         },
@@ -97,7 +97,7 @@ const dailyHabitBody = () => {
             emoji: true,
             text: "Deny",
           },
-          action_id: "submit_daily_habit-1",
+          action_id: "set_daily_habit-1",
           style: "danger",
           value: "deny",
         },

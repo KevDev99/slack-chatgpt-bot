@@ -1,7 +1,7 @@
 const { formatMessageState } = require("../../helper");
 const { updateUser, getTeamInformation } = require("../../database/db.js");
 
-const submitDailyHabit = async ({ ack, say, body, client }) => {
+const setHabit = async ({ ack, say, body, client }) => {
   await ack();
 
   // check if approve or deny
@@ -19,15 +19,15 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
         // View payload
         view: {
           type: "modal",
-          callback_id: "submit_daily_habit",
+          callback_id: "set_habit_target",
           title: {
             type: "plain_text",
-            text: "Set Your Habit",
+            text: "Set Your Habits",
             emoji: true,
           },
           submit: {
             type: "plain_text",
-            text: "Submit",
+            text: "Next",
             emoji: true,
           },
           close: {
@@ -37,14 +37,9 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
           },
           blocks: [
             {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "*Choose your daily habit:*",
-              },
-              accessory: {
-                type: "radio_buttons",
-                action_id: "show_habit_input",
+              type: "input",
+              element: {
+                type: "checkboxes",
                 options: [
                   {
                     text: {
@@ -88,6 +83,11 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
                   },
                 ],
               },
+              label: {
+                type: "plain_text",
+                text: "Choose your daily habits:",
+                emoji: true,
+              },
             },
           ],
         },
@@ -114,4 +114,4 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
   }
 };
 
-module.exports = { submitDailyHabit };
+module.exports = { setHabit };
