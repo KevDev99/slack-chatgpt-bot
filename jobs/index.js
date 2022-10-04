@@ -12,41 +12,46 @@ const sendDailyHabitMessage = async () => {
   teams.map(async (team) => {
     try {
       if (team.channel) {
-        cron.schedule(`41 13 * * *`, async () => {
-          try {
-            // send each user dm with daily habit reminder
-            const userListRes = await axios.get(
-              "https://slack.com/api/users.list",
-              {
-                headers: {
-                  Authorization: `Bearer ${team.bot.token}`,
-                },
-              }
-            );
-
-            const { members } = userListRes.data;
-
-          
-
-            members.map(async (teamMember) => {
-              const res = await axios.post(
-                "https://slack.com/api/chat.postMessage",
-                {
-                  text: "Daily Habit",
-                  channel: teamMember.id,
-                  blocks: dailyHabitBody(),
-                },
+        cron.schedule(
+          `50 14 * * *`,
+          async () => {
+            try {
+              // send each user dm with daily habit reminder
+              const userListRes = await axios.get(
+                "https://slack.com/api/users.list",
                 {
                   headers: {
                     Authorization: `Bearer ${team.bot.token}`,
                   },
                 }
               );
-            });
-          } catch (error) {
-            console.error(error);
+
+              const { members } = userListRes.data;
+
+              members.map(async (teamMember) => {
+                const res = await axios.post(
+                  "https://slack.com/api/chat.postMessage",
+                  {
+                    text: "Daily Habit",
+                    channel: teamMember.id,
+                    blocks: dailyHabitBody(),
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${team.bot.token}`,
+                    },
+                  }
+                );
+              });
+            } catch (error) {
+              console.error(error);
+            }
+          },
+          {
+            timezone: team.user_tz,
+            scheduled: true,
           }
-        });
+        );
       }
     } catch (error) {
       console.error(error);
@@ -68,7 +73,7 @@ const dailyHabitBody = () => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*time to set your daily habits!*",
+        text: "*Welcome to a new day! It’s time to set your healthy habit for the day.*",
       },
     },
     {
@@ -79,7 +84,7 @@ const dailyHabitBody = () => {
           text: {
             type: "plain_text",
             emoji: true,
-            text: "Approve",
+            text: "Accept",
           },
           action_id: "submit_daily_habit-0",
           style: "primary",

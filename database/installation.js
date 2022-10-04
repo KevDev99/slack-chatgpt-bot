@@ -10,14 +10,17 @@ const saveUserWorkspaceInstall = async (installation) => {
     const id = installation.team.id;
 
     // get users timezone
-    const {ok, user} = axios.get(
+    const {
+      data: { ok, user },
+    } = await axios.post(
       "https://slack.com/api/users.info",
       new URLSearchParams({
         user: installation.user.id,
+        token: installation.bot.token,
       })
     );
-    
-    if(!ok) throw 
+
+    if (!ok) throw "Error getting users info";
 
     const resp = await User.updateOne(
       { _id: id },
@@ -31,6 +34,7 @@ const saveUserWorkspaceInstall = async (installation) => {
           scopes: installation.user.scopes,
           id: installation.user.id,
         },
+        user_tz: user.tz,
         tokenType: installation.tokenType,
         isEnterpriseInstall: installation.isEnterpriseInstall,
         appId: installation.appId,
