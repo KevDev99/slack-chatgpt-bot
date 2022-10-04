@@ -8,7 +8,13 @@ const setHabitTarget = async ({ ack, say, body, client }) => {
   const [messageTs, channelId] = body.view.private_metadata;
 
   // get selected habits
-  console.log(formatState(body.view.state));
+  const {checkboxes: selectedHabits} = formatState(body.view.state);
+  
+  // loop through every selected habit and add input to select the target / goal value
+  selectedHabits.map(habit => {
+    if(habit)
+  })
+  
 };
 
 module.exports = { setHabitTarget };

@@ -18,7 +18,7 @@ const formatState = (unformatted_state) => {
         unformatted_state[parentkey][key]
       )) {
         if (unformatted_state[parentkey][key][subKey].type === "checkboxes") {
-          unformatted_state["checkboxes"] =
+          formatted_state["checkboxes"] =
             unformatted_state[parentkey][key][subKey].selected_options;
         }
       }
