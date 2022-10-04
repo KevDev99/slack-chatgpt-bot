@@ -3,10 +3,13 @@ const {
   updateUser,
   getHabitByName,
   createUserHabit,
+  getTeamInformation,
 } = require("../../database/db.js");
 
 const submitHabit = async ({ ack, say, body, client }) => {
   await ack();
+
+  let selectedTargets = "";
 
   const [messageTs, channelId, ...selectedHabits] =
     body.view.private_metadata.split(";");
@@ -17,15 +20,42 @@ const submitHabit = async ({ ack, say, body, client }) => {
   // send to db
   state.map((userHabit) => {
     userHabit.userId = body.user.id;
+    selectedTargets += userHabit.targetValue;
     createUserHabit(userHabit);
   });
-  
+
   // reply to user
   await client.chat.update({
     ts: messageTs,
     channel: channelId,
-    text: ""
-  })
+    text: "Very Nice! you have accepted the daily habit challenge!",
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Very Nice! you have accepted the daily habit challenge!",
+        },
+      },
+    ],
+  });
+
+  const teamChannelId = await getTeamInformation(body.team.id, "channel");
+
+  // notify channel
+  await client.chat.postMessage({
+    channel: teamChannelId,
+    text: `<@${body.user.id}> accepted new habits!`,
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `<@${body.user.id}> has accepted their daily habit of (${selectedTargets}). Cheer them on! 🤸🏻`,
+        },
+      },
+    ],
+  });
 };
 
 const formatBodyState = (state, selectedHabits) => {
