@@ -1,5 +1,5 @@
 const { formatMessageState } = require("../../helper");
-const { updateUser, getTeamInformation } = require("../../database/db.js");
+const { updateUser, getHabits } = require("../../database/db.js");
 
 const setHabit = async ({ ack, say, body, client }) => {
   await ack();
@@ -11,6 +11,11 @@ const setHabit = async ({ ack, say, body, client }) => {
 
   // set messagets and channel as private metadata to update the message later on
   const private_metadata = body.message.ts + ";" + body.channel.id;
+
+  // fetch all habits
+  const habits = await getHabits();
+
+  const habitsBlock = getHabitsBlock(habits);
 
   if (action.value === "approve") {
     // open modal to select daily habit
@@ -39,61 +44,7 @@ const setHabit = async ({ ack, say, body, client }) => {
             text: "Cancel",
             emoji: true,
           },
-          blocks: [
-            {
-              type: "input",
-              element: {
-                type: "checkboxes",
-                options: [
-                  {
-                    text: {
-                      type: "plain_text",
-                      text: "🥛 Drink Water",
-                      emoji: true,
-                    },
-                    value: "drink-water",
-                  },
-                  {
-                    text: {
-                      type: "plain_text",
-                      text: "🦶 Get steps in",
-                      emoji: true,
-                    },
-                    value: "get-steps-in",
-                  },
-                  {
-                    text: {
-                      type: "plain_text",
-                      text: "🤸‍♂️ Movement snack",
-                      emoji: true,
-                    },
-                    value: "movement-snack",
-                  },
-                  {
-                    text: {
-                      type: "plain_text",
-                      text: "🧠 Mindfulness activity",
-                      emoji: true,
-                    },
-                    value: "mindfulness-activity",
-                  },
-                  {
-                    text: {
-                      type: "plain_text",
-                      text: "🍱 Make balanced meals",
-                      emoji: true,
-                    },
-                    value: "make-balanced-meals",
-                  },
-                ],
-              },
-              label: {
-                type: "plain_text",
-                text: "Choose your daily habits:",
-                emoji: true,
-              },
-            },
-          ],
+          blocks: habitsBlock,
         },
       });
     } catch (error) {
@@ -116,6 +67,36 @@ const setHabit = async ({ ack, say, body, client }) => {
       ],
     });
   }
+};
+
+const getHabitsBlock = (habits) => {
+  const habitsBlock = [
+    {
+      type: "input",
+      element: {
+        type: "checkboxes",
+        options: [],
+      },
+      label: {
+        type: "plain_text",
+        text: "Choose Your Habits ",
+        emoji: true,
+      },
+    },
+  ];
+
+  habits.map((habit) => {
+    habitsBlock[0].element.options.push({
+      text: {
+        type: "plain_text",
+        text: habit.text,
+        emoji: true,
+      },
+      value: habit.value,
+    });
+  });
+
+  return habitsBlock;
 };
 
 module.exports = { setHabit };

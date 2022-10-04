@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
+const Habit = require("./models/habitModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -79,7 +80,23 @@ const getTeams = async function (filter = {}) {
   }
 };
 
+const getHabits = async function () {
+  try {
+    const habits = await Habit.find({});
+    return habits;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
+const getHabitByName = async function (name) {
+  try {
+    const habit = await Habit.findOne({ name });
+    return habit;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 module.exports = {
   connect,
@@ -88,4 +105,6 @@ module.exports = {
   getTeamBotToken,
   getTeamInformation,
   getTeams,
+  getHabits,
+  getHabitByName,
 };
