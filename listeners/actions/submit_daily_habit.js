@@ -13,19 +13,6 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
     // inform users in channel that the current user accepted the challenge
     const teamChannelId = await getTeamInformation(body.team.id, "channel");
 
-    await client.chat.postMessage({
-      channel: teamChannelId,
-      text: "user has accepted their daily habit challenge!",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `<@${body.user.id}> has accepted their daily habit challenge!`,
-          },
-        },
-      ],
-    });
 
     await client.chat.update({
       channel: body.channel.id,
