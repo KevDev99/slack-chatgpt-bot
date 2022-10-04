@@ -9,6 +9,16 @@ const saveUserWorkspaceInstall = async (installation) => {
     // the token will be also later needed to change the users status and to set the absence (pause notifications) special user scope
     const id = installation.team.id;
 
+    // get users timezone
+    const {ok, user} = axios.get(
+      "https://slack.com/api/users.info",
+      new URLSearchParams({
+        user: installation.user.id,
+      })
+    );
+    
+    if(!ok) throw 
+
     const resp = await User.updateOne(
       { _id: id },
       {

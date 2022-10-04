@@ -29,6 +29,27 @@ const submitChannel = async ({ ack, say, body, client }) => {
       token: installationUserToken,
     });
   } catch (err) {}
+  
+  // welcome message for bot
+  await client.chat.postMessage({
+    channel: formattedState.channels_select,
+    text: "👋 Welcome to BODZii",
+    blocks: [{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": `<@${body.user.id}> asked me to help you all stay healthy and happy! It’s time to work on your daily healthy habits. Every day you’ll have an opportunity to select a daily habit you’d like to complete. Get points by participating and work towards cool perks and prizes`
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Join in our first habit tomorrow at 9am!*"
+			}
+		}]
+  })
+  
 
   // update message
   await client.chat.update({
