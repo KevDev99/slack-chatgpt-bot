@@ -34,7 +34,7 @@ const formatMessageState = (state) => {
   keys.map((key) => {
     const subKey = Object.keys(state.values[key])[0];
 
-    console.log(state.values[key][subKey].typ);
+    console.log(state.values[key][subKey]);
 
     if (state.values[key][subKey].type === "channels_select") {
       formattedObj.channels_select = state.values[key][subKey].selected_channel;

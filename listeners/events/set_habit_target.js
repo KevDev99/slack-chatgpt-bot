@@ -6,7 +6,7 @@ const setHabitTarget = async ({ ack, say, body, client }) => {
   let metadata = "";
 
   // add message ts and channel id to the metadata
-  metadata = body.view.privatemetadata;
+  metadata = body.view.private_metadata;
 
   // get selected habits
   const { checkboxes: selectedHabits } = formatState(body.view.state);
@@ -21,7 +21,7 @@ const setHabitTarget = async ({ ack, say, body, client }) => {
     updateBlock = updateBlock.concat([...habit.inputBlock]);
 
     // add selected value of habit to  metadata
-    metadata = metadata + ";" + habit.value;
+    metadata = metadata + ";" + habit.name;
   }
 
   const newView = {

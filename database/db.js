@@ -98,6 +98,11 @@ const getHabitByName = async function (name) {
   }
 };
 
+const creatUserHabit = async function (userHabit) {
+  const habitName = Object.keys(userHabit)[0];
+  const habitTarget = userHabit
+}
+
 module.exports = {
   connect,
   getUser,
