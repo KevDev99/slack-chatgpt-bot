@@ -1,9 +1,8 @@
 const { appHomeOpened } = require("./app_home_opened.js");
-const { submitTodo } = require("./submit_todo.js");
-const { deleteTodo } = require("./delete_todo.js");
+const { setHabitTarget } = require("./set_habit_target.js");
 
 module.exports.register = (app) => {
   app.event("app_home_opened", appHomeOpened);
-  app.view("submit_todo", submitTodo);
-  app.view("delete_todo", deleteTodo);
+  app.view("set_habit_target", setHabitTarget);
 };
+

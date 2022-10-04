@@ -9,6 +9,9 @@ const setHabit = async ({ ack, say, body, client }) => {
 
   if (!action) return;
 
+  // set messagets and channel as private metadata to update the message later on
+  const private_metadata = body.message.ts + ";" + body.channel.id;
+
   if (action.value === "approve") {
     // open modal to select daily habit
     try {
@@ -19,6 +22,7 @@ const setHabit = async ({ ack, say, body, client }) => {
         // View payload
         view: {
           type: "modal",
+          private_metadata: private_metadata,
           callback_id: "set_habit_target",
           title: {
             type: "plain_text",
