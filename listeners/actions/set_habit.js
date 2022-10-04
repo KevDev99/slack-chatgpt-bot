@@ -92,7 +92,7 @@ const getHabitsBlock = (habits) => {
         text: habit.text,
         emoji: true,
       },
-      value: habit.value,
+      value: habit.name,
     });
   });
 
