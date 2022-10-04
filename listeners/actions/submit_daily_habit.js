@@ -19,49 +19,79 @@ const submitDailyHabit = async ({ ack, say, body, client }) => {
         // View payload
         view: {
           type: "modal",
-          // View identifier
-          callback_id: "view_1",
+          callback_id: "submit_daily_habit",
           title: {
             type: "plain_text",
-            text: "Open Modal",
+            text: "Set Your Habit",
+            emoji: true,
+          },
+          submit: {
+            type: "plain_text",
+            text: "Submit",
+            emoji: true,
+          },
+          close: {
+            type: "plain_text",
+            text: "Cancel",
+            emoji: true,
           },
           blocks: [
             {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "Welcome to a modal with _blocks_",
+                text: "*Choose your daily habit:*",
               },
               accessory: {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  text: "Click me!",
-                },
-                action_id: "button_abc",
-              },
-            },
-            {
-              type: "input",
-              block_id: "input_c",
-              label: {
-                type: "plain_text",
-                text: "What are your hopes and dreams?",
-              },
-              element: {
-                type: "plain_text_input",
-                action_id: "dreamy_input",
-                multiline: true,
+                type: "radio_buttons",
+                action_id: "show_habit_input",
+                options: [
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "🥛 Drink Water",
+                      emoji: true,
+                    },
+                    value: "drink-water",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "🦶 Get steps in",
+                      emoji: true,
+                    },
+                    value: "get-steps-in",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "🤸‍♂️ Movement snack",
+                      emoji: true,
+                    },
+                    value: "movement-snack",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "🧠 Mindfulness activity",
+                      emoji: true,
+                    },
+                    value: "mindfulness-activity",
+                  },
+                  {
+                    text: {
+                      type: "plain_text",
+                      text: "🍱 Make balanced meals",
+                      emoji: true,
+                    },
+                    value: "make-balanced-meals",
+                  },
+                ],
               },
             },
           ],
-          submit: {
-            type: "plain_text",
-            text: "Submit",
-          },
         },
       });
-     
     } catch (error) {
       console.error(error);
     }
