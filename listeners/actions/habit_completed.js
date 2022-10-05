@@ -11,14 +11,40 @@ const habitCompleted = async ({ ack, say, body, client }) => {
 
   // update on the db
   updateDailyUserHabit(userHabitId, { completed });
-  
+
   // send message back to user
-  if(completed) {
-    client.chat.update({
-      ts: body.message.ts,
-      
-    })
+  let messageBlock = [];
+  let text = "";
+  if (completed) {
+    text = "🎉 *Great news! You get 1 point for the day!*";
+    messageBlock = [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "🎉 *Great news! You get 1 point for the day!*",
+        },
+      },
+    ];
+  } else {
+    text = "No worries, let’s try again tomorrow!";
+    messageBlock = [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "No worries, let’s try again tomorrow!",
+        },
+      },
+    ];
   }
+
+  client.chat.update({
+    ts: body.message.ts,
+    channel: body.channel.id,
+    text,
+    blocks: messageBlock,
+  });
 };
 
 module.exports = { habitCompleted };

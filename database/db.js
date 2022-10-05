@@ -148,4 +148,5 @@ module.exports = {
   getHabits,
   getHabitByName,
   createUserHabit,
+  updateDailyUserHabit
 };

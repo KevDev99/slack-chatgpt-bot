@@ -2,6 +2,7 @@ const {
   getTeams,
   getDailyUserHabits,
   getTeamInformation,
+  updateDailyUserHabit,
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -18,7 +19,7 @@ const sendDailyHabitMessage = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `52 08 * * *`,
+          `40 09 * * *`,
           async () => {
             try {
               // send each user dm with daily habit reminder
@@ -69,7 +70,7 @@ const checkIfDailyHabitsAreDone = async () => {
     const teams = await getTeams();
     teams.map(async (team) => {
       cron.schedule(
-        `18 09 * * *`,
+        `44 09 * * *`,
         async () => {
           // get open daily habits
           const openDailyUserHabits = await getDailyUserHabits({
@@ -86,7 +87,7 @@ const checkIfDailyHabitsAreDone = async () => {
           // loop through all open habits and set status to "closed" (true), and also send message to the user if he has completed the habit
           openDailyUserHabits.map(async (dailyUserHabit) => {
             // send user dm if he has completed the habit or not
-            const res = await axios.post(
+            await axios.post(
               "https://slack.com/api/chat.postMessage",
               {
                 channel: dailyUserHabit.user_id,
@@ -147,7 +148,9 @@ const checkIfDailyHabitsAreDone = async () => {
                 },
               }
             );
-     
+
+            // close status
+            updateDailyUserHabit(dailyUserHabit._id, { status: true });
           });
         },
         {
