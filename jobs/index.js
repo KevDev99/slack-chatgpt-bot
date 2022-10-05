@@ -19,7 +19,7 @@ const sendDailyHabitMessage = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `40 09 * * *`,
+          `53 07 * * *`,
           async () => {
             try {
               // send each user dm with daily habit reminder
@@ -70,7 +70,7 @@ const checkIfDailyHabitsAreDone = async () => {
     const teams = await getTeams();
     teams.map(async (team) => {
       cron.schedule(
-        `44 09 * * *`,
+        `51 07 * * *`,
         async () => {
           // get open daily habits
           const openDailyUserHabits = await getDailyUserHabits({
