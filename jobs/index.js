@@ -1,4 +1,8 @@
-const { getTeams, getDailyUserHabits } = require("../database/db.js");
+const {
+  getTeams,
+  getDailyUserHabits,
+  getTeamInformation,
+} = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
 
@@ -65,68 +69,85 @@ const checkIfDailyHabitsAreDone = async () => {
     const teams = await getTeams();
     teams.map(async (team) => {
       cron.schedule(
-        `10 10 * * *`,
+        `18 09 * * *`,
         async () => {
           // get open daily habits
           const openDailyUserHabits = await getDailyUserHabits({
             status: false,
             team_id: team.team.id,
           });
-          
+
           // get team bot token
-          const teamBotToken = await getTeamInformation(team.team.id, "bot.token")
+          const teamBotToken = await getTeamInformation(
+            team.team.id,
+            "bot.token"
+          );
 
           // loop through all open habits and set status to "closed" (true), and also send message to the user if he has completed the habit
           openDailyUserHabits.map(async (dailyUserHabit) => {
             // send user dm if he has completed the habit or not
-            await axios.post("", {
-              channel: dailyUserHabit.user_id,
-              text: "Have you completed your daily habit?",
-              token: teamBotToken,
-              blocks: [
-                {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: "*Have you completed your habit today?*",
+            const res = await axios.post(
+              "https://slack.com/api/chat.postMessage",
+              {
+                channel: dailyUserHabit.user_id,
+                text: "Have you completed your daily habit?",
+                metadata: {
+                  event_type: "habit_closed",
+                  event_payload: {
+                    userHabitId: dailyUserHabit._id,
                   },
                 },
-                {
-                  type: "section",
-                  text: {
-                    type: "mrkdwn",
-                    text: "2 cups",
+                blocks: [
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: "*Have you completed your habit today?*",
+                    },
                   },
-                },
-                {
-                  type: "actions",
-                  elements: [
-                    {
-                      type: "button",
-                      text: {
-                        type: "plain_text",
-                        emoji: true,
-                        text: "Yes!",
-                      },
-                      style: "primary",
-                      value: "yes",
-                      action_id: "habit_completed-0",
+                  {
+                    type: "section",
+                    text: {
+                      type: "mrkdwn",
+                      text: dailyUserHabit.targetText,
                     },
-                    {
-                      type: "button",
-                      text: {
-                        type: "plain_text",
-                        emoji: true,
-                        text: "No",
+                  },
+                  {
+                    type: "actions",
+                    elements: [
+                      {
+                        type: "button",
+                        text: {
+                          type: "plain_text",
+                          emoji: true,
+                          text: "Yes!",
+                        },
+                        style: "primary",
+                        value: "yes",
+                        action_id: "habit_completed-0",
                       },
-                      style: "danger",
-                      value: "no",
-                      action_id: "habit_completed-1",
-                    },
-                  ],
+                      {
+                        type: "button",
+                        text: {
+                          type: "plain_text",
+                          emoji: true,
+                          text: "No",
+                        },
+                        style: "danger",
+                        value: "no",
+                        action_id: "habit_completed-1",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${teamBotToken}`,
                 },
-              ],
-            });
+              }
+            );
+            console.log(res);
           });
         },
         {
