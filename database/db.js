@@ -124,10 +124,18 @@ const getDailyUserHabits = async function (filter) {
   try {
     const dailyUserHabits = await UserHabit.find(filter);
     return dailyUserHabits;
-  } catch(error) {
+  } catch (error) {
     console.error(error);
   }
-}
+};
+
+const updateDailyUserHabit = async function (id, field) {
+  try {
+    await UserHabit.updateOne({ _id: id }, field);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 module.exports = {
   connect,

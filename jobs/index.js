@@ -62,11 +62,79 @@ const sendDailyHabitMessage = async () => {
 
 const checkIfDailyHabitsAreDone = async () => {
   try {
-    // get open daily habits
-    const openDailyUserHabits = await getDailyUserHabits({ status: false });
+    const teams = await getTeams();
+    teams.map(async (team) => {
+      cron.schedule(
+        `10 10 * * *`,
+        async () => {
+          // get open daily habits
+          const openDailyUserHabits = await getDailyUserHabits({
+            status: false,
+            team_id: team.team.id,
+          });
+          
+          // get team bot token
+          const teamBotToken = await getTeamInformation(team.team.id, "bot.token")
 
-    // loop through all open habits and set status to "closed" (true), and also send 
-    
+          // loop through all open habits and set status to "closed" (true), and also send message to the user if he has completed the habit
+          openDailyUserHabits.map(async (dailyUserHabit) => {
+            // send user dm if he has completed the habit or not
+            await axios.post("", {
+              channel: dailyUserHabit.user_id,
+              text: "Have you completed your daily habit?",
+              token: teamBotToken,
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: "*Have you completed your habit today?*",
+                  },
+                },
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: "2 cups",
+                  },
+                },
+                {
+                  type: "actions",
+                  elements: [
+                    {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        emoji: true,
+                        text: "Yes!",
+                      },
+                      style: "primary",
+                      value: "yes",
+                      action_id: "habit_completed-0",
+                    },
+                    {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        emoji: true,
+                        text: "No",
+                      },
+                      style: "danger",
+                      value: "no",
+                      action_id: "habit_completed-1",
+                    },
+                  ],
+                },
+              ],
+            });
+          });
+        },
+        {
+          timezone: team.user_tz,
+          scheduled: true,
+        }
+      );
+    });
   } catch (error) {
     console.error(error);
   }
