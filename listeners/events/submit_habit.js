@@ -20,7 +20,7 @@ const submitHabit = async ({ ack, say, body, client }) => {
   state.map((userHabit, index) => {
     userHabit.userId = body.user.id;
     let targetText = userHabit.targetText;
-    if (index < state.length - 1) targetText += ",";
+    if (index < state.length - 1) targetText += ", ";
     selectedTargetsText += targetText;
     createUserHabit(userHabit);
   });

@@ -99,10 +99,10 @@ const getHabitByName = async function (name) {
   }
 };
 
-const createUserHabit = async function ({ habitName, targetValue, userId }) {
+const createUserHabit = async function ({ name, targetValue, userId }) {
   try {
     // add user habit to database
-    await UserHabit.create({ habitName, targetValue, user_id: userId });
+    await UserHabit.create({ habitName: name, targetValue, user_id: userId });
   } catch (err) {
     console.error(err);
   }
