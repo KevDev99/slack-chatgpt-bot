@@ -17,9 +17,11 @@ const submitHabit = async ({ ack, say, body, client }) => {
   const state = formatBodyState(body.view.state, selectedHabits);
 
   // send to db
-  state.map((userHabit) => {
+  state.map((userHabit, index) => {
     userHabit.userId = body.user.id;
-    selectedTargetsText += userHabit.targetText;
+    let targetText = userHabit.targetText;
+    if (index < state.length - 1) targetText += ",";
+    selectedTargetsText += targetText;
     createUserHabit(userHabit);
   });
 
@@ -50,7 +52,7 @@ const submitHabit = async ({ ack, say, body, client }) => {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `<@${body.user.id}> has accepted their daily habit of (${selectedTargets}). Cheer them on! 🤸🏻`,
+          text: `<@${body.user.id}> has accepted their daily habit of (${selectedTargetsText}). Cheer them on! 🤸🏻`,
         },
       },
     ],
