@@ -147,7 +147,7 @@ const checkIfDailyHabitsAreDone = async () => {
                 },
               }
             );
-            console.log(res);
+     
           });
         },
         {
