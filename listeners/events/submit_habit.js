@@ -19,6 +19,7 @@ const submitHabit = async ({ ack, say, body, client }) => {
   // send to db
   state.map((userHabit, index) => {
     userHabit.userId = body.user.id;
+    userHabit.teamId = body.team.id;
     let targetText = userHabit.targetText;
     if (index < state.length - 1) targetText += ", ";
     selectedTargetsText += targetText;

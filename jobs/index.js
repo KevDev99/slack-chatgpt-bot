@@ -1,9 +1,10 @@
-const { getTeams } = require("../database/db.js");
+const { getTeams, getDailyUserHabits } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
 
 const registerJobs = () => {
   sendDailyHabitMessage();
+  checkIfDailyHabitsAreDone();
 };
 
 const sendDailyHabitMessage = async () => {
@@ -13,7 +14,7 @@ const sendDailyHabitMessage = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `44 08 * * *`,
+          `52 08 * * *`,
           async () => {
             try {
               // send each user dm with daily habit reminder
@@ -57,6 +58,18 @@ const sendDailyHabitMessage = async () => {
       console.error(error);
     }
   });
+};
+
+const checkIfDailyHabitsAreDone = async () => {
+  try {
+    // get open daily habits
+    const openDailyUserHabits = await getDailyUserHabits({ status: false });
+
+    // loop through all open habits and set status to "closed" (true), and also send 
+    
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const dailyHabitBody = () => {

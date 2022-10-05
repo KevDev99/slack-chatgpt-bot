@@ -99,14 +99,35 @@ const getHabitByName = async function (name) {
   }
 };
 
-const createUserHabit = async function ({ name, targetValue, userId }) {
+const createUserHabit = async function ({
+  name,
+  targetValue,
+  targetText,
+  userId,
+  teamId,
+}) {
   try {
     // add user habit to database
-    await UserHabit.create({ habitName: name, targetValue, user_id: userId });
+    await UserHabit.create({
+      habitName: name,
+      targetValue,
+      targetText,
+      user_id: userId,
+      team_id: teamId,
+    });
   } catch (err) {
     console.error(err);
   }
 };
+
+const getDailyUserHabits = async function (filter) {
+  try {
+    const dailyUserHabits = await UserHabit.find(filter);
+    return dailyUserHabits;
+  } catch(error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   connect,
@@ -114,6 +135,7 @@ module.exports = {
   updateUser,
   getTeamBotToken,
   getTeamInformation,
+  getDailyUserHabits,
   getTeams,
   getHabits,
   getHabitByName,
