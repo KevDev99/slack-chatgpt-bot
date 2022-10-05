@@ -9,8 +9,7 @@ const {
 const submitHabit = async ({ ack, say, body, client }) => {
   await ack();
 
-  let selectedTargets = "";
-
+  let selectedTargetsText = "";
   const [messageTs, channelId, ...selectedHabits] =
     body.view.private_metadata.split(";");
 
@@ -20,7 +19,7 @@ const submitHabit = async ({ ack, say, body, client }) => {
   // send to db
   state.map((userHabit) => {
     userHabit.userId = body.user.id;
-    selectedTargets += userHabit.targetValue;
+    selectedTargetsText += userHabit.targetText;
     createUserHabit(userHabit);
   });
 
@@ -68,6 +67,7 @@ const formatBodyState = (state, selectedHabits) => {
       formattedState.push({
         name: selectedHabits[index],
         targetValue: state.values[key][subKey].selected_option.value,
+        targetText: state.values[key][subKey].selected_option.text.text,
       });
     }
   });

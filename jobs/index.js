@@ -13,7 +13,7 @@ const sendDailyHabitMessage = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `33 15 * * *`,
+          `11 08 * * *`,
           async () => {
             try {
               // send each user dm with daily habit reminder

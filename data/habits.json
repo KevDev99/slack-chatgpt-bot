@@ -16,7 +16,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "1",
+                "text": "1 cup",
                 "emoji": true
               },
               "value": "1"
@@ -24,7 +24,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "2",
+                "text": "2 cups",
                 "emoji": true
               },
               "value": "2"
@@ -32,15 +32,23 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "4",
+                "text": "3 cups",
                 "emoji": true
               },
-              "value": "4"
+              "value": "3"
             },
             {
               "text": {
                 "type": "plain_text",
-                "text": "5",
+                "text": "4 cups",
+                "emoji": true
+              },
+              "value": "4 cups"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "5 cups",
                 "emoji": true
               },
               "value": "5"
@@ -48,7 +56,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "6",
+                "text": "6 cups",
                 "emoji": true
               },
               "value": "6"
@@ -56,7 +64,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "7",
+                "text": "7 cups",
                 "emoji": true
               },
               "value": "7"
@@ -64,7 +72,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "8",
+                "text": "8 cups",
                 "emoji": true
               },
               "value": "8"
@@ -72,7 +80,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "9",
+                "text": "9 cups",
                 "emoji": true
               },
               "value": "9"
@@ -80,7 +88,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "10",
+                "text": "10 cups",
                 "emoji": true
               },
               "value": "10"
@@ -113,7 +121,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "1000",
+                "text": "1000 steps",
                 "emoji": true
               },
               "value": "1000"
@@ -121,7 +129,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "2000",
+                "text": "2000 steps",
                 "emoji": true
               },
               "value": "2000"
@@ -129,7 +137,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "3000",
+                "text": "3000 steps",
                 "emoji": true
               },
               "value": "3000"
@@ -137,7 +145,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "5000",
+                "text": "5000 steps",
                 "emoji": true
               },
               "value": "5000"
@@ -145,7 +153,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "6000",
+                "text": "6000 steps",
                 "emoji": true
               },
               "value": "6000"
@@ -153,7 +161,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "7000",
+                "text": "7000 steps",
                 "emoji": true
               },
               "value": "7000"
@@ -161,7 +169,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "8000",
+                "text": "8000 steps",
                 "emoji": true
               },
               "value": "8000"
@@ -169,7 +177,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "9000",
+                "text": "9000 steps",
                 "emoji": true
               },
               "value": "9000"
@@ -177,7 +185,7 @@
             {
               "text": {
                 "type": "plain_text",
-                "text": "10000",
+                "text": "10000 steps",
                 "emoji": true
               },
               "value": "10000"
