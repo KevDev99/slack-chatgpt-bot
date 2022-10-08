@@ -75,6 +75,16 @@ const app = new App({
     directInstall: true,
     userScopes: ["channels:write"],
   },
+  customRoutes: [
+    {
+      path: "/",
+      method: ["GET"],
+      handler: (req, res) => {
+        res.writeHead(200);
+        res.end("Endpoint working OK");
+      },
+    },
+  ],
 });
 
 // connect to db
