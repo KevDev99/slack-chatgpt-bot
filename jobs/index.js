@@ -170,12 +170,11 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if (team._id !== "T01JNNW3ZFD") return;
+
     try {
       if (team.channel) {
-        // 00 10 * * WED
         cron.schedule(
-          `* * * * *`,
+          `00 10 * * WED`,
           async () => {
             try {
               const randomUsers = await getRandomUsers(2, team._id);
@@ -257,7 +256,16 @@ const dailyHabitBody = async () => {
 };
 
 const challengeBody = (randomUsers) => {
-  const block = [];
+  const block = [
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "🤺 Challenge Time",
+        emoji: true,
+      },
+    },
+  ];
 
   block.push({
     type: "section",
