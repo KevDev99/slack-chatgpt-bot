@@ -154,23 +154,26 @@ const updateDailyUserHabit = async function (id, field) {
   }
 };
 
-const getRandomUsers = async (amount = 2, filter) => {
+const getRandomUsers = async (amount = 2, teamId) => {
   try {
-    const dailyUserHabitsScores = await UserHabit.aggregate([
-      { $match: filter },
+    const usersGrouped = await UserHabit.aggregate([
+      { $match: { team_id: teamId } },
       {
         $group: {
           _id: "$user_id",
-          count: { $sum: 1 }, // this means that the count will increment by 1
         },
       },
     ]);
     
-    const random = Math.floor(Math.random() * dailyUserHabitsScores.length);
-
+    const randomUsers = [];
     
-    console.log(random);
-    return [];
+    for (let i = 1; i <= amount; i++) {
+      let random = Math.floor(Math.random() * (usersGrouped.length-1));
+      
+      console.log(random);
+    }
+
+    return randomUsers;
   } catch (error) {
     console.error(error);
   }
@@ -189,5 +192,5 @@ module.exports = {
   createUserHabit,
   updateDailyUserHabit,
   getDailyUserHabitsScores,
-  getRandomUsers
+  getRandomUsers,
 };

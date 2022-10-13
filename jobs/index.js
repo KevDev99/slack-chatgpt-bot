@@ -11,6 +11,7 @@ const axios = require("axios");
 const registerJobs = () => {
   sendDailyHabitMessage();
   checkIfDailyHabitsAreDone();
+  challengeTime();
 };
 
 const sendDailyHabitMessage = async () => {
@@ -169,13 +170,15 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
+    if(team._id !== "T01JNNW3ZFD") return;
     try {
       if (team.channel) {
+        // 00 10 * * WED
         cron.schedule(
-          `00  * * WED`,
+          `* * * * *`,
           async () => {
             try {
-              const users = await getRandomUsers();
+              const users = await getRandomUsers(2, team._id);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
