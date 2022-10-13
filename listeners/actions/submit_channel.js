@@ -37,7 +37,7 @@ const submitChannel = async ({ ack, say, body, client }) => {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": `<@${body.user.id}> asked me to help you all stay healthy and happy! It’s time to work on your daily healthy habits. Every day you’ll have an opportunity to select a daily habit you’d like to complete. Get points by participating and work towards cool perks and prizes`
+				"text": `Hey everyone! <@${body.user.id}> asked me to help you all stay healthy and happy! It’s time to make your daily healthy habits a priority to keep you feeling energized and clear-minded throughout your busy day. Every morning, you’ll have an opportunity to select one or multiple daily habits you’d like to complete! I’ll ping you at 6pm local time to see if you’ve completed them! Each day you’ll get point(s) for every habit you complete! Let’s see who becomes the habit King or Queen! Join in on our first habit tomorrow at 9am!`
 			}
 		},
 		{

@@ -164,6 +164,14 @@ const checkIfDailyHabitsAreDone = async () => {
   }
 };
 
+const challengeTime = async () => {
+  try {
+    
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 const dailyHabitBody = () => {
   return [
     {
