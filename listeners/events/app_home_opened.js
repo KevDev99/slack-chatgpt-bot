@@ -3,7 +3,6 @@ const { getDailyUserHabitsScores } = require("../../database/db.js");
 const moment = require("moment");
 
 const appHomeOpened = async ({ event, client, body, say, context }) => {
-
   const appHomeBlock = await getAppHome(body.authorizations[0].team_id);
 
   try {
@@ -42,18 +41,26 @@ const getAppHome = async (teamId) => {
     completed: true,
     status: true,
   });
+  
 
-  userHabitsScores.map((userHabit, index) => {
+  for (const userHabit of userHabitsScores.sort(compare)) {
     block.push({
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*${index + 1}. <@${userHabit._id}> (${userHabit.count} points)*`,
+        text: `*${userHabitsScores.indexOf(userHabit) + 1}. <@${
+          userHabit._id
+        }> (${userHabit.count} points)*`,
       },
     });
-  });
+  }
 
   return block;
 };
 
+function compare(a, b) {
+  if (a.count > b.count) return -1;
+  if (a.count < b.count) return 1;
+  return 0;
+}
 module.exports = { appHomeOpened };
