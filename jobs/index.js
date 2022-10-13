@@ -3,6 +3,7 @@ const {
   getDailyUserHabits,
   getTeamInformation,
   updateDailyUserHabit,
+  getRandomUsers,
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -165,14 +166,47 @@ const checkIfDailyHabitsAreDone = async () => {
 };
 
 const challengeTime = async () => {
-  try {
-    
-  } catch(error) {
-    console.error(error);
-  }
-}
+  const teams = await getTeams();
 
-const dailyHabitBody = () => {
+  teams.map(async (team) => {
+    try {
+      if (team.channel) {
+        cron.schedule(
+          `00  * * WED`,
+          async () => {
+            try {
+              const users = await getRandomUsers();
+
+              const res = await axios.post(
+                "https://slack.com/api/chat.postMessage",
+                {
+                  text: "Daily Habit",
+                  channel: "teamMember.id",
+                  blocks: challengeBody(),
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${team.bot.token}`,
+                  },
+                }
+              );
+            } catch (error) {
+              console.error(error);
+            }
+          },
+          {
+            timezone: team.user_tz,
+            scheduled: true,
+          }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+};
+
+const dailyHabitBody = async () => {
   return [
     {
       type: "header",
@@ -217,6 +251,12 @@ const dailyHabitBody = () => {
       ],
     },
   ];
+};
+
+const challengeBody = () => {
+  const block = [];
+
+  return block;
 };
 
 module.exports = registerJobs;

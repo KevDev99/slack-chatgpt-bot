@@ -154,6 +154,28 @@ const updateDailyUserHabit = async function (id, field) {
   }
 };
 
+const getRandomUsers = async (amount = 2, filter) => {
+  try {
+    const dailyUserHabitsScores = await UserHabit.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: "$user_id",
+          count: { $sum: 1 }, // this means that the count will increment by 1
+        },
+      },
+    ]);
+    
+    const random = Math.floor(Math.random() * dailyUserHabitsScores.length);
+
+    
+    console.log(random);
+    return [];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 module.exports = {
   connect,
   getUser,
@@ -166,5 +188,6 @@ module.exports = {
   getHabitByName,
   createUserHabit,
   updateDailyUserHabit,
-  getDailyUserHabitsScores
+  getDailyUserHabitsScores,
+  getRandomUsers
 };
