@@ -164,13 +164,18 @@ const getRandomUsers = async (amount = 2, teamId) => {
         },
       },
     ]);
-    
+
     const randomUsers = [];
-    
+
     for (let i = 1; i <= amount; i++) {
-      let random = Math.floor(Math.random() * (usersGrouped.length-1));
+      let random = Math.floor(Math.random() * (usersGrouped.length - 1));
       
-      console.log(random);
+      
+      if (!randomUsers.includes[usersGrouped[random]._id]) {
+        randomUsers.push(usersGrouped[random]._id);
+      } else {
+        i--;
+      }
     }
 
     return randomUsers;

@@ -170,7 +170,7 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if(team._id !== "T01JNNW3ZFD") return;
+    if (team._id !== "T01JNNW3ZFD") return;
     try {
       if (team.channel) {
         // 00 10 * * WED
@@ -178,14 +178,14 @@ const challengeTime = async () => {
           `* * * * *`,
           async () => {
             try {
-              const users = await getRandomUsers(2, team._id);
+              const randomUsers = await getRandomUsers(2, team._id);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
-                  text: "Daily Habit",
-                  channel: "teamMember.id",
-                  blocks: challengeBody(),
+                  text: "🤺 Challenge Time",
+                  channel: team.channel,
+                  blocks: challengeBody(randomUsers),
                 },
                 {
                   headers: {
@@ -256,8 +256,16 @@ const dailyHabitBody = async () => {
   ];
 };
 
-const challengeBody = () => {
+const challengeBody = (randomUsers) => {
   const block = [];
+
+  block.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `Welcome to a new week! This week I select <@${randomUsers[0]}> and <@${randomUsers[1]}> to face off! You have the next 7 days to accumulate your habit points and climb the leaderboard. Let’s see who comes out on top! The loser owes the winner a ☕ ! `,
+    },
+  });
 
   return block;
 };
