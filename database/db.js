@@ -129,6 +129,23 @@ const getDailyUserHabits = async function (filter) {
   }
 };
 
+const getDailyUserHabitsScores = async function (filter) {
+  try {
+    const dailyUserHabitsScores = await UserHabit.aggregate([
+      { $match: filter },
+      {
+        $group: {
+          _id: "$user_id",
+          count: { $sum: 1 }, // this means that the count will increment by 1
+        },
+      },
+    ]);
+    return dailyUserHabitsScores;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const updateDailyUserHabit = async function (id, field) {
   try {
     await UserHabit.updateOne({ _id: id }, field);
@@ -148,5 +165,6 @@ module.exports = {
   getHabits,
   getHabitByName,
   createUserHabit,
-  updateDailyUserHabit
+  updateDailyUserHabit,
+  getDailyUserHabitsScores
 };
