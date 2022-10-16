@@ -4,7 +4,8 @@ const {
   getTeamInformation,
   updateDailyUserHabit,
   getRandomUsers,
-  addChallenge
+  addChallenge,
+  getLatestChallenge
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -171,16 +172,16 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if(team._id !== "") return;
+    if (team._id !== "T01JNNW3ZFD") return;
     try {
       if (team.channel) {
         cron.schedule(
-          `00 10 * * WED`,
+          `36 15 * * SUN`,
           async () => {
             try {
               const randomUsers = await getRandomUsers(2, team._id);
-              
-              addChallenge(randomUsers[0], randomUsers[1])
+
+              addChallenge(randomUsers[0], randomUsers[1]);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
@@ -188,6 +189,48 @@ const challengeTime = async () => {
                   text: "🤺 Challenge Time",
                   channel: team.channel,
                   blocks: challengeBody(randomUsers),
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${team.bot.token}`,
+                  },
+                }
+              );
+            } catch (error) {
+              console.error(error);
+            }
+          },
+          {
+            timezone: team.user_tz,
+            scheduled: true,
+          }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+};
+
+const challengeEnding = async () => {
+  const teams = await getTeams();
+
+  teams.map(async (team) => {
+    if (team._id !== "T01JNNW3ZFD") return;
+    try {
+      if (team.channel) {
+        cron.schedule(
+          `00 10 * * TUE`,
+          async () => {
+            try {
+              const challenge = await getLatestChallenge(team._id);
+
+              const res = await axios.post(
+                "https://slack.com/api/chat.postMessage",
+                {
+                  text: "🤺 Challenge Time",
+                  channel: team.channel,
+                  blocks: challengeEndBody(challenge),
                 },
                 {
                   headers: {
@@ -280,5 +323,29 @@ const challengeBody = (randomUsers) => {
 
   return block;
 };
+
+const challengeBody = (randomUsers) => {
+  const block = [
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "🤺 Challenge Time",
+        emoji: true,
+      },
+    },
+  ];
+
+  block.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `Welcome to a new week! This week I select <@${randomUsers[0]}> and <@${randomUsers[1]}> to face off! You have the next 7 days to accumulate your habit points and climb the leaderboard. Let’s see who comes out on top! The loser owes the winner a ☕ ! `,
+    },
+  });
+
+  return block;
+};
+
 
 module.exports = registerJobs;

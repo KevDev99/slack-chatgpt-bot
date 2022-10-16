@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const challengeSchema = mongoose.Schema(
   {
-    _id: String,
     firstUserId: String,
     secondUserId: String,
     open: Boolean,
+    teamId: String,
   },
   {
     timestamps: true,
