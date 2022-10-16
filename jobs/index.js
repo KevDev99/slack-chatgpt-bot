@@ -6,7 +6,7 @@ const {
   getRandomUsers,
   addChallenge,
   getLatestChallenge,
-  getDailyUserHabitsScores
+  getDailyUserHabitsScores,
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -222,19 +222,36 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `50 15 * * SUN`,
+          `02 16 * * SUN`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
-              const userScores = await getDailyUserHabitsScores({user_id: [challenge.firstUserId, challenge.secondUserId]});
+              console.log(challenge);
 
-              console.log(userScores);
+              const userScores = await getDailyUserHabitsScores({
+                user_id: {
+                  $in: [challenge.firstUserId, challenge.secondUserId],
+                },
+                completed: true,
+              });
+
+              let winner;
+              let looser;
+
+              if (userScores[0].count > userScores[1].count) {
+                winner = userScores[0]._id;
+                looser = userScores[1]._id;
+              } else {
+                winner = userScores[1]._id;
+                looser = userScores[0]._id;
+              }
+
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
                   text: "🥇 Winner Of The Weeks Habit Challenge",
                   channel: team.channel,
-                  blocks: challengeEndBody(challenge),
+                  blocks: challengeEndBody(challenge, winner, looser),
                 },
                 {
                   headers: {
@@ -328,7 +345,7 @@ const challengeBody = (randomUsers) => {
   return block;
 };
 
-const challengeEndBody = (challenge) => {
+const challengeEndBody = (challenge, winnerId, looserId) => {
   const block = [
     {
       type: "header",
@@ -344,13 +361,11 @@ const challengeEndBody = (challenge) => {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `Drum roll please…\n
-      _______ is the winner of this weeks habit challenge! Looks like ____ owes you a coffee!`,
+      text: `Drum roll please…\n*<@${winnerId}>* is the winner of this weeks habit challenge! Looks like <@${looserId}> owes you a ☕!`,
     },
   });
 
   return block;
 };
-
 
 module.exports = registerJobs;
