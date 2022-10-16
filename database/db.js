@@ -186,12 +186,12 @@ const getRandomUsers = async (amount = 2, teamId) => {
 
 const getLatestChallenge = async (teamId) => {
   try {
-    const challenge = await Challenge.findOne({teamId, open: true});
+    const challenge = await Challenge.findOne({ teamId, open: true });
     return challenge;
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 const addChallenge = async (firstUserId, secondUserId, teamId) => {
   try {
@@ -202,6 +202,20 @@ const addChallenge = async (firstUserId, secondUserId, teamId) => {
       teamId,
       open: true,
     });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const updateChallenge = async (challengeId, updatedFields) => {
+  try {
+    // add user habit to database
+    await Challenge.updateOne(
+      {
+        _id: challengeId,
+      },
+      updatedFields
+    );
   } catch (err) {
     console.error(err);
   }
@@ -222,5 +236,6 @@ module.exports = {
   getDailyUserHabitsScores,
   getRandomUsers,
   addChallenge,
-  getLatestChallenge
+  getLatestChallenge,
+  updateChallenge,
 };

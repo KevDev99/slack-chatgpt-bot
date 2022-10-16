@@ -7,6 +7,7 @@ const {
   addChallenge,
   getLatestChallenge,
   getDailyUserHabitsScores,
+  updateChallenge,
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -222,11 +223,17 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `02 16 * * SUN`,
+          `08 16 * * SUN`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
-              console.log(challenge);
+
+              if (
+                !challenge ||
+                !challenge.firstUserId ||
+                !challenge.secondUserId
+              )
+                return;
 
               const userScores = await getDailyUserHabitsScores({
                 user_id: {
@@ -259,6 +266,9 @@ const challengeEnding = async () => {
                   },
                 }
               );
+
+              // update challenge -set open to false
+              updateChallenge(challenge._id, { open: false });
             } catch (error) {
               console.error(error);
             }
@@ -361,7 +371,7 @@ const challengeEndBody = (challenge, winnerId, looserId) => {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `Drum roll please…\n*<@${winnerId}>* is the winner of this weeks habit challenge! Looks like <@${looserId}> owes you a ☕!`,
+      text: `🥁 Drum roll please…\n\n*<@${winnerId}>* is the winner of this weeks habit challenge! Looks like <@${looserId}> owes you a ☕!`,
     },
   });
 
