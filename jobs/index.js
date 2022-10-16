@@ -5,7 +5,8 @@ const {
   updateDailyUserHabit,
   getRandomUsers,
   addChallenge,
-  getLatestChallenge
+  getLatestChallenge,
+  getDailyUserHabitsScores
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -14,6 +15,7 @@ const registerJobs = () => {
   sendDailyHabitMessage();
   checkIfDailyHabitsAreDone();
   challengeTime();
+  challengeEnding();
 };
 
 const sendDailyHabitMessage = async () => {
@@ -176,12 +178,12 @@ const challengeTime = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `36 15 * * SUN`,
+          `52 15 * * SUN`,
           async () => {
             try {
               const randomUsers = await getRandomUsers(2, team._id);
 
-              addChallenge(randomUsers[0], randomUsers[1]);
+              addChallenge(randomUsers[0], randomUsers[1], team._id);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
@@ -220,15 +222,17 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `00 10 * * TUE`,
+          `50 15 * * SUN`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
+              const userScores = await getDailyUserHabitsScores({user_id: [challenge.firstUserId, challenge.secondUserId]});
 
+              console.log(userScores);
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
-                  text: "🤺 Challenge Time",
+                  text: "🥇 Winner Of The Weeks Habit Challenge",
                   channel: team.channel,
                   blocks: challengeEndBody(challenge),
                 },
@@ -324,13 +328,13 @@ const challengeBody = (randomUsers) => {
   return block;
 };
 
-const challengeBody = (randomUsers) => {
+const challengeEndBody = (challenge) => {
   const block = [
     {
       type: "header",
       text: {
         type: "plain_text",
-        text: "🤺 Challenge Time",
+        text: "🥇 Winner Of The Habit Challenge",
         emoji: true,
       },
     },
@@ -340,7 +344,8 @@ const challengeBody = (randomUsers) => {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `Welcome to a new week! This week I select <@${randomUsers[0]}> and <@${randomUsers[1]}> to face off! You have the next 7 days to accumulate your habit points and climb the leaderboard. Let’s see who comes out on top! The loser owes the winner a ☕ ! `,
+      text: `Drum roll please…\n
+      _______ is the winner of this weeks habit challenge! Looks like ____ owes you a coffee!`,
     },
   });
 
