@@ -175,12 +175,17 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if (team._id !== "T01JNNW3ZFD") return;
+
     try {
       if (team.channel) {
         cron.schedule(
           `52 15 * * SUN`,
           async () => {
+             // check ordinal week
+              const ordinalOfWeekday = nthofMonth(new Date());
+
+              // skip each second week (only needed every second week)
+              if (ordinalOfWeekday === 2 || ordinalOfWeekday === 4) return;
             try {
               const randomUsers = await getRandomUsers(2, team._id);
 
