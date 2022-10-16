@@ -56,7 +56,45 @@ const insertAt = (array, index, ...elementsArray) => {
   array.splice(index, 0, ...elementsArray);
 };
 
+function nth(weekday) {
+  var n = Math.round(weekday),
+    t = Math.abs(n % 100),
+    i = t % 10;
+  return n;
+}
+
+function nthofMonth(date) {
+  var today = date.getDate(),
+    m = date.getMonth(),
+    day = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ][date.getDay()],
+    month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ][m];
+  return nth(Math.ceil(today / 7));
+}
+
+
 module.exports = {
   formatState,
   formatMessageState,
+  nthofMonth
 };
