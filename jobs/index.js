@@ -4,6 +4,7 @@ const {
   getTeamInformation,
   updateDailyUserHabit,
   getRandomUsers,
+  addChallenge
 } = require("../database/db.js");
 const cron = require("node-cron");
 const axios = require("axios");
@@ -170,7 +171,7 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-
+    if(team._id !== "") return;
     try {
       if (team.channel) {
         cron.schedule(
@@ -178,6 +179,8 @@ const challengeTime = async () => {
           async () => {
             try {
               const randomUsers = await getRandomUsers(2, team._id);
+              
+              addChallenge(randomUsers[0], randomUsers[1])
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",

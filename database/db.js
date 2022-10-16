@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
 const Habit = require("./models/habitModel.js");
 const UserHabit = require("./models/userHabitModel.js");
+const Challenge = require("./models/challengeModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -169,8 +170,7 @@ const getRandomUsers = async (amount = 2, teamId) => {
 
     for (let i = 1; i <= amount; i++) {
       let random = Math.floor(Math.random() * (usersGrouped.length - 1));
-      
-      
+
       if (!randomUsers.includes[usersGrouped[random]._id]) {
         randomUsers.push(usersGrouped[random]._id);
       } else {
@@ -181,6 +181,19 @@ const getRandomUsers = async (amount = 2, teamId) => {
     return randomUsers;
   } catch (error) {
     console.error(error);
+  }
+};
+
+const addChallenge = async (firstUserId, secondUserId) => {
+  try {
+    // add user habit to database
+    await Challenge.create({
+      firstUserId,
+      secondUserId,
+      open: true,
+    });
+  } catch (err) {
+    console.error(err);
   }
 };
 
@@ -198,4 +211,5 @@ module.exports = {
   updateDailyUserHabit,
   getDailyUserHabitsScores,
   getRandomUsers,
+  addChallenge,
 };
