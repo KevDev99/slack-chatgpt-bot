@@ -13,7 +13,6 @@ const cron = require("node-cron");
 const axios = require("axios");
 const { nthofMonth } = require("../helper/");
 
-
 const registerJobs = () => {
   sendDailyHabitMessage();
   checkIfDailyHabitsAreDone();
@@ -177,21 +176,21 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-
     try {
       if (team.channel) {
         cron.schedule(
-          `52 15 * * SUN`,
+          `05 16 * * WED`,
           async () => {
-             // check ordinal week
-              const ordinalOfWeekday = nthofMonth(new Date());
+            // check ordinal week
+            const ordinalOfWeekday = nthofMonth(new Date());
 
-              // skip each second week (only needed every second week)
-              if (ordinalOfWeekday === 2 || ordinalOfWeekday === 4) return;
+            // skip each second week (only needed every second week)
+            if (ordinalOfWeekday === 2 || ordinalOfWeekday === 4) return;
             try {
-              const randomUsers = await getRandomUsers(2, team._id);
+              const randomUsers = await getRandomUsers(6, team._id);
 
-              addChallenge(randomUsers[0], randomUsers[1], team._id);
+              // split in team b
+              addChallenge(randomUsers, team._id);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
@@ -351,11 +350,12 @@ const challengeBody = (randomUsers) => {
     },
   ];
 
+  // add challenge text
   block.push({
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `Welcome to a new week! This week I select <@${randomUsers[0]}> and <@${randomUsers[1]}> to face off! You have the next 7 days to accumulate your habit points and climb the leaderboard. Let’s see who comes out on top! The loser owes the winner a ☕ ! `,
+      text: `It’s challenge time! I’ve created two teams to face off over the next 7 days to see who can come out on top with the most habit points! 3, 2 1… GO!`,
     },
   });
 

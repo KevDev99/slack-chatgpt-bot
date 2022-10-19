@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const challengeSchema = mongoose.Schema(
   {
-    firstUserId: String,
-    secondUserId: String,
+    userList: [],
     open: Boolean,
     teamId: String,
   },
