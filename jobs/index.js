@@ -176,12 +176,12 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-        if (team._id !== "T01JNNW3ZFD") return;
+    if (team._id !== "T01JNNW3ZFD") return;
 
     try {
       if (team.channel) {
         cron.schedule(
-          `25 16 * * WED`,
+          `24 16 * * WED`,
           async () => {
             // check ordinal week
             const ordinalOfWeekday = nthofMonth(new Date());
@@ -374,28 +374,28 @@ const challengeBody = (teamRed, teamBlue) => {
   // team red
   let teamRedString = "";
   teamRed.map((teamMember) => {
-    teamRedString += teamMember.userId + "\n"
+    teamRedString += `<@${teamMember.userId}>\n`;
   });
 
   block.push({
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "Team 🍎RED: " + teamRedString,
+      text: "Team 🍎RED:\n\n" + teamRedString,
     },
   });
-  
+
   // team blue
   let teamBlueString = "";
   teamBlue.map((teamMember) => {
-    teamBlueString += teamMember.userId + "\n"
+    teamBlueString += `<@${teamMember.userId}>\n`
   });
 
   block.push({
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "Team 🦋BLUE: " + teamBlueString,
+      text: "Team 🦋BLUE:\n\n" + teamBlueString,
     },
   });
 
