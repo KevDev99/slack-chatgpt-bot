@@ -3,7 +3,7 @@ const User = require("./models/userModel.js");
 const Habit = require("./models/habitModel.js");
 const UserHabit = require("./models/userHabitModel.js");
 const Challenge = require("./models/challengeModel.js");
-const {isEven} = require('../helper/');
+const { isEven } = require("../helper/");
 
 const uri = process.env.DB_URI;
 
@@ -166,9 +166,10 @@ const getRandomUsers = async (amount = 2, teamId) => {
         },
       },
     ]);
-    
-    let usersAmount = amount <= usersGrouped.length ? amount : usersGrouped.length;
-    if(!isEven(usersAmount)) {
+
+    let usersAmount =
+      amount <= usersGrouped.length ? amount : usersGrouped.length;
+    if (!isEven(usersAmount)) {
       usersAmount--;
     }
 
@@ -199,12 +200,11 @@ const getLatestChallenge = async (teamId) => {
   }
 };
 
-const addChallenge = async (firstUserId, secondUserId, teamId) => {
+const addChallenge = async (users, teamId) => {
   try {
     // add user habit to database
     await Challenge.create({
-      firstUserId,
-      secondUserId,
+      userList: users,
       teamId,
       open: true,
     });

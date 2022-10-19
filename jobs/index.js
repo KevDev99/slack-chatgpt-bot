@@ -176,10 +176,12 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
+        if (team._id !== "T01JNNW3ZFD") return;
+
     try {
       if (team.channel) {
         cron.schedule(
-          `05 16 * * WED`,
+          `25 16 * * WED`,
           async () => {
             // check ordinal week
             const ordinalOfWeekday = nthofMonth(new Date());
@@ -189,15 +191,25 @@ const challengeTime = async () => {
             try {
               const randomUsers = await getRandomUsers(6, team._id);
 
-              // split in team b
-              addChallenge(randomUsers, team._id);
+              // split in team blue and red
+              const teamRed = [];
+              const teamBlue = [];
+
+              randomUsers.map((randomUser, index) => {
+                if (index <= (randomUsers.length - 1) / 2) {
+                  return teamRed.push({ userId: randomUser, team: "red" });
+                }
+                teamBlue.push({ userId: randomUser, team: "blue" });
+              });
+
+              addChallenge([...teamRed, ...teamBlue], team._id);
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
                   text: "🤺 Challenge Time",
                   channel: team.channel,
-                  blocks: challengeBody(randomUsers),
+                  blocks: challengeBody(teamRed, teamBlue),
                 },
                 {
                   headers: {
@@ -229,7 +241,7 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `08 16 * * SUN`,
+          `30 16 * * SUN`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
@@ -338,7 +350,7 @@ const dailyHabitBody = async () => {
   ];
 };
 
-const challengeBody = (randomUsers) => {
+const challengeBody = (teamRed, teamBlue) => {
   const block = [
     {
       type: "header",
@@ -356,6 +368,34 @@ const challengeBody = (randomUsers) => {
     text: {
       type: "mrkdwn",
       text: `It’s challenge time! I’ve created two teams to face off over the next 7 days to see who can come out on top with the most habit points! 3, 2 1… GO!`,
+    },
+  });
+
+  // team red
+  let teamRedString = "";
+  teamRed.map((teamMember) => {
+    teamRedString += teamMember.userId + "\n"
+  });
+
+  block.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "Team 🍎RED: " + teamRedString,
+    },
+  });
+  
+  // team blue
+  let teamBlueString = "";
+  teamBlue.map((teamMember) => {
+    teamBlueString += teamMember.userId + "\n"
+  });
+
+  block.push({
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "Team 🦋BLUE: " + teamBlueString,
     },
   });
 
