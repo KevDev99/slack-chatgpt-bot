@@ -179,7 +179,7 @@ const getRandomUsers = async (amount = 2, teamId) => {
       let random = Math.floor(Math.random() * (usersGrouped.length - 1));
 
       if (!randomUsers.includes(usersGrouped[random]._id)) {
-        randomUsers.push({userId: usersGrouped[random]._id, });
+        randomUsers.push(usersGrouped[random]._id);
       } else {
         i--;
       }
