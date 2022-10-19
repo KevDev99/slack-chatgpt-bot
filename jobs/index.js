@@ -181,7 +181,7 @@ const challengeTime = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `42 16 * * WED`,
+          `49 16 * * WED`,
           async () => {
             // check ordinal week
             const ordinalOfWeekday = nthofMonth(new Date());
@@ -205,18 +205,23 @@ const challengeTime = async () => {
               // set daily habits amount
               await Promise.all(
                 teamRed.map(async (user) => {
-                  
-                  user.currentHabitsAmount = await getDailyUserHabitsScores({
-                    user_id: user.userId,
-                  })[0].count;
+                  const currentAmount = (
+                    await getDailyUserHabitsScores({
+                      user_id: user.userId,
+                    })
+                  )[0].count;
+                  user.currentHabitsAmount = currentAmount;
                 })
               );
 
               await Promise.all(
                 teamBlue.map(async (user) => {
-                  user.currentHabitsAmount = await getDailyUserHabitsScores({
-                    user_id: user.userId,
-                  })[0].count;
+                  const currentAmount = (
+                    await getDailyUserHabitsScores({
+                      user_id: user.userId,
+                    })
+                  )[0].count;
+                  user.currentHabitsAmount = currentAmount;
                 })
               );
 
@@ -266,8 +271,8 @@ const challengeEnding = async () => {
 
               if (
                 !challenge ||
-                !challenge.firstUserId ||
-                !challenge.secondUserId
+                challenge.userList.length ===0
+               
               )
                 return;
 
