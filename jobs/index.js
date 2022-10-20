@@ -286,19 +286,17 @@ const challengeEnding = async () => {
                   teamRedPoints += points;
                 }
               });
-              
-                let winner;
-              let looser;
-              
-              if(teamBluePoints > teamRedPoints) {
-                winner = {team: "🦋BLUE", points: teamBluePoints}
-                looser = {team: "🍎RED", points: teamRedPoints}
-              } else {
-                winner = {team: "🍎RED", points: teamRedPoints}
-                looser = {team: "🦋BLUE", points: teamBluePoints}
-              }
 
-            
+              let winner;
+              let looser;
+
+              if (teamBluePoints > teamRedPoints) {
+                winner = { team: "🦋BLUE", points: teamBluePoints };
+                looser = { team: "🍎RED", points: teamRedPoints };
+              } else {
+                winner = { team: "🍎RED", points: teamRedPoints };
+                looser = { team: "🦋BLUE", points: teamBluePoints };
+              }
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
@@ -443,13 +441,24 @@ const challengeEndBody = (challenge, winner, looser) => {
     },
   ];
 
-  block.push({
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: `3, 2, 1… Challenge over!\n\nTeam ${winner.team}  has come out on top with a total of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
-    },
-  });
+  // check if its undecided (equal pooints)
+  if (winner.points === looser.points) {
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `3, 2, 1… Challenge over!\n\nDraw! Both Team has come out on top with a total of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
+      },
+    });
+  } else {
+    block.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `3, 2, 1… Challenge over!\n\nTeam ${winner.team} has come out on top with a total of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
+      },
+    });
+  }
 
   return block;
 };
