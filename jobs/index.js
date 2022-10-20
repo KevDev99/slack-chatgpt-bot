@@ -264,7 +264,7 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `44 07 * * THU`,
+          `00 08 * * THU`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
@@ -301,7 +301,7 @@ const challengeEnding = async () => {
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
                 {
-                  text: "🥇 Winner Of The Weeks Habit Challenge",
+                  text: "🏁 3, 2, 1… Challenge over",
                   channel: team.channel,
                   blocks: challengeEndBody(challenge, winner, looser),
                 },
@@ -447,7 +447,7 @@ const challengeEndBody = (challenge, winner, looser) => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `3, 2, 1… Challenge over!\n\nDraw! Both Team has come out on top with a total of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
+        text: `3, 2, 1… Challenge over!\n\nDraw! Both teams gave their best and ended with an equal score of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
       },
     });
   } else {
