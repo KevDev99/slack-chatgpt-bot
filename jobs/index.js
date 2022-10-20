@@ -264,35 +264,41 @@ const challengeEnding = async () => {
     try {
       if (team.channel) {
         cron.schedule(
-          `30 16 * * SUN`,
+          `44 07 * * THU`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
 
-              if (
-                !challenge ||
-                challenge.userList.length ===0
-               
-              )
-                return;
+              if (!challenge || challenge.userList.length === 0) return;
 
-              const userScores = await getDailyUserHabitsScores({
-                user_id: {
-                  $in: [challenge.firstUserId, challenge.secondUserId],
-                },
-                completed: true,
+              let teamBluePoints = 0;
+              let teamRedPoints = 0;
+
+              // calculate points (difference last week score to current score) of each team
+              challenge.userList.map(async (challengeUser) => {
+                const newScore = await getDailyUserHabitsScores({
+                  user_id: challengeUser.userId,
+                });
+                const points = newScore - challengeUser.currentHabitsAmount;
+                if (challengeUser.team === "blue") {
+                  teamBluePoints += points;
+                } else {
+                  teamRedPoints += points;
+                }
               });
-
-              let winner;
+              
+                let winner;
               let looser;
-
-              if (userScores[0].count > userScores[1].count) {
-                winner = userScores[0]._id;
-                looser = userScores[1]._id;
+              
+              if(teamBluePoints > teamRedPoints) {
+                winner = {team: "🦋BLUE", points: teamBluePoints}
+                looser = {team: "🍎RED", points: teamRedPoints}
               } else {
-                winner = userScores[1]._id;
-                looser = userScores[0]._id;
+                winner = {team: "🍎RED", points: teamRedPoints}
+                looser = {team: "🦋BLUE", points: teamBluePoints}
               }
+
+            
 
               const res = await axios.post(
                 "https://slack.com/api/chat.postMessage",
@@ -425,13 +431,13 @@ const challengeBody = (teamRed, teamBlue) => {
   return block;
 };
 
-const challengeEndBody = (challenge, winnerId, looserId) => {
+const challengeEndBody = (challenge, winner, looser) => {
   const block = [
     {
       type: "header",
       text: {
         type: "plain_text",
-        text: "🥇 Winner Of The Habit Challenge",
+        text: "🏁 3, 2, 1… Challenge over",
         emoji: true,
       },
     },
@@ -441,7 +447,7 @@ const challengeEndBody = (challenge, winnerId, looserId) => {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `🥁 Drum roll please…\n\n*<@${winnerId}>* is the winner of this weeks habit challenge! Looks like <@${looserId}> owes you a ☕!`,
+      text: `3, 2, 1… Challenge over!\n\nTeam ${winner.team}  has come out on top with a total of ${winner.points} pts! Congratulations! Keep working on your personal daily habits and I’ll see you at the next face off! Who will it be this time?`,
     },
   });
 
