@@ -176,12 +176,12 @@ const challengeTime = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if (team._id !== "T01JNNW3ZFD") return;
+
 
     try {
       if (team.channel) {
         cron.schedule(
-          `49 16 * * WED`,
+          `30 09 * * WED`,
           async () => {
             // check ordinal week
             const ordinalOfWeekday = nthofMonth(new Date());
@@ -260,11 +260,10 @@ const challengeEnding = async () => {
   const teams = await getTeams();
 
   teams.map(async (team) => {
-    if (team._id !== "T01JNNW3ZFD") return;
     try {
       if (team.channel) {
         cron.schedule(
-          `00 08 * * THU`,
+          `00 15 * * TUE`,
           async () => {
             try {
               const challenge = await getLatestChallenge(team._id);
