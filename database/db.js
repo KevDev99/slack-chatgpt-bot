@@ -21,11 +21,7 @@ const getUser = async function (userId) {
     // fetch user from database
     const user = await User.find({ _id: userId });
 
-    if (user[0] != undefined) {
-      return user[0];
-    } else {
-      return null;
-    }
+    return user[0];
   } catch (e) {
     console.error("Error when fetching user", e);
   }

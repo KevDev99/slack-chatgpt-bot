@@ -6,9 +6,6 @@ const setDialPadStatus = async ({ message, client, say }) => {
     const textParts = text.split("\n");
     const { members } = await client.users.list();
     
-    console.log(message);
-    
-
     const user = getUserFromTextBody(textParts, members);
     
     if(!user) {
