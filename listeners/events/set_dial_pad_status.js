@@ -1,12 +1,17 @@
 const { getUserFromTextBody, setUserStatus } = require("../../helper");
+const {getUsers} = require('../../database/db.js')
 
 const setDialPadStatus = async ({ message, client, say }) => {
   try {
     const { text } = message;
-    const textParts = text.split("\n");
-    const { members } = await client.users.list();
     
-    const user = getUserFromTextBody(textParts, members);
+    if (!text.includes("Handled by")) {
+      return;
+    }
+    
+    const textParts = text.split("\n");
+
+    const user = await getUserFromTextBody(textParts, client);
     
     if(!user) {
       return;

@@ -27,6 +27,17 @@ const getUser = async function (userId) {
   }
 };
 
+const getUsers = async function () {
+  try {
+    // fetch user from database
+    const users = await User.find({  });
+
+    return users;
+  } catch (e) {
+    console.error("Error when fetching user", e);
+  }
+};
+
 const getTeamBotToken = async (teamId) => {
   try {
     // fetch user from database
@@ -73,4 +84,5 @@ module.exports = {
   getTeamBotToken,
   getTeamInformation,
   getTeams,
+  getUsers
 };

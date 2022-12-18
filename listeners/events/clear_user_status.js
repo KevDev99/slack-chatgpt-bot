@@ -23,11 +23,14 @@ const clearUserStatus = async ({ message, client, say }) => {
     }
 
     const { text } = messages[0];
+    
+    if (!text.includes("Handled by")) {
+      return;
+    }
 
     const textParts = text.split("\n");
-    const { members } = await client.users.list();
 
-    const user = getUserFromTextBody(textParts, members);
+    const user = await getUserFromTextBody(textParts, client);
 
     if (!user) {
       return;

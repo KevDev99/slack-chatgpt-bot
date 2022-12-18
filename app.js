@@ -2,7 +2,7 @@
 const { App } = require("@slack/bolt");
 
 const { connect, getUser, addUser, fetchUsers } = require("./database/db.js");
-const registerJobs = require('./jobs')
+const registerJobs = require('./jobs');
 
 
 const {

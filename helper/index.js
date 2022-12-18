@@ -1,4 +1,4 @@
-const { getUser } = require("../database/db.js");
+const { getUser, getUsers } = require("../database/db.js");
 
 // formats the incoming state object from slack to a useful object
 const formatState = (unformatted_state) => {
@@ -102,12 +102,13 @@ function isOdd(n) {
   return Math.abs(n % 2) == 1;
 }
 
-function getUserFromTextBody(textParts, members) {
+async function getUserFromTextBody(textParts, client) {
   let user;
+
+  const {members} = await client.users.list();
+  
   textParts.map((textPart) => {
-    if (!textPart.includes("Handled by")) {
-      return;
-    }
+    
 
     const handledByFields = textPart.split(" ");
 
