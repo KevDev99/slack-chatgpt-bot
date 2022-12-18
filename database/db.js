@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
-const { isEven } = require("../helper/");
 
 const uri = process.env.DB_URI;
 
