@@ -1,45 +1,21 @@
+const { getUserFromTextBody } = require("../../helper");
+const { getUser } = require("../../database/db.js");
+
 const setDialPadStatus = async ({ message, client, say }) => {
   const { text } = message;
   const textParts = text.split("\n");
   const { members } = await client.users.list();
-  
-  console.log(message);
 
-  textParts.map((textPart) => {
-    if (!textPart.includes("Handled by")) {
-      return;
-    }
+  const user = getUserFromTextBody(textParts, members);
 
-    const handledByFields = textPart.split(" ");
+  // check if user is given
+  if (!user) {
+    console.log("User not found: ", textParts);
+  }
 
-    const validFilterField = [];
-
-    handledByFields.map((field) => {
-      const filteredMembers = members.filter((member) =>
-        member.profile.real_name.includes(field)
-      );
-
-      if (filteredMembers.length >= 1) {
-        return validFilterField.push(field);
-      }
-    });
-
-    const foundMembers = [];
-
-    members.map((member) => {
-      let matchYN = new RegExp(validFilterField.join("|")).test(
-        member.profile.real_name
-      );
-
-      if (matchYN) {
-        foundMembers.push(member);
-      }
-    });
-
-    let user = foundMembers[0];
-    
-
-  });
+  // check if user exists in db
+  const dbUser = await getUser(user.id);
+  console.log(dbUser);
 };
 
 module.exports = { setDialPadStatus };

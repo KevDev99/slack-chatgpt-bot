@@ -93,18 +93,56 @@ function nthofMonth(date) {
 }
 
 function isEven(n) {
-   return n % 2 == 0;
+  return n % 2 == 0;
 }
 
 function isOdd(n) {
-   return Math.abs(n % 2) == 1;
+  return Math.abs(n % 2) == 1;
 }
 
+function getUserFromTextBody(textParts, members) {
+  let user;
+  textParts.map((textPart) => {
+    if (!textPart.includes("Handled by")) {
+      return;
+    }
+
+    const handledByFields = textPart.split(" ");
+
+    const validFilterField = [];
+
+    handledByFields.map((field) => {
+      const filteredMembers = members.filter((member) =>
+        member.profile.real_name.includes(field)
+      );
+
+      if (filteredMembers.length >= 1) {
+        return validFilterField.push(field);
+      }
+    });
+
+    const foundMembers = [];
+
+    members.map((member) => {
+      let matchYN = new RegExp(validFilterField.join("|")).test(
+        member.profile.real_name
+      );
+
+      if (matchYN) {
+        foundMembers.push(member);
+      }
+    });
+    user = foundMembers[0];
+  });
+
+  return user;
+}
 
 module.exports = {
   formatState,
   formatMessageState,
   nthofMonth,
   isEven,
-  isOdd
+  isOdd,
+  getUserFromTextBody,
 };
