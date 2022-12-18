@@ -1,3 +1,5 @@
+const { getUser } = require("../database/db.js");
+
 // formats the incoming state object from slack to a useful object
 const formatState = (unformatted_state) => {
   const formatted_state = {};
@@ -138,6 +140,32 @@ function getUserFromTextBody(textParts, members) {
   return user;
 }
 
+async function setUserStatus(client, user, statusText, statusEmoji) {
+  try {
+    // check if user exists in db
+    const dbUser = await getUser(user.id);
+
+    // if user is not in db - send notification to authenticate the app
+    if (!dbUser) {
+      console.log("User not in db", user);
+      // TODO: send notification to authenticate the app
+    }
+
+    // set status for user
+    const { ok, error, profile } = await client.users.profile.set({
+      token: dbUser.user.token,
+      profile: {
+        status_text: statusText,
+        status_emoji: statusEmoji,
+      },
+    });
+
+    if (!ok) throw error;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   formatState,
   formatMessageState,
@@ -145,4 +173,5 @@ module.exports = {
   isEven,
   isOdd,
   getUserFromTextBody,
+  setUserStatus,
 };
