@@ -58,49 +58,6 @@ const insertAt = (array, index, ...elementsArray) => {
   array.splice(index, 0, ...elementsArray);
 };
 
-function nth(weekday) {
-  var n = Math.round(weekday),
-    t = Math.abs(n % 100),
-    i = t % 10;
-  return n;
-}
-
-function nthofMonth(date) {
-  var today = date.getDate(),
-    m = date.getMonth(),
-    day = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ][date.getDay()],
-    month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ][m];
-  return nth(Math.ceil(today / 7));
-}
-
-function isEven(n) {
-  return n % 2 == 0;
-}
-
-function isOdd(n) {
-  return Math.abs(n % 2) == 1;
-}
 
 async function getUserFromTextBody(textParts, client) {
   let user;
@@ -108,7 +65,6 @@ async function getUserFromTextBody(textParts, client) {
   const {members} = await client.users.list();
   
   textParts.map((textPart) => {
-    
 
     const handledByFields = textPart.split(" ");
 
@@ -170,9 +126,6 @@ async function setUserStatus(client, user, statusText, statusEmoji) {
 module.exports = {
   formatState,
   formatMessageState,
-  nthofMonth,
-  isEven,
-  isOdd,
   getUserFromTextBody,
   setUserStatus,
 };
