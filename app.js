@@ -22,7 +22,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["channels:history", "users:list"],
+  scopes: ["channels:history", "users:read"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
