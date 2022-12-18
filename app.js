@@ -22,7 +22,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["chat:write", "users:read"],
+  scopes: ["channels:history"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
@@ -73,7 +73,7 @@ const app = new App({
   },
   installerOptions: {
     directInstall: true,
-    userScopes: ["channels:write"],
+    userScopes: ["users.profile:write"],
   },
   customRoutes: [
     {
@@ -92,8 +92,6 @@ connect();
 
 /** Register Listeners (actions, commands, events, ... -> all slack related api endpoints) */
 registerListeners(app);
-
-registerJobs();
 
 (async () => {
   // Start your app
