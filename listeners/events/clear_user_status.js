@@ -3,4 +3,4 @@ const clearUserStatus = async ({ ack, say, body, client }) => {
 
 };
 
-module.exports = { setHabitTarget };
+module.exports = { clearUserStatus };
