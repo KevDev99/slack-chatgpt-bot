@@ -144,10 +144,10 @@ const saveUserOrgInstall = async function (installation) {
 };
 
 /** GET Workspace Installation */
-const getWorkspaceInstallation = async (teamId) => {
+const getWorkspaceInstallation = async (userId) => {
   try {
     // fetch user from database
-    const user = await User.find({ "team.id": teamId });
+    const user = await User.find({ "_id": userId });
     return user[0];
   } catch (error) {
     console.error(error);

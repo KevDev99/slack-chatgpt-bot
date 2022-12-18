@@ -22,7 +22,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["channels:history"],
+  scopes: ["channels:history", "users:list"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
@@ -50,7 +50,7 @@ const app = new App({
       }
       if (installQuery.teamId !== undefined) {
         // single team app installation lookup
-        return await getWorkspaceInstallation(installQuery.teamId);
+        return await getWorkspaceInstallation(installQuery.userId);
       }
       throw new Error("Failed fetching installation");
     },
