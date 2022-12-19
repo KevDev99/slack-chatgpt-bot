@@ -68,10 +68,11 @@ async function getUserFromTextBody(textParts, client) {
     const handledByFields = textPart.split(" ");
 
     const validFilterField = [];
+  
 
     handledByFields.map((field) => {
       const filteredMembers = members.filter((member) =>
-        member.name.includes(field)
+        member.user.name.includes(field)
       );
 
       if (filteredMembers.length >= 1) {
@@ -83,7 +84,7 @@ async function getUserFromTextBody(textParts, client) {
 
     members.map((member) => {
       let matchYN = new RegExp(validFilterField.join("|")).test(
-        member.name
+        member.user.name
       );
 
       if (matchYN) {

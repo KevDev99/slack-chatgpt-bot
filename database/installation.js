@@ -8,6 +8,19 @@ const saveUserWorkspaceInstall = async (installation) => {
     // if there is a user token the user will be stored seperately in the database (instead the team entry)
     // the token will be also later needed to change the users status and to set the absence (pause notifications) special user scope
     const id = installation.team.id;
+    
+    // get users timezone
+    const {
+      data: { ok, user },
+    } = await axios.post(
+      "https://slack.com/api/users.info",
+      new URLSearchParams({
+        user: installation.user.id,
+        token: installation.bot.token,
+      })
+    );
+
+    if (!ok) throw "Error getting users info";
 
     const resp = await User.updateOne(
       { _id: installation.user.id },

@@ -19,6 +19,8 @@ const setDialPadStatus = async ({ message, client, say }) => {
 
     const user = await getUserFromTextBody(textParts, client);
     
+    console.log(user);
+    
     if(!user) {
       return;
     }
