@@ -22,8 +22,12 @@ const clearUserStatus = async ({ message, client, say }) => {
       return;
     }
 
-    const { text } = messages[0];
-    
+    const { attachments } = messages[0];
+
+    if (!attachments) return;
+
+    const text = attachments[2].text;
+
     if (!text.includes("Handled by")) {
       return;
     }

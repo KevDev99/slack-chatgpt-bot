@@ -103,10 +103,10 @@ async function setUserStatus(client, user, statusText, statusEmoji) {
 
     // if user is not in db - send notification to authenticate the app
     if (!dbUser) {
-      console.log("User not in db", user);
+      return console.log("User not in db", user);
       // TODO: send notification to authenticate the app
     }
-
+    
     // set status for user
     const { ok, error, profile } = await client.users.profile.set({
       token: dbUser.user.token,

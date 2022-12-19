@@ -3,15 +3,13 @@ const {getUsers} = require('../../database/db.js')
 
 const setDialPadStatus = async ({ message, client, say }) => {
   try {
-    const { attatchments } = message;
+    const { attachments } = message;
     
-    console.log(attatchments);
+
+    if(!attachments) return;
     
-    if(!attatchments) return;
+    const text = attachments[2].text;
     
-    const text = attatchments[2].text;
-    
-    console.log(text);
     
     if (!text.includes("Handled by")) {
       return;
@@ -25,7 +23,7 @@ const setDialPadStatus = async ({ message, client, say }) => {
       return;
     }
 
-    setUserStatus(client, user, "In a call", "📞");
+    setUserStatus(client, user, "In a call", "☎️");
   } catch (err) {
     console.error(err);
   }
