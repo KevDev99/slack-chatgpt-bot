@@ -3,7 +3,15 @@ const {getUsers} = require('../../database/db.js')
 
 const setDialPadStatus = async ({ message, client, say }) => {
   try {
-    const { text } = message;
+    const { attatchments } = message;
+    
+    console.log(attatchments);
+    
+    if(!attatchments) return;
+    
+    const text = attatchments[2].text;
+    
+    console.log(text);
     
     if (!text.includes("Handled by")) {
       return;

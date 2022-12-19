@@ -50,6 +50,10 @@ const app = new App({
       }
       if (installQuery.teamId !== undefined) {
         // single team app installation lookup
+        return await getWorkspaceInstallation(installQuery.teamId);
+      }
+      if (installQuery.userId !== undefined) {
+        // single team app installation lookup
         return await getWorkspaceInstallation(installQuery.userId);
       }
       throw new Error("Failed fetching installation");
