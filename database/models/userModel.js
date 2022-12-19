@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     interval: Number,
     team: { id: String, name: String },
     enterprise: { id: String, name: String },
-    user: { token: String, scopes: [String], id: String },
+    user: { token: String, scopes: [String], id: String, name: String },
     tokenType: String,
     isEnterpriseInstall: Boolean,
     channel: String,

@@ -61,7 +61,7 @@ const insertAt = (array, index, ...elementsArray) => {
 async function getUserFromTextBody(textParts, client) {
   let user;
 
-  const {members} = await client.users.list();
+  const members = await getUsers();
   
   textParts.map((textPart) => {
 
@@ -71,7 +71,7 @@ async function getUserFromTextBody(textParts, client) {
 
     handledByFields.map((field) => {
       const filteredMembers = members.filter((member) =>
-        member.profile.real_name.includes(field)
+        member.name.includes(field)
       );
 
       if (filteredMembers.length >= 1) {
@@ -83,7 +83,7 @@ async function getUserFromTextBody(textParts, client) {
 
     members.map((member) => {
       let matchYN = new RegExp(validFilterField.join("|")).test(
-        member.profile.real_name
+        member.name
       );
 
       if (matchYN) {
