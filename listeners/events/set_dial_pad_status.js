@@ -10,6 +10,8 @@ const setDialPadStatus = async ({ message, client, say }) => {
     
     const text = attachments[2].text;
     
+    console.log(text);
+    
     
     if (!text.includes("Handled by")) {
       return;
