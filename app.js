@@ -1,9 +1,7 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { App } = require("@slack/bolt");
 
-const { connect, getUser, addUser, fetchUsers } = require("./database/db.js");
-const registerJobs = require('./jobs');
-
+const { connect } = require("./database/db.js");
 
 const {
   saveUserWorkspaceInstall,
@@ -15,7 +13,6 @@ const {
 } = require("./database/installation.js");
 
 const { registerListeners } = require("./listeners");
-
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -100,6 +97,5 @@ registerListeners(app);
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-
   console.log("⚡️ Bolt app is running!");
 })();
