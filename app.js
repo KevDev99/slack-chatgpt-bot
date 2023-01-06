@@ -87,7 +87,7 @@ const app = new App({
     },
     {
       path: "/snow_oauth_redirect",
-      method: ["POST"],
+      method: ["GET"],
       handler: (req, res) => {
         res.writeHead(200);
 
