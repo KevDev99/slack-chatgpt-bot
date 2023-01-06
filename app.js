@@ -2,6 +2,7 @@
 const { App } = require("@slack/bolt");
 
 const { connect } = require("./database/db.js");
+const qs = require('qs');
 
 const {
   saveUserWorkspaceInstall,
@@ -89,10 +90,14 @@ const app = new App({
       path: "/snow_oauth_redirect",
       method: ["GET"],
       handler: (req, res) => {
-        res.writeHead(200);
-
-        console.log(req.body);
-        res.end("Endpoint working OK");
+        try {
+          res.writeHead(200);
+           const params = qs.parse(req.url)
+           console.log(params);
+          res.end("Endpoint working OK");
+        } catch (err) {
+          console.error(err);
+        }
       },
     },
   ],
