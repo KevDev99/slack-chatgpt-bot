@@ -32,6 +32,16 @@ receiver.router.get("/snow_oauth_redirect", (req, res) => {
   }
 });
 
+receiver.router.get("/snow_oauth_token_redirect", (req, res) => {
+  try {
+    res.writeHead(200);
+    console.log(req.param("access_token"));
+    res.end("Endpoint working OK");
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 const app = new App({
   receiver: receiver,
   scopes: ["chat:write"],
