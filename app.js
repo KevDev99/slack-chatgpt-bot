@@ -3,6 +3,7 @@ const { App, ExpressReceiver } = require("@slack/bolt");
 
 const { connect } = require("./database/db.js");
 const qs = require("qs");
+const axios = require('axios');
 
 const {
   saveUserWorkspaceInstall,
@@ -22,25 +23,25 @@ const receiver = new ExpressReceiver({
   stateSecret: process.env.SLACK_STATE_SECRET,
 });
 
-receiver.router.get("/snow_oauth_redirect", (req, res) => {
+receiver.router.get("/snow_oauth_redirect", async (req, res) => {
   try {
     res.writeHead(200);
-    console.log(req.param("code"));
+    const code = req.param("code");
+    const state = req.param("state");
+    const clientId = "a60633d0d2986110e6aad8c0b956804e";
+    const clientSecret = "A}bQmGj5vu";
+    
+    const axiosResponse = await axios.post("https://dev107538.service-now.com/oauth_token.do", `grant_type=authorization_code&code=${code}&client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=https://dev107538.service-now.com/login.do`)
+    
+    console.log(axiosResponse.data);
+    
     res.end("Endpoint working OK");
   } catch (err) {
     console.error(err);
   }
 });
 
-receiver.router.get("/snow_oauth_token_redirect", (req, res) => {
-  try {
-    res.writeHead(200);
-    console.log(req.param("access_token"));
-    res.end("Endpoint working OK");
-  } catch (err) {
-    console.error(err);
-  }
-});
+
 
 const app = new App({
   receiver: receiver,
