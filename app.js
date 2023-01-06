@@ -1,8 +1,8 @@
 // Require the Bolt package (github.com/slackapi/bolt)
-const { App } = require("@slack/bolt");
+const { App, ExpressReceiver } = require("@slack/bolt");
 
 const { connect } = require("./database/db.js");
-const qs = require('qs');
+const qs = require("qs");
 
 const {
   saveUserWorkspaceInstall,
@@ -15,11 +15,25 @@ const {
 
 const { registerListeners } = require("./listeners");
 
-const app = new App({
+const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
+});
+
+receiver.router.get("/snow_oauth_redirect", (req, res) => {
+  try {
+    res.writeHead(200);
+    console.log(req.param("code"));
+    res.end("Endpoint working OK");
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+const app = new App({
+  receiver: receiver,
   scopes: ["chat:write"],
   installationStore: {
     storeInstallation: async (installation) => {
@@ -77,30 +91,6 @@ const app = new App({
     directInstall: true,
     userScopes: ["users.profile:write"],
   },
-  customRoutes: [
-    {
-      path: "/",
-      method: ["GET"],
-      handler: (req, res) => {
-        res.writeHead(200);
-        res.end("Endpoint working OK");
-      },
-    },
-    {
-      path: "/snow_oauth_redirect",
-      method: ["GET"],
-      handler: (req, res) => {
-        try {
-          res.writeHead(200);
-           const params = qs.parse(req.url)
-           console.log(params);
-          res.end("Endpoint working OK");
-        } catch (err) {
-          console.error(err);
-        }
-      },
-    },
-  ],
 });
 
 // connect to db
