@@ -19,7 +19,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["channels:history", "users:read"],
+  scopes: ["chat:write"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
@@ -82,6 +82,16 @@ const app = new App({
       method: ["GET"],
       handler: (req, res) => {
         res.writeHead(200);
+        res.end("Endpoint working OK");
+      },
+    },
+    {
+      path: "/snow_oauth_redirect",
+      method: ["POST"],
+      handler: (req, res) => {
+        res.writeHead(200);
+
+        console.log(req.body);
         res.end("Endpoint working OK");
       },
     },
