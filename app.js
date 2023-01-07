@@ -3,7 +3,9 @@ const { App, ExpressReceiver } = require("@slack/bolt");
 
 const { connect } = require("./database/db.js");
 const qs = require("qs");
-const axios = require('axios');
+const axios = require("axios");
+const { base64encode, base64decode } = require('nodejs-base64');
+
 
 const {
   saveUserWorkspaceInstall,
@@ -30,18 +32,34 @@ receiver.router.get("/snow_oauth_redirect", async (req, res) => {
     const state = req.param("state");
     const clientId = "a60633d0d2986110e6aad8c0b956804e";
     const clientSecret = "A}bQmGj5vu";
+    const redirectUri = "https://dev107538.service-now.com/login.do";
     
-    const axiosResponse = await axios.post("https://dev107538.service-now.com/oauth_token.do", {"grant_type": "authorization_code". "code": code, } `code=${code}&client_id=${clientId}&client_secret=${clientSecret}&redirect_uri=https://dev107538.service-now.com/login.do`)
-    
+    const auth = base64encode(`${clientId}:${}`);
+
+    const axiosResponse = await axios.post(
+      "https://dev107538.service-now.com/oauth_token.do",
+      new URLSearchParams({
+        grant_type: "authorization_code",
+        code: code,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": "Basic "
+        },
+      }
+    );
+
     console.log(axiosResponse.data);
-    
+
     res.end("Endpoint working OK");
   } catch (err) {
     console.error(err);
   }
 });
-
-
 
 const app = new App({
   receiver: receiver,
