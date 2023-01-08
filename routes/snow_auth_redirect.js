@@ -15,7 +15,7 @@ const snowAuthRedirect = (receiver) => {
 
       const [userId, teamId] = state.split("-");
 
-      console.log("wefwefwe");
+      if (!code) return;
 
       if (!userId || !teamId) {
         throw "No userid or teamid from state provided";
