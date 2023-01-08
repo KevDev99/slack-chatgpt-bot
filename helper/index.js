@@ -6,14 +6,10 @@ const formatState = (unformatted_state) => {
 
   for (const parentkeyIndex in Object.keys(unformatted_state)) {
     const parentKey = Object.keys(unformatted_state)[parentkeyIndex];
-    
-    console.log(parentKey);
 
     formatted_state[parentKey] =
-      formatted_state[parentKey][`${parentKey}-action`].value;
+      unformatted_state[parentKey][`${parentKey}-action`].value;
   }
-
-  console.log(formatted_state);
 
   return formatted_state;
 };
