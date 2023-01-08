@@ -141,6 +141,7 @@ async function setUserStatus(
   }
 }
 
+
 function getTimestampInSeconds(date, minutes = 0) {
   // check if minutes need to be added
   let timestampDate = new Date(date.getTime() + minutes * 60000);
