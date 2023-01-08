@@ -1,7 +1,9 @@
-const connectServiceNow = async ({ body, client, logger }) => {
+const connectServiceNow = async ({ body, client, logger, ack }) => {
   try {
     // ...
-    console.log(body);
+    console.log(body.view.state.values);
+
+    //await ack();
   } catch (err) {
     console.error(err);
   }
