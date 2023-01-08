@@ -8,8 +8,10 @@ class Installation {
     try {
       const id = installation.team.id;
 
+      console.log(installation);
+
       const resp = await dbInstallation.updateOne(
-        { _id: installation.user.id },
+        { _id: installation.team.id },
         {
           team: { id: installation.team.id, name: installation.team.name },
           // entperise id is null on workspace install
@@ -34,7 +36,7 @@ class Installation {
         { upsert: true }
       );
 
-      sendWelcomeMessage(installation.user.id, installation.bot.token);
+      sendWelcomeMessage(installation);
 
       return resp;
     } catch (error) {
@@ -46,7 +48,7 @@ class Installation {
   /** GET Workspace Installation */
   static async getWorkspaceInstallation(installId) {
     try {
-      const installation = await Installation.find({ _id: installId });
+      const installation = await dbInstallation.find({ _id: installId });
       return installation[0];
     } catch (error) {
       console.error(error);
@@ -57,7 +59,7 @@ class Installation {
   /** DELETE Workspace Installation */
   static async deleteWorkspaceInstallation(teamId) {
     try {
-      await Installation.deleteMany({ "team.id": teamId });
+      await dbInstallation.deleteMany({ "team.id": teamId });
     } catch (error) {
       console.error(error);
       return error;
@@ -65,12 +67,12 @@ class Installation {
   }
 }
 
-const sendWelcomeMessage = (installationUserId, botToken) => {
+const sendWelcomeMessage = async (installation) => {
   // send welcome message
-  axios.post(
+  const res = await axios.post(
     "https://slack.com/api/chat.postMessage",
     {
-      channel: installationUserId,
+      channel: installation.user.id,
       blocks: [
         {
           type: "header",
@@ -108,7 +110,7 @@ const sendWelcomeMessage = (installationUserId, botToken) => {
               emoji: true,
             },
             value: "click_me_123",
-            url: process.env.BASE_URL + "/snow_oauth_redirect",
+            url: `slack://app?team=${installation.team.id}&id=${installation.appId}&tab=home`,
             action_id: "button-action",
           },
         },
@@ -117,10 +119,12 @@ const sendWelcomeMessage = (installationUserId, botToken) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${botToken}`,
+        Authorization: `Bearer ${installation.bot.token}`,
       },
     }
   );
+  
+  console.log(res.data);
 };
 
 module.exports = Installation;

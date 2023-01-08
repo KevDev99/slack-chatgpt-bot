@@ -1,7 +1,5 @@
-const { setDialPadStatus } = require("./set_dial_pad_status.js");
-const { clearUserStatus } = require("./clear_user_status.js");
+const appHomeOpened = require('./app_home_opened.js');
 
 module.exports.register = (app) => {
-  app.message("Call answered", setDialPadStatus);
-  app.message("Completed call in Legal Funding", clearUserStatus);
+  app.event("app_home_opened", appHomeOpened)
 };
