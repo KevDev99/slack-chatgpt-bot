@@ -1,4 +1,7 @@
 const { formatState } = require("../../helper");
+const {
+  dbInstallation,
+} = require("../../database/models/installationModel.js");
 const axios = require("axios");
 
 const connectServiceNow = async ({ body, client, logger, ack }) => {
@@ -15,10 +18,25 @@ const connectServiceNow = async ({ body, client, logger, ack }) => {
 
       // acknowledge request
       await ack();
-      
+
+      // check if last char of instance url is a "/"
+      let instanceUrl = state.instance_url;
+      if (instanceUrl.endsWith("/")) {
+        instanceUrl = instanceUrl.substring(0, instanceUrl.length - 1);
+      }
+
       // update values in db
-      
-      
+      await dbInstallation.updateOne(
+        { _id: body.team.id },
+        {
+          servicenow: {
+            instance_url: instanceUrl,
+            client_id: state.client_id,
+            client_secret: state.client_secret,
+          },
+        },
+        { upsert: true }
+      );
     } catch (err) {
       if (err.code) {
         if (err.code === "ENOTFOUND") {
@@ -45,7 +63,6 @@ const connectServiceNow = async ({ body, client, logger, ack }) => {
 
       console.error(err);
     }
-
   } catch (err) {
     console.error(err);
   }

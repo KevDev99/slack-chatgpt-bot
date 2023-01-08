@@ -15,6 +15,11 @@ const installationSchema = mongoose.Schema(
       userId: String,
       id: String,
     },
+    servicenow: {
+      instance_url: String,
+      client_id: String,
+      client_secret: String,
+    },
   },
   { _id: false }
 );
