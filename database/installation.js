@@ -1,8 +1,5 @@
 const axios = require("axios");
 
-const User = require("./models/userModel.js");
-
-
 /** Enterprise Installation */
 const saveUserOrgInstall = async function (installation) {
   try {

@@ -1,27 +1,15 @@
-const 
+const axios = require('axios');
+
+const {Installation: dbInstallation}   = require("./models/installationModel.js");
 
 class Installation {
   /** Workspace Installation */
   static async saveUserWorkspaceInstall(installation) {
     try {
-      // if there is a user token the user will be stored seperately in the database (instead the team entry)
-      // the token will be also later needed to change the users status and to set the absence (pause notifications) special user scope
+      
       const id = installation.team.id;
 
-      // get users timezone
-      const {
-        data: { ok, user },
-      } = await axios.post(
-        "https://slack.com/api/users.info",
-        new URLSearchParams({
-          user: installation.user.id,
-          token: installation.bot.token,
-        })
-      );
-
-      if (!ok) throw "Error getting users info";
-
-      const resp = await User.updateOne(
+      const resp = await dbInstallation.updateOne(
         { _id: installation.user.id },
         {
           team: { id: installation.team.id, name: installation.team.name },
