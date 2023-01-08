@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const {
-  Installation: dbInstallation,
+  dbInstallation,
 } = require("../database/models/installationModel.js");
 
 class Installation {
@@ -140,3 +140,5 @@ const sendWelcomeMessage = (installationUserId, botToken) => {
     }
   );
 };
+
+module.exports = Installation;

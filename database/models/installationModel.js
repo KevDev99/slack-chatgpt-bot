@@ -20,5 +20,5 @@ const installationSchema = mongoose.Schema(
 );
 
 module.exports = {
-  installation: mongoose.model("Installation", installationSchema),
+  dbInstallation: mongoose.model("Installation", installationSchema),
 };
