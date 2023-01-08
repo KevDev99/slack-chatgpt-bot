@@ -1,7 +1,7 @@
 const { base64encode } = require("nodejs-base64");
-const {
-  dbInstallation,
-} = require("../database/models/installationModel.js");
+const { dbInstallation } = require("../database/models/installationModel.js");
+
+const User = require("../database/models/userModel.js");
 
 const axios = require("axios");
 
@@ -14,6 +14,8 @@ const snowAuthRedirect = (receiver) => {
       const state = req.param("state");
 
       const [userId, teamId] = state.split("-");
+
+      console.log("wefwefwe");
 
       if (!userId || !teamId) {
         throw "No userid or teamid from state provided";
@@ -45,14 +47,24 @@ const snowAuthRedirect = (receiver) => {
           },
         }
       );
-      
-      const {access_token, refresh_token, expires_in} = axiosResponse.data;
-      
-      if(!access_token) {
+
+      const { access_token, refresh_token, expires_in } = axiosResponse.data;
+
+      if (!access_token) {
         throw "No access token received";
       }
-      
-      
+
+      await User.updateOne(
+        { _id: userId },
+        {
+          teamId,
+          token: {
+            access_token,
+            refresh_token,
+            expires_in,
+          },
+        }
+      );
 
       res.end("Endpoint working OK");
     } catch (err) {
