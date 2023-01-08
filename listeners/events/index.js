@@ -1,4 +1,4 @@
-const appHomeOpened = require("./app_home_opened.js");
+const {appHomeOpened} = require("./app_home_opened.js");
 const connectServiceNow = require("./connect_servicenow.js");
 const submitDisconnect = require("./submit_disconnect.js");
 

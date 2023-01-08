@@ -13,7 +13,7 @@ const appHomeOpened = async ({ event, client, logger }) => {
 
     let blocks = [];
 
-    if (installation.servicenow) {
+    if (installation.servicenow && installation.servicenow.instance_url) {
       blocks = connectedInstanceBody(
         event.user,
         installation.servicenow.instance_url
@@ -175,4 +175,4 @@ const connectedInstanceBody = (userId, instanceUrl) => {
   ];
 };
 
-module.exports = appHomeOpened;
+module.exports = {appHomeOpened, unconnectedInstanceBody, connectedInstanceBody};
