@@ -1,4 +1,8 @@
 const { base64encode } = require("nodejs-base64");
+const {
+  dbInstallation,
+} = require("../database/models/installationModel.js");
+
 const axios = require("axios");
 
 const snowAuthRedirect = (receiver) => {
@@ -8,25 +12,25 @@ const snowAuthRedirect = (receiver) => {
       res.writeHead(200);
       const code = req.param("code");
       const state = req.param("state");
-      
+
       const [userId, teamId] = state.split("-");
-      
-      if(!userId || !teamId) {
-        return
+
+      if (!userId || !teamId) {
+        throw "No userid or teamid from state provided";
       }
-      
+
       // get installation
+      const installation = await dbInstallation.findOne({ _id: teamId });
 
-      const clientId = "a60633d0d2986110e6aad8c0b956804e";
-      const clientSecret = "A}bQmGj5vu";
+      const clientId = installation.servicenow.client_id;
+      const clientSecret = installation.servicenow.client_secret;
 
-      const redirectUri =
-        "https://slack-servicenow.glitch.me/snow_oauth_redirect";
+      const redirectUri = process.env.REDIRECT_URL;
 
       const auth = base64encode(`${clientId}:${clientSecret}`);
 
       const axiosResponse = await axios.post(
-        "https://dev107538.service-now.com/oauth_token.do",
+        `${installation.servicenow.instance_url}/oauth_token.do`,
         new URLSearchParams({
           grant_type: "authorization_code",
           code: code,
@@ -41,8 +45,14 @@ const snowAuthRedirect = (receiver) => {
           },
         }
       );
-
-      console.log(axiosResponse.data);
+      
+      const {access_token, refresh_token, expires_in} = axiosResponse.data;
+      
+      if(!access_token) {
+        throw "No access token received";
+      }
+      
+      
 
       res.end("Endpoint working OK");
     } catch (err) {

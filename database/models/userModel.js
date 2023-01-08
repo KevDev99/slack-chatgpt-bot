@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
   {
     _id: String,
-    team: { id: String, name: String },
+    teamId: String,
+    token: {
+      access_token: String,
+      refresh_token: String,
+      expires_in: Number,
+    },
   },
   { _id: false }
 );
