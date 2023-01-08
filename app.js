@@ -24,6 +24,7 @@ const receiver = new ExpressReceiver({
   stateSecret: process.env.SLACK_STATE_SECRET,
 });
 
+// redirect for servicenow api  
 receiver.router.get("/snow_oauth_redirect", async (req, res) => {
   try {
     res.writeHead(200);
