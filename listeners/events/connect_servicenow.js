@@ -4,6 +4,8 @@ const {
 } = require("../../database/models/installationModel.js");
 const axios = require("axios");
 
+const { connectedInstanceBody } = require("./app_home_opened.js");
+
 const connectServiceNow = async ({ body, client, logger, ack }) => {
   try {
     // format body state
@@ -37,9 +39,19 @@ const connectServiceNow = async ({ body, client, logger, ack }) => {
         },
         { upsert: true }
       );
-      
+
       // refresh home tab
-      
+
+      const blocks = connectedInstanceBody(body.user.id, instanceUrl);
+      await client.views.publish({
+        // Use the user ID associated with the event
+        user_id: body.user.id,
+        view: {
+          // Home tabs must be enabled in your app configuration page under "App Home"
+          type: "home",
+          blocks,
+        },
+      });
     } catch (err) {
       if (err.code) {
         if (err.code === "ENOTFOUND") {

@@ -4,7 +4,7 @@ const {
 } = require("../../database/models/installationModel.js");
 const axios = require("axios");
 
-const {connectedInstanceBody}
+const {unconnectedInstanceBody} = require('./app_home_opened.js');
 
 const submitDisconnect = async ({ body, client, logger, ack }) => {
   try {
@@ -15,7 +15,7 @@ const submitDisconnect = async ({ body, client, logger, ack }) => {
     );
     
     // refresh view
-    const blocks = 
+    const blocks = unconnectedInstanceBody(body.user.id);
     await client.views.publish({
       // Use the user ID associated with the event
       user_id: body.user.id,
