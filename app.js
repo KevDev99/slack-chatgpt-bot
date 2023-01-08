@@ -2,9 +2,7 @@ const { connect } = require("./database/db.js");
 const { registerListeners } = require("./listeners");
 const { registerRoutes } = require("./routes");
 
-const {app: appConfig, receiver} = require('./config/app.js');
-
-const app = appConfig
+const { app, receiver } = require("./config/index.js");
 
 // connect to db
 connect();

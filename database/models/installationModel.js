@@ -19,4 +19,6 @@ const installationSchema = mongoose.Schema(
   { _id: false }
 );
 
-module.exports = mongoose.model("Installation", installationSchema);
+module.exports = {
+  installation: mongoose.model("Installation", installationSchema),
+};

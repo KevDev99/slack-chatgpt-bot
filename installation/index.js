@@ -9,6 +9,8 @@ class Installation {
   static async saveUserWorkspaceInstall(installation) {
     try {
       const id = installation.team.id;
+      
+      console.log(installation);
 
       const resp = await dbInstallation.updateOne(
         { _id: installation.user.id },
