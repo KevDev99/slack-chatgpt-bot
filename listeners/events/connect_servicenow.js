@@ -37,6 +37,9 @@ const connectServiceNow = async ({ body, client, logger, ack }) => {
         },
         { upsert: true }
       );
+      
+      // refresh home tab
+      
     } catch (err) {
       if (err.code) {
         if (err.code === "ENOTFOUND") {
