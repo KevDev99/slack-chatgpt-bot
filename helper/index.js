@@ -3,29 +3,17 @@ const { getUser, getUsers } = require("../database/db.js");
 // formats the incoming state object from slack to a useful object
 const formatState = (unformatted_state) => {
   const formatted_state = {};
-  for (const [parentkey, _] of Object.entries(unformatted_state)) {
-    for (const [key, value] of Object.entries(unformatted_state[parentkey])) {
-      if (unformatted_state[parentkey][key].type === "plain_text_input") {
-        formatted_state[key] = unformatted_state[parentkey][key].value;
-      }
-      if (unformatted_state[parentkey][key].type === "users_select") {
-        formatted_state[key] = unformatted_state[parentkey][key].selected_user;
-      }
-      if (unformatted_state[parentkey][key].type === "conversations_select") {
-        formatted_state[key] =
-          unformatted_state[parentkey][key].selected_conversation;
-      }
 
-      for (const [subKey] of Object.entries(
-        unformatted_state[parentkey][key]
-      )) {
-        if (unformatted_state[parentkey][key][subKey].type === "checkboxes") {
-          formatted_state["checkboxes"] =
-            unformatted_state[parentkey][key][subKey].selected_options;
-        }
-      }
-    }
+  for (const parentkeyIndex in Object.keys(unformatted_state)) {
+    const parentKey = Object.keys(unformatted_state)[parentkeyIndex];
+    
+    console.log(parentKey);
+
+    formatted_state[parentKey] =
+      formatted_state[parentKey][`${parentKey}-action`].value;
   }
+
+  console.log(formatted_state);
 
   return formatted_state;
 };
@@ -133,14 +121,11 @@ async function setUserStatus(
       profile: statusObj,
     });
 
-   
-
     if (!ok) throw error;
   } catch (err) {
     console.error(err);
   }
 }
-
 
 function getTimestampInSeconds(date, minutes = 0) {
   // check if minutes need to be added
