@@ -4,7 +4,6 @@ const {
 
 const appHomeOpened = async ({ event, client, logger }) => {
   try {
-
     if (!event.view) return;
 
     const teamId = event.view.app_installed_team_id;
@@ -12,7 +11,16 @@ const appHomeOpened = async ({ event, client, logger }) => {
     // get installation
     const installation = await dbInstallation.findOne({ _id: teamId });
 
-    const blocks = unconnectedInstanceBody(event.user);
+    let blocks = [];
+
+    if (installation.servicenow) {
+      blocks = connectedInstanceBody(
+        event.user,
+        installation.servicenow.instance_url
+      );
+    } else {
+      blocks = unconnectedInstanceBody(event.user);
+    }
 
     await client.views.publish({
       // Use the user ID associated with the event
@@ -106,8 +114,65 @@ const unconnectedInstanceBody = (userId) => {
   ];
 };
 
-const connectedInstanceBody = (userId) => {
-  
-}
+const connectedInstanceBody = (userId, instanceUrl) => {
+  return [
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "ServiceNow for Slack",
+        emoji: true,
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `Hi <@${userId}> Your Slack workspace is connected to your ServiceNow instance at ${instanceUrl}`,
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Disconnect instance",
+        },
+        style: "danger",
+        value: "disconnect_instance_btn",
+        action_id: "disconnect_instance",
+      },
+    },
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "Connect your account",
+        emoji: true,
+      },
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "Connect your ServiceNow account to Slack to begin using features like creating ServiceNow incidents, searching ServiceNow, and viewing your recent tickets from within Slack.",
+      },
+    },
+    {
+      type: "actions",
+      elements: [
+        {
+          type: "button",
+          text: {
+            type: "plain_text",
+            text: "Connect your account",
+            emoji: true,
+          },
+          style: "primary",
+          value: "connect_account_btn",
+          action_id: "connect_account",
+        },
+      ],
+    },
+  ];
+};
 
 module.exports = appHomeOpened;
