@@ -8,8 +8,6 @@ class Installation {
     try {
       const id = installation.team.id;
 
-      console.log(installation);
-
       const resp = await dbInstallation.updateOne(
         { _id: installation.team.id },
         {
@@ -123,8 +121,6 @@ const sendWelcomeMessage = async (installation) => {
       },
     }
   );
-  
-  console.log(res.data);
 };
 
 module.exports = Installation;
