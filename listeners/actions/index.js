@@ -1,5 +1,5 @@
-const connectServicenow = require('./connect_servicenow.js');
+const openConnectServicenow = require('./open_connect_servicenow.js');
 
 module.exports.register = (app) => {
-  app.action("connect_servicenow", connectServicenow)
+  app.action("open_connect_servicenow", openConnectServicenow)
 };

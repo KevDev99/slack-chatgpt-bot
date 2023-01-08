@@ -76,7 +76,7 @@ const appHomeOpened = async ({ event, client, logger }) => {
                   emoji: true,
                 },
                 value: "connect_servicenow_btn",
-                action_id: "connect_servicenow",
+                action_id: "open_connect_servicenow",
               },
             ],
           },
