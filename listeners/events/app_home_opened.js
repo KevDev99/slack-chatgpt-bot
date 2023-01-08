@@ -106,4 +106,8 @@ const unconnectedInstanceBody = (userId) => {
   ];
 };
 
+const connectedInstanceBody = (userId) => {
+  
+}
+
 module.exports = appHomeOpened;
