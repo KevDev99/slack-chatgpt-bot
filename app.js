@@ -1,65 +1,9 @@
-// Require the Bolt package (github.com/slackapi/bolt)
-const { App, ExpressReceiver } = require("@slack/bolt");
-
+const { App } = require("@slack/bolt");
+const receiver = require("./config/receiver.js");
 const { connect } = require("./database/db.js");
-const qs = require("qs");
-const axios = require("axios");
-const { base64encode, base64decode } = require("nodejs-base64");
-
-const {
-  saveUserWorkspaceInstall,
-  saveUserOrgInstall,
-  getWorkspaceInstallation,
-  getEnterpriseInstallation,
-  deleteEnterpriseInstallation,
-  deleteWorkspaceInstallation,
-} = require("./database/installation.js");
-
 const { registerListeners } = require("./listeners");
+const { registerRoutes } = require('./routes');
 
-const receiver = new ExpressReceiver({
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  clientId: process.env.SLACK_CLIENT_ID,
-  clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: process.env.SLACK_STATE_SECRET,
-});
-
-// redirect for servicenow api  
-receiver.router.get("/snow_oauth_redirect", async (req, res) => {
-  try {
-    res.writeHead(200);
-    const code = req.param("code");
-    const state = req.param("state");
-    const clientId = "a60633d0d2986110e6aad8c0b956804e";
-    const clientSecret = "A}bQmGj5vu";
-    const redirectUri = "https://slack-servicenow.glitch.me/snow_oauth_redirect";
-
-    const auth = base64encode(`${clientId}:${clientSecret}`);
-    
-    const axiosResponse = await axios.post(
-      "https://dev107538.service-now.com/oauth_token.do",
-      new URLSearchParams({
-        grant_type: "authorization_code",
-        code: code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": "Basic " + auth,
-        },
-      }
-    );
-
-    console.log(axiosResponse.data);
-
-    res.end("Endpoint working OK");
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 const app = new App({
   receiver: receiver,
@@ -124,9 +68,10 @@ const app = new App({
 
 // connect to db
 connect();
-
-/** Register Listeners (actions, commands, events, ... -> all slack related api endpoints) */
+// register Listeners (actions, commands, events, ... -> all slack related api endpoints)
 registerListeners(app);
+// register routes
+registerRoutes(receiver);
 
 (async () => {
   // Start your app
