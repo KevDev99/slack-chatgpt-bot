@@ -16,7 +16,7 @@ const appHomeOpened = async ({ event, client, logger }) => {
     if (installation.servicenow && installation.servicenow.instance_url) {
       blocks = connectedInstanceBody(
         event.user,
-        installation.servicenow.instance_url
+        installation
       );
     } else {
       blocks = unconnectedInstanceBody(event.user);
@@ -114,7 +114,7 @@ const unconnectedInstanceBody = (userId) => {
   ];
 };
 
-const connectedInstanceBody = (userId, instanceUrl) => {
+const connectedInstanceBody = (userId, installation) => {
   return [
     {
       type: "header",
@@ -128,7 +128,7 @@ const connectedInstanceBody = (userId, instanceUrl) => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `Hi <@${userId}> Your Slack workspace is connected to your ServiceNow instance at ${instanceUrl}`,
+        text: `Hi <@${userId}> Your Slack workspace is connected to your ServiceNow instance at ${installation.servicenow.instance_url}`,
       },
       accessory: {
         type: "button",
@@ -168,6 +168,7 @@ const connectedInstanceBody = (userId, instanceUrl) => {
           },
           style: "primary",
           value: "connect_account_btn",
+          url: `${installation.servicenow.instance_url}/oauth_auth.do?response_type=code&redirect_uri=${process.env.REDIRECT_URL}&client_id=${installation.servicenow.client_id}`,
           action_id: "connect_account",
         },
       ],
@@ -175,4 +176,8 @@ const connectedInstanceBody = (userId, instanceUrl) => {
   ];
 };
 
-module.exports = {appHomeOpened, unconnectedInstanceBody, connectedInstanceBody};
+module.exports = {
+  appHomeOpened,
+  unconnectedInstanceBody,
+  connectedInstanceBody,
+};
