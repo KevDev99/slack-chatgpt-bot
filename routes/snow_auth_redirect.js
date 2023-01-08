@@ -7,9 +7,16 @@ const snowAuthRedirect = (receiver) => {
     try {
       res.writeHead(200);
       const code = req.param("code");
-      const state = req.param("state");
+      const userId = req.param("state");
+      
+      // get team by user id
+      
+      
+      
       const clientId = "a60633d0d2986110e6aad8c0b956804e";
       const clientSecret = "A}bQmGj5vu";
+      
+      
       const redirectUri =
         "https://slack-servicenow.glitch.me/snow_oauth_redirect";
 
@@ -41,4 +48,4 @@ const snowAuthRedirect = (receiver) => {
   });
 };
 
-module.exports = snowAuthRedirect
+module.exports = snowAuthRedirect;

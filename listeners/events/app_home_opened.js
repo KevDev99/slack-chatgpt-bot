@@ -14,10 +14,7 @@ const appHomeOpened = async ({ event, client, logger }) => {
     let blocks = [];
 
     if (installation.servicenow && installation.servicenow.instance_url) {
-      blocks = connectedInstanceBody(
-        event.user,
-        installation
-      );
+      blocks = connectedInstanceBody(event.user, installation);
     } else {
       blocks = unconnectedInstanceBody(event.user);
     }
@@ -168,7 +165,7 @@ const connectedInstanceBody = (userId, installation) => {
           },
           style: "primary",
           value: "connect_account_btn",
-          url: `${installation.servicenow.instance_url}/oauth_auth.do?response_type=code&redirect_uri=${process.env.REDIRECT_URL}&client_id=${installation.servicenow.client_id}`,
+          url: `${installation.servicenow.instance_url}/oauth_auth.do?response_type=code&redirect_uri=${process.env.REDIRECT_URL}&client_id=${installation.servicenow.client_id}&state=${userId}`,
           action_id: "connect_account",
         },
       ],
