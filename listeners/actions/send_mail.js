@@ -10,14 +10,12 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     const text = shortcut.message.text;
     const files = [];
 
-    console.log(shortcut.message.files);
     // get files
     if (shortcut.message.files) {
-      //
-      shortcut.message.files.map((file) => files.push(file.permalink_public));
+      // add private download url to the files array
+      shortcut.message.files.map((file) => files.push(file.url_private_download));
     }
-
-    console.log(files);
+    
 
     await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
