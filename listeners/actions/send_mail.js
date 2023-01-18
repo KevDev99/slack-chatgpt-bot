@@ -1,4 +1,4 @@
-const sendMail = async ({ body, client, ack }) => {
+const sendMail = async ({ body, client, ack, shortcut }) => {
   try {
     await ack();
 
@@ -15,7 +15,34 @@ const sendMail = async ({ body, client, ack }) => {
           text: "Send Mail",
         },
         blocks: [
-          
+          {
+            type: "input",
+            block_id: "receipts",
+            element: {
+              type: "multi_static_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Select receipts",
+                emoji: true,
+              },
+              options: [
+                {
+                  text: {
+                    type: "plain_text",
+                    text: "kevin.taufer@outlook.com",
+                    emoji: true,
+                  },
+                  value: "kevin.taufer@outlook.com",
+                },
+              ],
+              action_id: "receipts-action",
+            },
+            label: {
+              type: "plain_text",
+              text: "Receipts",
+              emoji: true,
+            },
+          },
         ],
         submit: {
           type: "plain_text",
