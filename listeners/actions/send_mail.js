@@ -1,4 +1,4 @@
-const sendMail = async ({ body, client, ack, shortcut }) => {
+lconst sendMail = async ({ body, client, ack, shortcut }) => {
   try {
     await ack();
 

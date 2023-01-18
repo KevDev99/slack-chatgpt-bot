@@ -5,6 +5,7 @@ const { app, receiver } = require("./config/index.js");
 
 // connect to db
 connect();
+
 // register Listeners (actions, commands, events, ... -> all slack related api endpoints)
 registerListeners(app);
 
