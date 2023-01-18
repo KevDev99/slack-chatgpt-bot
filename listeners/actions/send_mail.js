@@ -1,8 +1,23 @@
 const sendMail = async ({ body, client, ack, shortcut }) => {
   try {
     await ack();
-    
-    console.log(shortcut.message);
+
+    if (!shortcut.message) {
+      return;
+    }
+
+    // get text
+    const text = shortcut.message.text;
+    const files = [];
+
+    console.log(shortcut.message.files);
+    // get files
+    if (shortcut.message.files) {
+      //
+      shortcut.message.files.map((file) => files.push(file.permalink_public));
+    }
+
+    console.log(files);
 
     await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
