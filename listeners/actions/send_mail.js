@@ -14,9 +14,7 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     if (shortcut.message.files) {
       // add private download url to the files array
       shortcut.message.files.map((file) => files.push(file.url_private_download));
-    }
-    
-    
+    }  
     
 
     await client.views.open({
