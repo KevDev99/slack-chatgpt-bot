@@ -76,7 +76,7 @@ const sendWelcomeMessage = async (installation) => {
           type: "header",
           text: {
             type: "plain_text",
-            text: "Welcome to the ServiceNow Integration for Slack",
+            text: "Welcome to the Send As Mail Integration for Slack",
             emoji: true,
           },
         },
@@ -84,32 +84,7 @@ const sendWelcomeMessage = async (installation) => {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "This app enables you to easily submit, manage, and collaborate on Incidents, IT service requests and more right here within Slack.",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*Before you and your team can do all these amazing things, you'll need to connect your ServiceNow instance to Slack.*",
-          },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: " ",
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: "🔗 Connect ServiceNow to Slack",
-              emoji: true,
-            },
-            value: "click_me_123",
-            url: `slack://app?team=${installation.team.id}&id=${installation.appId}&tab=home`,
-            action_id: "button-action",
+            text: "This app enables you to easily forward messages, files, ... as mail.",
           },
         },
       ],
