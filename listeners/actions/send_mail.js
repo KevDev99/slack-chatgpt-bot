@@ -1,6 +1,8 @@
 const sendMail = async ({ body, client, ack, shortcut }) => {
   try {
     await ack();
+    
+    console.log(shortcut.message);
 
     await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
