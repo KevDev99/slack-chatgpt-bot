@@ -1,4 +1,4 @@
-const redis = require('../../session');
+const redis = require("../../session");
 
 const sendMail = async ({ body, client, ack, shortcut }) => {
   try {
@@ -9,22 +9,29 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     }
 
     // get text
-    const text = shortcut.message.text || "";
-    let files = "";
-    
+    const text = shortcut.message.text;
+
+    // create string of all file download urls
+    // to submit over "payload" in form
+    let filesString = "";
+
     // get files
     if (shortcut.message.files) {
       // add private download url to the files array
-      shortcut.message.files.map((file) => );
+      shortcut.message.files.map((file, index) => {
+        filesString += file.url_private_download;
+        if (index + 1 < shortcut.message.files.length) {
+          filesString += ";";
+        }
+      });
     }
-    
-    console.log(files);
 
     await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
       trigger_id: body.trigger_id,
       // View payload
       view: {
+        private_metadata: filesString,
         type: "modal",
         // View identifier
         callback_id: "submit_sendmail",
@@ -60,6 +67,29 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
               text: "Receipts",
               emoji: true,
             },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: " ",
+            },
+          },
+          {
+            type: "input",
+            block_id: "message",
+            label: {
+              type: "plain_text",
+              text: "Message",
+              emoji: true,
+            },
+            element: {
+              type: "plain_text_input",
+              multiline: true,
+				      initial_value: text || "",
+              focus_on_load: false
+            },
+            optional: true,
           },
         ],
         submit: {
