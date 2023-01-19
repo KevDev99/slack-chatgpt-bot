@@ -7,15 +7,16 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     }
 
     // get text
-    const text = shortcut.message.text;
+    const text = shortcut.message.text || "";
     const files = [];
+    
+    let payloadString = "";
 
     // get files
     if (shortcut.message.files) {
       // add private download url to the files array
       shortcut.message.files.map((file) => files.push(file.url_private_download));
-    }  
-    
+    }
 
     await client.views.open({
       // Pass a valid trigger_id within 3 seconds of receiving it
