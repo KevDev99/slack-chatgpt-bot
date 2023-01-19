@@ -6,3 +6,5 @@ const redis = new Redis({
     port: process.env.REDIS_PORT || 10287,
     password: process.env.REDIS_PW
 });
+
+module.exports = redis;
