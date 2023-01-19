@@ -1,7 +1,7 @@
 const { getUser, getUsers } = require("../database/db.js");
-const fs = require('fs')  
-const Path = require('path')  
-const axios = require('axios')
+const fs = require("fs");
+const Path = require("path");
+const axios = require("axios");
 
 // formats the incoming state object from slack to a useful object
 const formatState = (unformatted_state) => {
@@ -11,7 +11,6 @@ const formatState = (unformatted_state) => {
     const parentKey = Object.keys(unformatted_state)[parentkeyIndex];
 
     if (unformatted_state[parentKey][`${parentKey}-action`]) {
-     
       if (
         unformatted_state[parentKey][`${parentKey}-action`].type ==
         "multi_static_select"
@@ -144,23 +143,26 @@ function getTimestampInSeconds(date, minutes = 0) {
   return Math.floor(timestampDate / 1000);
 }
 
-async function downloadFile() {
-  const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true'
-  const path = path.resolve(__dirname, 'images', 'code.jpg')
-  const writer = fs.createWriteStream(path)
+async function downloadFile(fileName, fileUrl, token) {
+  const url = fileUrl;
+  const path = Path.resolve("../../"+__dirname, "files", fileName);
+  const writer = fs.createWriteStream(path);
 
   const response = await axios({
     url,
-    method: 'GET',
-    responseType: 'stream'
-  })
+    method: "GET",
+    config: {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+    responseType: "stream",
+  });
 
-  response.data.pipe(writer)
+  response.data.pipe(writer);
 
   return new Promise((resolve, reject) => {
-    writer.on('finish', resolve)
-    writer.on('error', reject)
-  })
+    writer.on("finish", resolve);
+    writer.on("error", reject);
+  });
 }
 
 module.exports = {
@@ -169,5 +171,5 @@ module.exports = {
   getUserFromTextBody,
   setUserStatus,
   getTimestampInSeconds,
-  downloadFile
+  downloadFile,
 };

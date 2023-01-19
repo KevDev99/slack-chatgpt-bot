@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
+const {dbInstallation} = require("./models/installationModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -41,7 +42,7 @@ const getUsers = async function () {
 const getTeamBotToken = async (teamId) => {
   try {
     // fetch user from database
-    const team = await User.find({ _id: teamId });
+    const team = await dbInstallation.find({ _id: teamId });
     if (team.length > 0) {
       return team[0].bot.token;
     }
@@ -53,7 +54,7 @@ const getTeamBotToken = async (teamId) => {
 
 const getTeamInformation = async function (_id, fieldname) {
   try {
-    const team = await User.find({ _id });
+    const team = await dbInstallation.find({ _id });
     if (team[0] != undefined) {
       if (fieldname.includes(".")) {
         const [field1, field2] = fieldname.split(".");
