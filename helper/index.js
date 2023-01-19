@@ -7,8 +7,19 @@ const formatState = (unformatted_state) => {
   for (const parentkeyIndex in Object.keys(unformatted_state)) {
     const parentKey = Object.keys(unformatted_state)[parentkeyIndex];
 
-    formatted_state[parentKey] =
-      unformatted_state[parentKey][`${parentKey}-action`].value;
+    if (unformatted_state[parentKey][`${parentKey}-action`]) {
+     
+      if (
+        unformatted_state[parentKey][`${parentKey}-action`].type ==
+        "multi_static_select"
+      ) {
+        formatted_state[parentKey] =
+          unformatted_state[parentKey][`${parentKey}-action`].selected_options;
+      } else {
+        formatted_state[parentKey] =
+          unformatted_state[parentKey][`${parentKey}-action`].value;
+      }
+    }
   }
 
   return formatted_state;

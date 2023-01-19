@@ -50,6 +50,7 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
                 text: "Select receipts",
                 emoji: true,
               },
+              focus_on_load: true,
               options: [
                 {
                   text: {
@@ -86,8 +87,9 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
             element: {
               type: "plain_text_input",
               multiline: true,
-				      initial_value: text || "",
-              focus_on_load: false
+              initial_value: text || "",
+              focus_on_load: false,
+              action_id: "message-action",
             },
             optional: true,
           },

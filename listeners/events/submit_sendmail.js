@@ -6,13 +6,19 @@ const axios = require("axios");
 
 const submitSendMail = async ({ body, client, logger, ack }) => {
   try {
+    await ack();
+
     // format body state
     const state = formatState(body.view.state.values);
 
-    try {
-    } catch (err) {
-      console.error(err);
-    }
+    const files = body.view.private_metadata;
+
+    console.log(state);
+
+    if ((!files || files === "") && (!state.message || state.message == ""))
+      return;
+    
+    console.log("send mail")
   } catch (err) {
     console.error(err);
   }
