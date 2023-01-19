@@ -1,4 +1,7 @@
 const { getUser, getUsers } = require("../database/db.js");
+const fs = require('fs')  
+const Path = require('path')  
+const axios = require('axios')
 
 // formats the incoming state object from slack to a useful object
 const formatState = (unformatted_state) => {
@@ -141,8 +144,23 @@ function getTimestampInSeconds(date, minutes = 0) {
   return Math.floor(timestampDate / 1000);
 }
 
-function downloadFile() {
-  
+async function downloadFile() {
+  const url = 'https://unsplash.com/photos/AaEQmoufHLk/download?force=true'
+  const path = path.resolve(__dirname, 'images', 'code.jpg')
+  const writer = fs.createWriteStream(path)
+
+  const response = await axios({
+    url,
+    method: 'GET',
+    responseType: 'stream'
+  })
+
+  response.data.pipe(writer)
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve)
+    writer.on('error', reject)
+  })
 }
 
 module.exports = {
