@@ -141,6 +141,10 @@ function getTimestampInSeconds(date, minutes = 0) {
   return Math.floor(timestampDate / 1000);
 }
 
+function downloadFile() {
+  
+}
+
 module.exports = {
   formatState,
   formatMessageState,
