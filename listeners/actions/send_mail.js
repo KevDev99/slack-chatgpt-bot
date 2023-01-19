@@ -10,15 +10,12 @@ const sendMail = async ({ body, client, ack, shortcut, say }) => {
       const filesList = await client.files.list({ channel: body.channel.id });
     } catch (err) {
       if (err.data) {
-        if (
-          err.data.error == "not_in_channel" ||
-          err.data.error == "channel_not_found"
-        ) {
+        if (err.data.error == "not_in_channel") {
           client.chat.postMessage({
             channel: body.user.id,
             text: "The Send As Mail Integration is currently not added to this channel.\nPlease contact your owner or an admin to add it.",
           });
-          return;
+           return;
         }
       }
 
