@@ -1,4 +1,3 @@
-const redis = require("../../session");
 
 const sendMail = async ({ body, client, ack, shortcut }) => {
   try {

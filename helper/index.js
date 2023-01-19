@@ -145,7 +145,7 @@ function getTimestampInSeconds(date, minutes = 0) {
 
 async function downloadFile(fileName, fileUrl, token) {
   const url = fileUrl;
-  const path = Path.resolve("../../"+__dirname, "files", fileName);
+  const path = Path.resolve(process.cwd(), "files", fileName);
   const writer = fs.createWriteStream(path);
 
   const response = await axios({
