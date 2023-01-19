@@ -11,13 +11,16 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
     // format body state
     const state = formatState(body.view.state.values);
 
-    const files = body.view.private_metadata;
+    const filesString = body.view.private_metadata;
 
     // check that at least one is given
-    if ((!files || files === "") && (!state.message || state.message == ""))
+    if ((!filesString || filesString === "") && (!state.message || state.message == ""))
       return;
     
     // if files given -> temporarily download them
+    if(filesString) {
+      
+    }
     
   } catch (err) {
     console.error(err);
