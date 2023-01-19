@@ -27,13 +27,21 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
       return;
 
     // if files given -> temporarily download them
+    const downloadedFiles = [];
     if (filesString) {
       const files = filesString.split(";");
       for (const fileUrl of files) {
         let fileName = fileUrl.split("/").pop();
 
         try {
-          await downloadFile(fileName, fileUrl, token);
+          const base64 = await downloadFile(fileName, fileUrl, token);
+          console.log(base64);
+          const fileObj = {
+            filename: fileName,
+            content: base64.toString(),
+            encoding: "base64",
+          };
+          downloadedFiles.push(fileObj);
         } catch (error) {
           console.error(error);
         }
@@ -42,13 +50,12 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
 
     // send mail
     state.receipts.map((receipt) =>
-      MailService.mail(receipt.value, "New Mail From Slack", state.message, [
-        {
-          filename: "license.txt",
-          content: "aGVsbG8gd29ybGQh",
-          encoding: "base64",
-        },
-      ])
+      MailService.mail(
+        receipt.value,
+        "New Mail From Slack",
+        state.message,
+        downloadedFiles
+      )
     );
   } catch (err) {
     console.error(err);
