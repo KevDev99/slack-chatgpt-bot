@@ -13,10 +13,7 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     // create string of all file download urls
     // to submit over "payload" in form
     let filesString = "";
-    
-    
-    console.log(shortcut.message.files);
-
+  
     // get files
     if (shortcut.message.files) {
       // add private download url to the files array

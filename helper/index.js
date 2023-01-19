@@ -150,16 +150,18 @@ async function downloadFile(fileName, fileUrl, token) {
 
   const response = await axios({
     url,
-    method: "GET",
+    method: "POST",
     config: {
       headers: { Authorization: `Bearer ${token}` },
     },
     responseType: "arraybuffer",
   });
+  
+  console.log(response);
 
   let raw = Buffer.from(response.data).toString("base64");
 
-  return "data:" + response.headers["content-type"] + ";base64," + raw;
+  return raw;
 }
 
 module.exports = {
