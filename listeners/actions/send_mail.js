@@ -1,10 +1,24 @@
-
-const sendMail = async ({ body, client, ack, shortcut }) => {
+const sendMail = async ({ body, client, ack, shortcut, say }) => {
   try {
     await ack();
 
     if (!shortcut.message) {
       return;
+    }
+    
+    await say("Not in Channel.")
+
+    try {
+      const filesList = await client.files.list({ channel: body.channel.id });
+      console.log(filesList);
+    } catch (err) {
+      if(err.data) {
+        if(err.data.error == "not_in_channel" || err.data.error == "channel_not_found") {
+          await say({text: "not in channel"})
+        }
+      }
+      
+      console.error(err);
     }
 
     // get text
@@ -13,7 +27,7 @@ const sendMail = async ({ body, client, ack, shortcut }) => {
     // create string of all file download urls
     // to submit over "payload" in form
     let filesString = "";
-  
+
     // get files
     if (shortcut.message.files) {
       // add private download url to the files array
