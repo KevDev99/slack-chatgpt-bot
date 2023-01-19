@@ -35,7 +35,7 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
 
         try {
           const base64 = await downloadFile(fileName, fileUrl, token);
-          console.log(base64);
+          
           const fileObj = {
             filename: fileName,
             content: base64.toString(),

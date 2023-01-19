@@ -146,7 +146,6 @@ function getTimestampInSeconds(date, minutes = 0) {
 async function downloadFile(fileName, fileUrl, token) {
   const url = fileUrl;
 
-  console.log(fileUrl, token);
 
   const response = await axios.post(
     url,
@@ -155,13 +154,13 @@ async function downloadFile(fileName, fileUrl, token) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      responseType: 'arraybuffer'
     }
   );
 
-
   let raw = Buffer.from(response.data).toString("base64");
 
-  return raw //"data:" + response.headers["content-type"] + ";base64," + raw;
+  return raw;
 }
 
 module.exports = {
