@@ -4,7 +4,7 @@ const {
 } = require("../../database/models/installationModel.js");
 const { getTeamBotToken } = require("../../database/db.js");
 
-const {MailService}
+const { MailService } = require("../../services");
 
 const axios = require("axios");
 
@@ -14,6 +14,7 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
 
     // format body state
     const state = formatState(body.view.state.values);
+
     const token = await getTeamBotToken(body.team.id);
 
     const filesString = body.view.private_metadata;
@@ -29,9 +30,8 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
     if (filesString) {
       const files = filesString.split(";");
       for (const fileUrl of files) {
-        
-        let fileName = fileUrl.split('/').pop();
-    
+        let fileName = fileUrl.split("/").pop();
+
         try {
           await downloadFile(fileName, fileUrl, token);
         } catch (error) {
@@ -39,9 +39,17 @@ const submitSendMail = async ({ body, client, logger, ack }) => {
         }
       }
     }
-    
+
     // send mail
-    
+    state.receipts.map((receipt) =>
+      MailService.mail(receipt.value, "New Mail From Slack", state.message, [
+        {
+          filename: "license.txt",
+          content: "aGVsbG8gd29ybGQh",
+          encoding: "base64",
+        },
+      ])
+    );
   } catch (err) {
     console.error(err);
   }
