@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
-const {dbInstallation} = require("./models/installationModel.js");
+const { dbInstallation } = require("./models/installationModel.js");
 
 const uri = process.env.DB_URI;
 
@@ -31,7 +31,7 @@ const getUser = async function (userId) {
 const getUsers = async function () {
   try {
     // fetch user from database
-    const users = await User.find({  });
+    const users = await User.find({});
 
     return users;
   } catch (e) {
@@ -78,9 +78,14 @@ const getTeams = async function (filter = {}) {
   }
 };
 
-const insertUser = async function () {
-  
-}
+const insertUser = async function (email, teamId) {
+  try {
+    // add user
+    await User.insertOne({ email, teamId });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 module.exports = {
   connect,
@@ -88,5 +93,5 @@ module.exports = {
   getTeamBotToken,
   getTeamInformation,
   getTeams,
-  getUsers
+  getUsers,
 };

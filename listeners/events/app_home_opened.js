@@ -38,6 +38,7 @@ const appHomeOpened = async ({ event, client }) => {
           },
           {
             dispatch_action: true,
+            block_id: "add_user",
             type: "input",
             element: {
               type: "plain_text_input",
