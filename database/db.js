@@ -78,6 +78,9 @@ const getTeams = async function (filter = {}) {
   }
 };
 
+const insertUser = async function () {
+  
+}
 
 module.exports = {
   connect,
