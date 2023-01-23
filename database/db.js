@@ -17,10 +17,10 @@ const connect = async function () {
   }
 };
 
-const getUser = async function (userId) {
+const getUser = async function (filter) {
   try {
     // fetch user from database
-    const user = await User.find({ _id: userId });
+    const user = await User.find(filter);
 
     return user[0];
   } catch (e) {
@@ -28,10 +28,21 @@ const getUser = async function (userId) {
   }
 };
 
-const getUsers = async function () {
+const addUser = async function (userFields) {
   try {
     // fetch user from database
-    const users = await User.find({});
+    const user = await User.create(userFields);
+
+    return user[0];
+  } catch (e) {
+    console.error("Error when fetching user", e);
+  }
+};
+
+const getUsers = async function (teamId) {
+  try {
+    // fetch user from database
+    const users = await User.find({ teamId });
 
     return users;
   } catch (e) {
@@ -94,4 +105,5 @@ module.exports = {
   getTeamInformation,
   getTeams,
   getUsers,
+  addUser
 };
