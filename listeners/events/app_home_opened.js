@@ -1,3 +1,5 @@
+const { getUsers } = require("../../database/db.js");
+
 const appHomeOpened = async ({ event, client }) => {
   try {
     // Call views.publish with the built-in client
@@ -7,7 +9,7 @@ const appHomeOpened = async ({ event, client }) => {
       view: {
         // Home tabs must be enabled in your app configuration page under "App Home"
         type: "home",
-        blocks: getAppHomeBlocks(),
+        blocks: await getAppHomeBlocks(),
       },
     });
   } catch (error) {
@@ -15,7 +17,7 @@ const appHomeOpened = async ({ event, client }) => {
   }
 };
 
-const getAppHomeBlocks = () => {
+const getAppHomeBlocks = async (teamId) => {
   const blocks = [
     {
       type: "header",
@@ -26,26 +28,28 @@ const getAppHomeBlocks = () => {
       },
     },
   ];
-  
-  // load users
-  const users = 
 
-  blocks.push({
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: "kevin.taufer@outlook.com",
-    },
-    accessory: {
-      type: "button",
+  // load users
+  const users = await getUsers(teamId);
+
+  users.map((user) => {
+    blocks.push({
+      type: "section",
       text: {
-        type: "plain_text",
-        text: "Remove",
-        emoji: true,
+        type: "mrkdwn",
+        text: user.email,
       },
-      value: "kevin.taufer@outlook.com",
-      action_id: "remove_user",
-    },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Remove",
+          emoji: true,
+        },
+        value: user.email,
+        action_id: "remove_user",
+      },
+    });
   });
 
   blocks.push(
