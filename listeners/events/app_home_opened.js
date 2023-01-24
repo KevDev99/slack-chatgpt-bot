@@ -1,8 +1,8 @@
 const { getUsers } = require("../../database/db.js");
 
-const appHomeOpened = async ({ event, client }) => {
+const appHomeOpened = async ({ event, client, body }) => {
   
-  if(!event.view) return;
+ 
   
   try {
     // Call views.publish with the built-in client
@@ -12,7 +12,7 @@ const appHomeOpened = async ({ event, client }) => {
       view: {
         // Home tabs must be enabled in your app configuration page under "App Home"
         type: "home",
-        blocks: await getAppHomeBlocks(event.view.team_id),
+        blocks: await getAppHomeBlocks(body.authorizations[0].team_id),
       },
     });
   } catch (error) {
