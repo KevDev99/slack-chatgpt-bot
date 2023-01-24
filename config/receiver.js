@@ -6,7 +6,7 @@ const receiver = new ExpressReceiver({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["chat:write", "files:read"],
+  scopes: ["chat:write", "files:read", "commands"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
