@@ -79,4 +79,4 @@ const getAppHomeBlocks = async (teamId) => {
   return blocks;
 };
 
-module.exports = appHomeOpened;
+module.exports = {appHomeOpened, getAppHomeBlocks};

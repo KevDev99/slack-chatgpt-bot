@@ -35,7 +35,15 @@ const addUser = async function (userFields) {
 
     return user[0];
   } catch (e) {
-    console.error("Error when fetching user", e);
+    console.error("Error when adding user", e);
+  }
+};
+
+const removeUser = async function (filterField) {
+  try {
+    await User.deleteOne(filterField);
+  } catch (e) {
+    console.error("Error when deleting user", e);
   }
 };
 
@@ -105,5 +113,6 @@ module.exports = {
   getTeamInformation,
   getTeams,
   getUsers,
-  addUser
+  addUser,
+  removeUser
 };
