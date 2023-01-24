@@ -22,7 +22,7 @@ const addUser = async ({ body, client, ack, shortcut, say }) => {
 
     // check if user already exists
     const user = await db.getUser({ email, teamId: body.team.id });
-
+    
     if (user) {
       return ack({
         response_action: "errors",

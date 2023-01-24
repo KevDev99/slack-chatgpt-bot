@@ -7,3 +7,4 @@ module.exports.register = (app) => {
   app.action("add_user-action", addUser);
   app.action("remove_user", removeUser);
 };
+3

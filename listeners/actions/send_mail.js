@@ -1,3 +1,6 @@
+const db = require("../../database/db.js");
+
+
 const sendMail = async ({ body, client, ack, shortcut, say }) => {
   try {
     if (!shortcut.message) {
@@ -5,6 +8,9 @@ const sendMail = async ({ body, client, ack, shortcut, say }) => {
     }
 
     await ack();
+    
+    const users = await db.getUsers({teamId: body.team.id});
+    console.log(users);
 
     try {
       const filesList = await client.files.list({ channel: body.channel.id });
