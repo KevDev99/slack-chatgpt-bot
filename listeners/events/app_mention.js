@@ -7,8 +7,34 @@ const appMention = async ({ event, client, body, say }) => {
       console.error("event text not provided or empty");
       return;
     }
+
+    let threadMessages = [];
+
+    // check if the message is in a thread already
+    if (event.thread_ts) {
+      // check if message is in a thread
+      const {
+        ok,
+        messages: fetchedThreadMessages,
+        error,
+      } = await client.conversations.replies({
+        channel: event.channel,
+        ts: event.thread_ts,
+      });
+      
+      threadMessages = fetchedThreadMessages;
+
+      if (!ok) {
+        console.log(error);
+        return;
+      }
+    }
     
-    console.log(body);
+    console.log(threadMessages);
+    
+    return;
+    
+
     // get text
     const text = event.text;
 
@@ -25,11 +51,14 @@ const appMention = async ({ event, client, body, say }) => {
       { role: "user", content: text },
     ];
     const resData = await chatGPT.sendCompletion(messages);
-    
+
     const resMessage = resData.choices[0].message.content;
-    
-    await client.chat.postMessage({channel: event.channel, thread_ts: event.ts, text: resMessage})
-    
+
+    await client.chat.postMessage({
+      channel: event.channel,
+      thread_ts: event.ts,
+      text: resMessage,
+    });
   } catch (error) {
     console.error(error);
   }

@@ -6,7 +6,7 @@ const receiver = new ExpressReceiver({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["chat:write", "chat:write.public", "app_mentions:read"],
+  scopes: ["chat:write", "chat:write.public", "app_mentions:read", "channels:history","groups:history","mpim:history","im:history"],
   installationStore: {
     storeInstallation: async (installation) => {
       if (
