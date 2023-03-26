@@ -8,7 +8,13 @@ const appMention = async ({ event, client, body, say }) => {
       return;
     }
 
-    let threadMessages = [];
+    let threadMessages = [
+      {
+        role: "system",
+        content:
+          "You are a friendly chat bot designed to answer specific questions in any category and summarize threads.",
+      },
+    ];
 
     // check if the message is in a thread already
     if (event.thread_ts) {
@@ -29,17 +35,11 @@ const appMention = async ({ event, client, body, say }) => {
         });
       });
 
-      threadMessages = fetchedThreadMessages;
-
       if (!ok) {
         console.log(error);
         return;
       }
     }
-
-    console.log(threadMessages);
-
-    return;
 
     // get text
     const text = event.text;
@@ -48,15 +48,10 @@ const appMention = async ({ event, client, body, say }) => {
     const filteredText = event.text.replace(/<@([A-Z])\w+>/g, "");
 
     const chatGPT = new ChatGPT(process.env.CHATGPT_API_KEY);
-    const messages = [
-      {
-        role: "system",
-        content:
-          "You are a friendly chat bot designed to answer specific questions in any category and summarize threads.",
-      },
-      { role: "user", content: text },
-    ];
-    const resData = await chatGPT.sendCompletion(messages);
+    threadMessages.push({ role: "user", content: text });
+    console.log(threadMessages);
+    
+    const resData = await chatGPT.sendCompletion(threadMessages);
 
     const resMessage = resData.choices[0].message.content;
 
