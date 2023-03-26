@@ -22,10 +22,12 @@ const appMention = async ({ event, client, body, say }) => {
       },
       { role: "user", content: text },
     ];
-    const resData = chatGPT.sendCompletion(messages);
-    const resMessage = resData[0].message.content;
+    const resData = await chatGPT.sendCompletion(messages);
+    console.log(resData);
     
-    await say("")
+    const resMessage = resData.choices[0].message.content;
+    
+    await say(body.userid, resMessage);
     
   } catch (error) {
     console.error(error);
