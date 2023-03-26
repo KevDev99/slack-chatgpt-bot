@@ -21,7 +21,14 @@ const appMention = async ({ event, client, body, say }) => {
         channel: event.channel,
         ts: event.thread_ts,
       });
-      
+
+      fetchedThreadMessages.map((threadMessage) => {
+        threadMessages.push({
+          role: threadMessage.botId ? "assistant" : "user",
+          content: threadMessage.text.replace(/<@([A-Z])\w+>/g, ""),
+        });
+      });
+
       threadMessages = fetchedThreadMessages;
 
       if (!ok) {
@@ -29,11 +36,10 @@ const appMention = async ({ event, client, body, say }) => {
         return;
       }
     }
-    
+
     console.log(threadMessages);
-    
+
     return;
-    
 
     // get text
     const text = event.text;
