@@ -31,7 +31,7 @@ const appMention = async ({ event, client, body, say }) => {
       fetchedThreadMessages.map((threadMessage) => {
         threadMessages.push({
           role: threadMessage.botId ? "assistant" : "user",
-          content: threadMessage.text.replace(/<@([A-Z])\w+>/g, ""),
+          content: threadMessage.botId ? '@bot ' : "" + threadMessage.text.replace(/<@([A-Z])\w+>/g, ""),
         });
       });
 
