@@ -7,6 +7,8 @@ const appMention = async ({ event, client, body, say }) => {
       console.error("event text not provided or empty");
       return;
     }
+    
+    console.log(body);
     // get text
     const text = event.text;
 
@@ -23,11 +25,10 @@ const appMention = async ({ event, client, body, say }) => {
       { role: "user", content: text },
     ];
     const resData = await chatGPT.sendCompletion(messages);
-    console.log(resData);
     
     const resMessage = resData.choices[0].message.content;
     
-    await say(body.userid, resMessage);
+    await client.chat.postMessage({channel: event.channel, thread_ts: event.ts, text: resMessage})
     
   } catch (error) {
     console.error(error);
