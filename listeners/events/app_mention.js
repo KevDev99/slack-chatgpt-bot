@@ -1,5 +1,6 @@
 const { getUsers } = require("../../database/db.js");
 
+
 const appMention = async ({ event, client, body }) => {
 
   try {
@@ -14,7 +15,9 @@ const appMention = async ({ event, client, body }) => {
     // filter out user ids from text
     const filteredText = event.text.replace(/<@([A-Z])\w+>/g, "")
     
-    console.log(filteredText);
+    
+    
+    
   } catch (error) {
     console.error(error);
   }
