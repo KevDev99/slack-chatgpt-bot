@@ -29,7 +29,6 @@ const appHomeOpened = async ({ event, client, body, say, logger }) => {
       },
     });
 
-    logger.info(result);
   } catch (error) {
     logger.error(error);
   }
