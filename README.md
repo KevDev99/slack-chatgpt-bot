@@ -1,22 +1,18 @@
-Bolt app template
-=================
+# Slack Chat Bot 🤖
 
-[Bolt](https://slack.dev/bolt) is our framework that lets you build JavaScript-based Slack apps in a flash.
+This is a simple chat bot written in Node.js with uses the ChatGPT API in the background.
 
-This project is a simple app template to make it easy to create your first Bolt app. Read our [Getting Started with Bolt](https://api.slack.com/start/building/bolt) guide for a more in-depth tutorial
+![chat bot in slack](https://cdn.glitch.global/28642669-4c68-4ab2-9da5-3a1b276a6b71/chat-bot.png?v=1682597270936)
 
-Your Project
-------------
+## Get Started
 
-- `app.js` contains the primary Bolt app. It imports the Bolt package (`@slack/bolt`) and starts the Bolt app's server. It's where you'll add your app's listeners.
-- `.env` is where you'll put your Slack app's authorization token and signing secret.
-- The `examples/` folder contains a couple of other sample apps that you can peruse to your liking. They show off a few platform features that your app may want to use.
-
-
-Read the [Getting Started guide](https://api.slack.com/start/building/bolt)
--------------------
-
-Read the [Bolt documentation](https://slack.dev/bolt)
--------------------
-
-\ ゜o゜)ノ
+- clone the repo
+- navigate in the folder and run npm install
+- add .env file
+ - SLACK_SIGNING_SECRET = Signing Secret from your Slack App
+ - SLACK_CLIENT_ID = Client Id from your Slack App
+ - SLACK_STATE_SECRET = State Secret from your Slack App
+ - DB_URI = mongodb uri
+ - CHATGPT_COMPLETIONS_URL = https://api.openai.com/v1/completions
+ - CHATGPT_API_KEY = Your API Key
+ - CHATGPT_CHAT_URL = https://api.openai.com/v1/chat/completions 
