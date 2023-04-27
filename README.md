@@ -8,11 +8,15 @@ This is a simple chat bot written in Node.js with uses the ChatGPT API in the ba
 
 - clone the repo
 - navigate in the folder and run npm install
-- add .env file
- - SLACK_SIGNING_SECRET = Signing Secret from your Slack App
- - SLACK_CLIENT_ID = Client Id from your Slack App
- - SLACK_STATE_SECRET = State Secret from your Slack App
- - DB_URI = mongodb uri
- - CHATGPT_COMPLETIONS_URL = https://api.openai.com/v1/completions
- - CHATGPT_API_KEY = Your API Key
- - CHATGPT_CHAT_URL = https://api.openai.com/v1/chat/completions 
+- add .env file 
+
+  SLACK_SIGNING_SECRET = Signing Secret from your Slack App
+  SLACK_CLIENT_ID = Client Id from your Slack App
+  SLACK_STATE_SECRET = State Secret from your Slack App
+  DB_URI = mongodb uri
+  CHATGPT_COMPLETIONS_URL = https://api.openai.com/v1/completions
+  CHATGPT_API_KEY = Your API Key
+  CHATGPT_CHAT_URL = https://api.openai.com/v1/chat/completions 
+  
+- start app:
+ `npm run start`
