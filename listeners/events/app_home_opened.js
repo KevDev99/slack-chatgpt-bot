@@ -19,16 +19,40 @@ const appHomeOpened = async ({ event, client, body, say, logger }) => {
             },
           },
           {
+            dispatch_action: true,
+            type: "input",
+            element: {
+              type: "plain_text_input",
+              action_id: "send_bot_message",
+              placeholder: {
+                type: "plain_text",
+                text: "Send a message to the bot...",
+              },
+            },
+            label: {
+              type: "plain_text",
+              text: " ",
+              emoji: true,
+            },
+          },
+          {
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "History (Latest)",
+              emoji: true,
+            },
+          },
+          {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>.",
+              text: "💬 <https://google.com|this is a link>",
             },
           },
         ],
       },
     });
-
   } catch (error) {
     logger.error(error);
   }
