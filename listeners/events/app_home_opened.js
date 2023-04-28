@@ -20,6 +20,7 @@ const appHomeOpened = async ({ event, client, body, say, logger }) => {
           },
           {
             dispatch_action: true,
+            block_id: "message_block_input",
             type: "input",
             element: {
               type: "plain_text_input",
