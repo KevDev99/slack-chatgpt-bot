@@ -3,8 +3,8 @@ const ChatGPT = require("../../services/gpt.js");
 
 const appMention = async ({ event, client, body, say }) => {
   try {
+  
     
-    console.log("HERE");
     if (!event || !event.text) {
       console.error("event text not provided or empty");
       return;
