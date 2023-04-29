@@ -1,8 +1,12 @@
-const { getUsers } = require("../../database/db.js");
+const { getUserMessages } = require("../../database/db.js");
 const ChatGPT = require("../../services/gpt.js");
 
 const appHomeOpened = async ({ event, client, body, say, logger }) => {
   try {
+    
+    // get user messages
+    const userMessage = await getUserMessages();
+    
     // Call views.publish with the built-in client
     const result = await client.views.publish({
       // Use the user ID associated with the event

@@ -10,6 +10,8 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
       await ack();
       return;
     }
+    
+    const text = body.view.state.values["message_block_input"]["send_bot_message"].value;
 
     await ack();
 
@@ -18,7 +20,7 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
     const messageInputValue =
       `<@${"U04V9UQ9RK7"}>` +
       " " +
-      body.view.state.values["message_block_input"]["send_bot_message"].value;
+      text;
 
     // send message with mentioning the bot
     const response = await client.chat.postMessage({
@@ -33,16 +35,19 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
       ],
     });
 
+    const {channel, ts} = response;
+
     const resMessage = await chatGPT.sendCompletion([], messageInputValue);
 
     await client.chat.postMessage({
       channel: body.user.id,
-      thread_ts: response.message.ts,
+      thread_ts: ts,
       text: resMessage,
     });
     
-    // save timestamp and question to db (as history)
-    
+
+    // save timestamp, channel and question to db (as history)
+    db.saveMessage(channel, ts, text, body.user.id)
     
   } catch (err) {
     console.error(err);

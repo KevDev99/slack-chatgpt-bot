@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./models/userModel.js");
+const Message = require("./models/messageModel.js");
+
 const { dbInstallation } = require("./models/installationModel.js");
 
 const uri = process.env.DB_URI;
@@ -106,6 +108,28 @@ const insertUser = async function (email, teamId) {
   }
 };
 
+const saveMessage = async function (channel, ts, text, userId) {
+  try {
+    // fetch user from database
+    const message = await Message.create({channel, ts, text, userId});
+
+    return message[0];
+  } catch (e) {
+    console.error("Error when adding message", e);
+  }
+};
+
+const getUserMessages = async function (channel, ts, text, userId) {
+  try {
+    // fetch user from database
+    const message = await Message.create({channel, ts, text, userId});
+
+    return message[0];
+  } catch (e) {
+    console.error("Error when adding message", e);
+  }
+};
+
 module.exports = {
   connect,
   getUser,
@@ -114,5 +138,6 @@ module.exports = {
   getTeams,
   getUsers,
   addUser,
-  removeUser
+  removeUser,
+  saveMessage
 };
