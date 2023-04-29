@@ -3,20 +3,12 @@ const ChatGPT = require("../../services/gpt.js");
 
 const appMention = async ({ event, client, body, say }) => {
   try {
-  
-    
     if (!event || !event.text) {
       console.error("event text not provided or empty");
       return;
     }
 
-    let threadMessages = [
-      {
-        role: "system",
-        content:
-          "You are a friendly chat bot designed to answer specific questions in any category and summarize threads.",
-      },
-    ];
+    let messages = [];
 
     // check if the message is in a thread already
     if (event.thread_ts) {
@@ -31,9 +23,11 @@ const appMention = async ({ event, client, body, say }) => {
       });
 
       fetchedThreadMessages.map((threadMessage) => {
-        threadMessages.push({
+        messages.push({
           role: threadMessage.botId ? "assistant" : "user",
-          content: threadMessage.botId ? '@bot ' : "" + threadMessage.text.replace(/<@([A-Z])\w+>/g, ""),
+          content: threadMessage.botId
+            ? "@bot "
+            : "" + threadMessage.text.replace(/<@([A-Z])\w+>/g, ""),
         });
       });
 
@@ -42,20 +36,8 @@ const appMention = async ({ event, client, body, say }) => {
         return;
       }
     }
-
-    // get text
-    const text = event.text;
-
-    // filter out user ids from text
-    const filteredText = event.text.replace(/<@([A-Z])\w+>/g, "");
-
-    const chatGPT = new ChatGPT(process.env.CHATGPT_API_KEY);
-    threadMessages.push({ role: "user", content: text });
-    console.log(threadMessages);
     
-    const resData = await chatGPT.sendCompletion(threadMessages);
-
-    const resMessage = resData.choices[0].message.content;
+    const resMessage = ChatGPT.sendCompletion(messages,)
 
     await client.chat.postMessage({
       channel: event.channel,

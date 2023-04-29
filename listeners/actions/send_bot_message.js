@@ -13,7 +13,6 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
     // extract value
     const messageInputValue =
       body.view.state.values["message_block_input"]["send_bot_message"].value;
-    const botId = "U04V9UQ9RK7"; //body.view["bot_id"];
 
     // send message with mentioning the bot
     const response = await client.chat.postMessage({
@@ -22,7 +21,7 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
       blocks: [
         {
           type: "section",
-          text: { type: "mrkdwn", text: `<@${botId}> ${messageInputValue}` },
+          text: { type: "mrkdwn", text: `${messageInputValue}` },
         },
       ],
     });
