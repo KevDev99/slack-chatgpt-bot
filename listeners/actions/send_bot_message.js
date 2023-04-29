@@ -11,6 +11,9 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
       return;
     }
     
+    console.log(body);
+
+    
     const text = body.view.state.values["message_block_input"]["send_bot_message"].value;
 
     await ack();

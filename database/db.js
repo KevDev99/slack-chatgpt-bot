@@ -122,7 +122,9 @@ const saveMessage = async function (channel, ts, text, userId) {
 const getUserMessages = async function (userId) {
   try {
     // fetch user from database
-    const messages = await Message.find({ userId });
+    const messages = await Message.find({ userId: userId });
+    console.log(userId)
+    console.log(messages);
     
     return messages;
   } catch (e) {

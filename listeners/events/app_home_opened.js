@@ -3,8 +3,7 @@ const ChatGPT = require("../../services/gpt.js");
 
 const appHomeOpened = async ({ event, client, body, say, logger }) => {
   try {
-    const userId = body.authorizations[0].user_id;
-    
+    const userId = event.user;
 
     // get user messages
     const userMessages = await getUserMessages(userId);
@@ -25,53 +24,56 @@ const appHomeBlock = (userId, userMessages) => {
     view: {
       // Home tabs must be enabled in your app configuration page under "App Home"
       type: "home",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*Hey, <@" + userId + ">*",
-          },
-        },
-        {
-          dispatch_action: true,
-          block_id: "message_block_input",
-          type: "input",
-          element: {
-            type: "plain_text_input",
-            action_id: "send_bot_message",
-            placeholder: {
-              type: "plain_text",
-              text: "Send a message to the bot...",
-            },
-          },
-          label: {
-            type: "plain_text",
-            text: " ",
-            emoji: true,
-          },
-        },
-        {
-          type: "header",
-          text: {
-            type: "plain_text",
-            text: "History (Latest)",
-            emoji: true,
-          },
-        },
-      ],
     },
   };
 
-  userMessages.map((userMessage) => {
-    appHome.push({
+  const blocks = [
+    {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `💬 <https://akte-dev.slack.com/archives/${userMessage.channel}/p${userMessage.ts}|${userMessage.text}`,
+        text: "*Hey, <@" + userId + ">*",
+      },
+    },
+    {
+      dispatch_action: true,
+      block_id: "message_block_input",
+      type: "input",
+      element: {
+        type: "plain_text_input",
+        action_id: "send_bot_message",
+        placeholder: {
+          type: "plain_text",
+          text: "Send a message to the bot...",
+        },
+      },
+      label: {
+        type: "plain_text",
+        text: " ",
+        emoji: true,
+      },
+    },
+    {
+      type: "header",
+      text: {
+        type: "plain_text",
+        text: "History (Latest)",
+        emoji: true,
+      },
+    },
+  ];
+
+  userMessages.map((userMessage) => {
+    blocks.push({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `💬 <https://akte-dev.slack.com/archives/${userMessage.channel}/p${userMessage.ts}>|${userMessage.text}`,
       },
     });
   });
+  
+  appHome.view.blocks = blocks;
 
   return appHome;
 };
