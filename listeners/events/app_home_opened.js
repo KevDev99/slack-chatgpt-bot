@@ -68,7 +68,7 @@ const appHomeBlock = (userId, userMessages) => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `💬 <https://akte-dev.slack.com/archives/${userMessage.channel}/p${userMessage.ts}>|${userMessage.text}`,
+        text: `💬 <https://akte-dev.slack.com/archives/${userMessage.channel}/p${userMessage.ts}|${userMessage.text}>`,
       },
     });
   });
