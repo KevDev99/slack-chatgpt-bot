@@ -18,8 +18,6 @@ class ChatGPT {
 
     threadMessages.push({ role: "user", content: text });
   
-
-
     const res = await axios.post(
       process.env.CHATGPT_CHAT_URL,
       {
@@ -34,10 +32,10 @@ class ChatGPT {
     );
     
     if(res.status != 200) {
-      return "*Error:*  " + error;
+      return "Error:  " + res.data.error.message;
     }
 
-    return res.data;
+    return res.data.choices[0].message.content;
   }
 }
 
