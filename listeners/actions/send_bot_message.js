@@ -41,6 +41,9 @@ const sendBotMessage = async ({ body, ack, client, event, state }) => {
       text: resMessage,
     });
     
+    // save timestamp and question to db (as history)
+    
+    
   } catch (err) {
     console.error(err);
   }
