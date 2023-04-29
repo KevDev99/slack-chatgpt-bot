@@ -111,7 +111,7 @@ const insertUser = async function (email, teamId) {
 const saveMessage = async function (channel, ts, text, userId) {
   try {
     // fetch user from database
-    const message = await Message.create({channel, ts, text, userId});
+    const message = await Message.create({ channel, ts, text, userId });
 
     return message[0];
   } catch (e) {
@@ -119,14 +119,14 @@ const saveMessage = async function (channel, ts, text, userId) {
   }
 };
 
-const getUserMessages = async function (channel, ts, text, userId) {
+const getUserMessages = async function (userId) {
   try {
     // fetch user from database
-    const message = await Message.create({channel, ts, text, userId});
-
-    return message[0];
+    const messages = await Message.find({ userId });
+    
+    return messages;
   } catch (e) {
-    console.error("Error when adding message", e);
+    console.error("Error when geting messages from user", e);
   }
 };
 
@@ -139,5 +139,6 @@ module.exports = {
   getUsers,
   addUser,
   removeUser,
-  saveMessage
+  saveMessage,
+  getUserMessages
 };
