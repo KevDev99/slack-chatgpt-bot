@@ -44,7 +44,7 @@ const appMention = async ({ event, client, body, say }) => {
     } else {
       // save message
       // save timestamp, channel and question to db (as history)
-      saveMessage(event.channel, event.ts, text, event.user);
+      saveMessage(event.channel, event.ts, filteredText, event.user);
     }
 
     const resMessage = await chatGPT.sendCompletion(messages, filteredText);

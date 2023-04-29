@@ -122,10 +122,11 @@ const saveMessage = async function (channel, ts, text, userId) {
 const getUserMessages = async function (userId) {
   try {
     // fetch user from database
-    const messages = await Message.find({ userId: userId });
-    console.log(userId)
-    console.log(messages);
-    
+    const messages = await Message.find({ userId: userId })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+
     return messages;
   } catch (e) {
     console.error("Error when geting messages from user", e);
@@ -142,5 +143,5 @@ module.exports = {
   addUser,
   removeUser,
   saveMessage,
-  getUserMessages
+  getUserMessages,
 };
