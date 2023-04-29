@@ -3,6 +3,8 @@ const ChatGPT = require("../../services/gpt.js");
 
 const appMention = async ({ event, client, body, say }) => {
   try {
+    const chatGPT = new ChatGPT(process.env.CHATGPT_API_KEY);
+    
     if (!event || !event.text) {
       console.error("event text not provided or empty");
       return;
@@ -36,8 +38,12 @@ const appMention = async ({ event, client, body, say }) => {
         return;
       }
     }
-    
-    const resMessage = ChatGPT.sendCompletion(messages,)
+
+    const text = event.text;
+    // filter out user ids from text
+    const filteredText = event.text.replace(/<@([A-Z])\w+>/g, "");
+
+    const resMessage = await chatGPT.sendCompletion(messages, filteredText);
 
     await client.chat.postMessage({
       channel: event.channel,
